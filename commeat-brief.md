@@ -127,14 +127,15 @@ commeat-[username]/
 
 ## Key Screens (MVP)
 
-### 1. Shelf (Home)
-- Grid of recipe cards — watercolor thumbnail placeholder, title, origin tag
-- "+" IconButton in the header/corner triggers the ImportDialog
+### 1. Main shelf (Home)
+- Grid of recipe cards — watercolor thumbnail placeholder, title, origin tag (different color per category)
+- "+" IconButton in the bottom right corner of the window triggers the ImportDialog
 - Filter/search bar at top
 
 ### 2. ImportDialog (modal on Shelf)
-- Single input field: accepts URL, photo, or text paste — Commeat detects the type
-- AI parses and extracts: title, ingredients, steps, origin
+- First input field lets the user type a title of the recipe
+- Second text input field accepts text typing in markdown style
+- Third input field accepts a url of the original recipe for reference.
 - Review screen: editable inline before committing
 - Origin field: pre-filled but renameable (e.g. "From Instagram · @x" → "Grandma Marie")
 - CTA: **"Commit recipe"** with optional commit message field
