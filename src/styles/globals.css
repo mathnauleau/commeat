@@ -22,6 +22,8 @@
   --color-accent: #3A6B4A;
   --color-accent-soft: #E4EBE1;
 
+  --color-error: #b04530;
+
   /* Typography */
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
@@ -57,4 +59,9 @@ h1, h2, h3, h4, h5, h6 {
 
 #root {
   min-height: 100dvh;
+}
+
+@utility recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }

@@ -23,7 +23,7 @@ export const mockRecipes: Recipe[] = [
     ],
     steps: [
       'Warm olive oil in a wide pan over medium heat.',
-      'Add garlic, cook until just golden — don't rush it.',
+      "Add garlic, cook until just golden — don't rush it.",
       'Add tomatoes, stir to combine.',
       'Simmer uncovered for 40 minutes, stirring occasionally.',
       'Tear in basil at the last minute, adjust salt.',
