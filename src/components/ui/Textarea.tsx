@@ -3,9 +3,10 @@ import { useId, type TextareaHTMLAttributes } from 'react'
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
   error?: string
+  dirty?: boolean
 }
 
-export function Textarea({ label, error, id: externalId, className = '', ...props }: TextareaProps) {
+export function Textarea({ label, error, dirty, id: externalId, className = '', ...props }: TextareaProps) {
   const generatedId = useId()
   const id = externalId ?? (label ? generatedId : undefined)
 
@@ -24,6 +25,8 @@ export function Textarea({ label, error, id: externalId, className = '', ...prop
           'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent',
           error
             ? 'border-2 border-error'
+            : dirty
+            ? 'border border-accent'
             : 'border border-border focus:border-accent',
           className,
         ].join(' ')}

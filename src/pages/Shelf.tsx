@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { Shell } from '../components/layout/Shell'
 import { Header } from '../components/layout/Header'
 import { RecipeCard } from '../components/recipes/RecipeCard'
+import { ImportDialog } from '../components/recipes/ImportDialog'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
 import { useRecipes } from '../hooks/useRecipes'
-import type { Recipe } from '../types'
+import { toSlug } from '../lib/slug'
 
 function PlusIcon() {
   return (
@@ -14,7 +16,7 @@ function PlusIcon() {
   )
 }
 
-function EmptyState() {
+function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-24 gap-6 text-center">
       <div className="w-20 h-20 rounded-full bg-accent-soft flex items-center justify-center">
@@ -34,7 +36,6 @@ function EmptyState() {
           <line x1="22" y1="26" x2="27" y2="26" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </div>
-
       <div className="flex flex-col gap-2">
         <h2 className="font-display text-2xl font-medium text-content-primary">
           Your cookbook is empty.
@@ -43,23 +44,16 @@ function EmptyState() {
           Every great collection starts with the first recipe. What will yours be?
         </p>
       </div>
-
-      <Button
-        variant="primary"
-        onClick={() => console.log('open import dialog')}
-      >
+      <Button variant="primary" onClick={onAdd}>
         Commit your first recipe
       </Button>
     </div>
   )
 }
 
-function handleCardSelect(recipe: Recipe) {
-  console.log(recipe.title)
-}
-
 export function Shelf() {
-  const { recipes } = useRecipes()
+  const { recipes, addRecipe } = useRecipes()
+  const [importOpen, setImportOpen] = useState(false)
 
   return (
     <Shell>
@@ -73,7 +67,7 @@ export function Shelf() {
           <IconButton
             label="Add recipe"
             variant="default"
-            onClick={() => console.log('open import dialog')}
+            onClick={() => setImportOpen(true)}
           >
             <PlusIcon />
           </IconButton>
@@ -82,19 +76,25 @@ export function Shelf() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {recipes.length === 0 ? (
-          <EmptyState />
+          <EmptyState onAdd={() => setImportOpen(true)} />
         ) : (
           <div className="recipe-grid gap-5">
             {recipes.map((recipe) => (
               <RecipeCard
                 key={recipe.title}
                 recipe={recipe}
-                onSelect={handleCardSelect}
+                to={`/recipe/${toSlug(recipe.title)}`}
               />
             ))}
           </div>
         )}
       </main>
+
+      <ImportDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        addRecipe={addRecipe}
+      />
     </Shell>
   )
 }

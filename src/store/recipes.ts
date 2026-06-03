@@ -5,7 +5,8 @@ import { mockRecipes } from '../lib/mockData'
 interface RecipeStore {
   recipes: Recipe[]
   addRecipe: (recipe: Recipe) => void
-  updateRecipe: (recipe: Recipe) => void
+  updateRecipe: (originalTitle: string, updated: Recipe) => void
+  setRecipes: (recipes: Recipe[]) => void
 }
 
 export const useRecipeStore = create<RecipeStore>((set) => ({
@@ -14,10 +15,12 @@ export const useRecipeStore = create<RecipeStore>((set) => ({
   addRecipe: (recipe) =>
     set((state) => ({ recipes: [...state.recipes, recipe] })),
 
-  updateRecipe: (updated) =>
+  updateRecipe: (originalTitle, updated) =>
     set((state) => ({
       recipes: state.recipes.map((r) =>
-        r.title === updated.title ? updated : r,
+        r.title === originalTitle ? updated : r,
       ),
     })),
+
+  setRecipes: (recipes) => set({ recipes }),
 }))

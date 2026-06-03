@@ -3,9 +3,10 @@ import { useId, type InputHTMLAttributes } from 'react'
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
+  dirty?: boolean
 }
 
-export function Input({ label, error, id: externalId, className = '', ...props }: InputProps) {
+export function Input({ label, error, dirty, id: externalId, className = '', ...props }: InputProps) {
   const generatedId = useId()
   const id = externalId ?? (label ? generatedId : undefined)
 
@@ -24,6 +25,8 @@ export function Input({ label, error, id: externalId, className = '', ...props }
           'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent',
           error
             ? 'border-2 border-error'
+            : dirty
+            ? 'border border-accent'
             : 'border border-border focus:border-accent',
           className,
         ].join(' ')}
