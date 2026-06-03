@@ -1,114 +1,73 @@
-# Commeat
-### *Your recipes, committed.*
+# React + TypeScript + Vite
 
-Commeat is a personal cookbook app where recipes are Markdown files and every change is a commit. The git metaphor is the soul of the product — not a tool for developers, but a cookbook for people who care about their recipes and want to own them forever.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Fork. Cook. Commit.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## What it does
+## React Compiler
 
-- **Capture** recipes from anywhere — paste a URL, photograph a handwritten card, or import from Instagram
-- **Read** them in a warm, typeset layout designed for the kitchen
-- **Edit** and commit changes over time — every tweak is a named version with a message
-- **Sync** your entire cookbook to a real GitHub repo you own
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Your recipes live as plain `.md` files in a GitHub repository. No lock-in. No proprietary format. Open them in any text editor, fork them, share them.
+## Expanding the ESLint configuration
 
----
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Structure
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-```
-commeat/
-├── src/
-│   ├── components/
-│   │   ├── ui/              # Primitives: Button, Card, Input, Badge, Tag, Dialog
-│   │   ├── layout/          # Shell, Header, PageWrapper
-│   │   └── recipes/         # RecipeCard, RecipeView, CommitHistory, ImportDialog
-│   ├── pages/
-│   │   ├── Shelf.tsx         # Home — recipe grid
-│   │   ├── Recipe.tsx        # Recipe reading + editing
-│   │   └── Settings.tsx      # GitHub connection + preferences
-│   ├── hooks/
-│   │   ├── useRecipes.ts
-│   │   ├── useImport.ts
-│   │   └── useGitHub.ts
-│   ├── lib/
-│   │   ├── parser.ts         # Markdown ↔ Recipe object
-│   │   ├── extractor.ts      # AI extraction (URL, OCR, text)
-│   │   ├── github.ts         # GitHub API client
-│   │   └── readme.ts         # Auto-generates repo README
-│   ├── store/
-│   │   └── recipes.ts        # Zustand global store
-│   ├── types/
-│   │   └── recipe.ts         # Recipe, CommitEntry, ShelfConfig
-│   └── styles/
-│       └── globals.css
-├── commeat-brief.md           # Full product brief
-├── commeat-dev-plan.md        # Claude Code session plan
-└── README.md
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Recipe format
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-Each recipe is a plain Markdown file with YAML frontmatter:
-
-```markdown
----
-title: Grandma Marie's Tomato Sauce
-origin: Grandma Marie
-imported_from: handwritten card
-committed_at: 2024-03-12
-version: 3
-fork_of: null
-tags: [italian, sauce, family]
-prep_time: 15min
-cook_time: 45min
-servings: 4
----
-
-# Grandma Marie's Tomato Sauce
-
-> "Always use San Marzano, never anything else." — Grandma Marie
-
-## Ingredients
-## Steps
-## Notes
-## Commit History
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-Human-readable, portable, editable without the app.
-
----
-
-## Tech stack
-
-| Layer | Choice |
-|---|---|
-| Framework | React + TypeScript |
-| Build | Vite |
-| Styling | Tailwind CSS |
-| State | Zustand |
-| Fonts | Fraunces (display) + DM Sans (body) |
-| Sync | GitHub API (OAuth) |
-| Extraction | Anthropic API (Claude) |
-
----
-
-## Roadmap
-
-**MVP** — capture, read, commit, sync to GitHub
-
-**MLP** — bookshelf UI, watercolor illustrations, recipe forking, print to PDF
-
-**Later** — book aging system, public cookbook sharing, print-on-demand
-
----
-
-## License
-
-MIT

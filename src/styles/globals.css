@@ -1,0 +1,60 @@
+@import '@fontsource/fraunces/400.css';
+@import '@fontsource/fraunces/500.css';
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/dm-sans/400.css';
+@import '@fontsource/dm-sans/500.css';
+
+@import 'tailwindcss';
+
+@theme {
+  /* Colors */
+  --color-surface: #F2F5F0;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-sunken: #E4EBE1;
+
+  --color-border: #C8D8C4;
+  --color-border-strong: #A8C0A2;
+
+  --color-content-primary: #1A2E22;
+  --color-content-secondary: #4A6B54;
+  --color-content-muted: #7A9E84;
+
+  --color-accent: #3A6B4A;
+  --color-accent-soft: #E4EBE1;
+
+  /* Typography */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-surface);
+  color: var(--color-content-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-content-primary);
+}
+
+#root {
+  min-height: 100dvh;
+}
