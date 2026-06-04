@@ -14,6 +14,8 @@ import {
   GitHubError,
   type GitHubAuth,
 } from '../lib/github'
+import { generateReadme } from '../lib/readme'
+import { useRecipeStore } from '../store/recipes'
 import type { Recipe } from '../types'
 
 function formatSyncError(err: unknown): string {
@@ -69,6 +71,12 @@ export function useGitHub() {
           const oldPath = `recipes/${toSlug(previousTitle)}.md`
           await deleteFile(auth, oldPath)
         }
+
+        // Read store state at call time (not from the closure) to avoid staleness.
+        // Commit README directly — not via syncRecipe — so no infinite loop.
+        const currentRecipes = useRecipeStore.getState().recipes
+        const readme = generateReadme(currentRecipes, auth.username)
+        await commitFile(auth, 'README.md', readme, 'Update cookbook index')
       }
 
       doSync().catch((err) => setSyncError(formatSyncError(err)))
