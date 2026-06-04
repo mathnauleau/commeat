@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Shelf } from './pages/Shelf'
 import { Recipe } from './pages/Recipe'
+import { Settings } from './pages/Settings'
+import { SyncErrorBanner } from './components/layout/SyncErrorBanner'
 import { useGitHub } from './hooks/useGitHub'
 
 const ENV_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
@@ -22,10 +24,14 @@ function AppRoutes() {
   }, [isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Routes>
-      <Route path="/" element={<Shelf />} />
-      <Route path="/recipe/:slug" element={<Recipe />} />
-    </Routes>
+    <>
+      <SyncErrorBanner />
+      <Routes>
+        <Route path="/" element={<Shelf />} />
+        <Route path="/recipe/:slug" element={<Recipe />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </>
   )
 }
 

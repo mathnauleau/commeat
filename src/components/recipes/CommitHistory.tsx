@@ -14,7 +14,17 @@ interface CommitHistoryProps {
 }
 
 export function CommitHistory({ commits }: CommitHistoryProps) {
-  if (commits.length <= 1) return null
+  if (commits.length === 0) return null
+
+  if (commits.length === 1) {
+    return (
+      <section className="border-t border-border pt-6">
+        <p className="text-sm font-body text-content-muted">
+          First version — {formatDate(commits[0].date)}
+        </p>
+      </section>
+    )
+  }
 
   const sorted = [...commits].sort((a, b) => b.version - a.version)
 

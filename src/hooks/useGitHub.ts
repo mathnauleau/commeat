@@ -33,7 +33,7 @@ function formatSyncError(err: unknown): string {
 }
 
 export function useGitHub() {
-  const { token, username, syncError, setAuth, clearAuth, setSyncError } = useGitHubStore()
+  const { token, username, syncError, hydrating, setAuth, clearAuth, setSyncError, setHydrating } = useGitHubStore()
   const { setRecipes } = useRecipes()
 
   const auth: GitHubAuth | null =
@@ -88,6 +88,7 @@ export function useGitHub() {
   // No-ops if the repo is empty (preserves local data on first connect).
   const hydrate = useCallback(async () => {
     if (!auth) return
+    setHydrating(true)
     try {
       const paths = await listRecipes(auth)
       if (paths.length === 0) return // Repo empty — keep local state
@@ -99,12 +100,15 @@ export function useGitHub() {
       setRecipes(recipes)
     } catch (err) {
       setSyncError(formatSyncError(err))
+    } finally {
+      setHydrating(false)
     }
-  }, [auth, setRecipes, setSyncError])
+  }, [auth, setRecipes, setSyncError, setHydrating])
 
   return {
     isConnected,
     username,
+    hydrating,
     syncError,
     clearSyncError,
     connect,

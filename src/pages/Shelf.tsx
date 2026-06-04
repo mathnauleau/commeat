@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
 import { Header } from '../components/layout/Header'
 import { RecipeCard } from '../components/recipes/RecipeCard'
@@ -6,6 +7,7 @@ import { ImportDialog } from '../components/recipes/ImportDialog'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
 import { useRecipes } from '../hooks/useRecipes'
+import { useGitHub } from '../hooks/useGitHub'
 import { toSlug } from '../lib/slug'
 
 function PlusIcon() {
@@ -13,6 +15,38 @@ function PlusIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
       <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
+  )
+}
+
+function SettingsIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.4" />
+      <path
+        d="M9 1.5v1.25M9 15.25V16.5M1.5 9h1.25M15.25 9H16.5M3.4 3.4l.88.88M13.72 13.72l.88.88M14.6 3.4l-.88.88M4.28 13.72l-.88.88"
+        stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function SkeletonCard() {
+  return (
+    <div className="bg-surface-raised border border-border rounded-lg overflow-hidden animate-pulse">
+      <div className="h-36 bg-surface-sunken" />
+      <div className="p-4 flex flex-col gap-3">
+        <div className="h-4 bg-surface-sunken rounded w-3/4" />
+        <div className="h-3 bg-surface-sunken rounded w-1/2" />
+      </div>
+    </div>
+  )
+}
+
+function ShelfSkeleton() {
+  return (
+    <div className="recipe-grid gap-5" aria-label="Loading recipes…" aria-busy="true">
+      {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
+    </div>
   )
 }
 
@@ -53,6 +87,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
 
 export function Shelf() {
   const { recipes, addRecipe } = useRecipes()
+  const { hydrating } = useGitHub()
   const [importOpen, setImportOpen] = useState(false)
 
   return (
@@ -64,18 +99,29 @@ export function Shelf() {
           </span>
         }
         right={
-          <IconButton
-            label="Add recipe"
-            variant="default"
-            onClick={() => setImportOpen(true)}
-          >
-            <PlusIcon />
-          </IconButton>
+          <div className="flex items-center gap-1">
+            <Link
+              to="/settings"
+              aria-label="Settings"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-lg transition-colors text-content-secondary hover:bg-surface-sunken hover:text-content-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <SettingsIcon />
+            </Link>
+            <IconButton
+              label="Add recipe"
+              variant="default"
+              onClick={() => setImportOpen(true)}
+            >
+              <PlusIcon />
+            </IconButton>
+          </div>
         }
       />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        {recipes.length === 0 ? (
+        {hydrating ? (
+          <ShelfSkeleton />
+        ) : recipes.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
         ) : (
           <div className="recipe-grid gap-5">
