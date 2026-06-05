@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Shelf } from './pages/Shelf'
 import { Recipe } from './pages/Recipe'
 import { Settings } from './pages/Settings'
-import { SyncErrorBanner } from './components/layout/SyncErrorBanner'
+import { SyncToast } from './components/layout/SyncToast'
 import { useGitHub } from './hooks/useGitHub'
 
 const ENV_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
@@ -25,7 +25,7 @@ function AppRoutes() {
 
   return (
     <>
-      <SyncErrorBanner />
+      <SyncToast />
       <Routes>
         <Route path="/" element={<Shelf />} />
         <Route path="/recipe/:slug" element={<Recipe />} />

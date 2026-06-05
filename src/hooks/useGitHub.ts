@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useGitHubStore } from '../store/github'
 import { useRecipes } from './useRecipes'
 import { parseRecipe, recipeSlug } from '../lib/parser'
+import shelfConfig from '../shelf.json'
 import {
   validateToken,
   initRepo,
@@ -37,7 +38,7 @@ export function useGitHub() {
   const { setRecipes } = useRecipes()
 
   const auth: GitHubAuth | null =
-    token && username ? { token, username } : null
+    token && username ? { token, username, repoName: shelfConfig.repoName } : null
   const isConnected = auth !== null
 
   const connect = useCallback(

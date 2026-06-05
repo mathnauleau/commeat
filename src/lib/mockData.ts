@@ -110,6 +110,7 @@ export const mockRecipes: Recipe[] = [
 ]
 
 export const mockShelfConfig: ShelfConfig = {
+  repoName: 'commeat-recipes',
   theme: 'botanical',
   cardLayout: 'portrait',
   printFormat: 'A5',

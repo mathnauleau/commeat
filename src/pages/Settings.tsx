@@ -6,6 +6,7 @@ import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { useGitHub } from '../hooks/useGitHub'
+import shelfConfig from '../shelf.json'
 import BackIcon from '../assets/icons/back.svg?react'
 import GitHubIcon from '../assets/icons/github.svg?react'
 
@@ -155,6 +156,9 @@ export function Settings() {
             ) : (
               <DisconnectedSection />
             )}
+          </Card>
+          <Card className="p-6">
+            <ReadOnlyField label="Cookbook repo" value={shelfConfig.repoName} />
           </Card>
         </section>
 

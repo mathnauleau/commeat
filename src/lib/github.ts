@@ -11,6 +11,7 @@ export class GitHubError extends Error {
 export interface GitHubAuth {
   token: string
   username: string
+  repoName: string
 }
 
 function encodeToBase64(content: string): string {
@@ -48,7 +49,7 @@ async function apiFetch(
 }
 
 function repoPath(auth: GitHubAuth, filePath: string): string {
-  return `/repos/${auth.username}/commeat-${auth.username}/contents/${filePath}`
+  return `/repos/${auth.username}/${auth.repoName}/contents/${filePath}`
 }
 
 export async function validateToken(token: string): Promise<{ username: string }> {
@@ -68,8 +69,7 @@ export async function validateToken(token: string): Promise<{ username: string }
 }
 
 export async function initRepo(auth: GitHubAuth): Promise<void> {
-  const repoName = `commeat-${auth.username}`
-  const check = await apiFetch(auth, 'GET', `/repos/${auth.username}/${repoName}`)
+  const check = await apiFetch(auth, 'GET', `/repos/${auth.username}/${auth.repoName}`)
   if (check.ok) return // Repo exists
 
   if (check.status !== 404) {
@@ -77,7 +77,7 @@ export async function initRepo(auth: GitHubAuth): Promise<void> {
   }
 
   const create = await apiFetch(auth, 'POST', '/user/repos', {
-    name: repoName,
+    name: auth.repoName,
     description: 'My personal cookbook, managed by Commeat — your recipes, committed.',
     private: true,
     auto_init: true,
@@ -165,7 +165,7 @@ export async function listRecipes(auth: GitHubAuth): Promise<string[]> {
   const res = await apiFetch(
     auth,
     'GET',
-    `/repos/${auth.username}/commeat-${auth.username}/contents/recipes`,
+    `/repos/${auth.username}/${auth.repoName}/contents/recipes`,
   )
   if (res.status === 404) return [] // Directory doesn't exist yet
   if (!res.ok) throw new GitHubError(`Could not list recipes: ${res.status}`, res.status)

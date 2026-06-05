@@ -1,3 +1,3 @@
 export { Shell } from './Shell'
 export { Header } from './Header'
-export { SyncErrorBanner } from './SyncErrorBanner'
+export { SyncToast } from './SyncToast'
