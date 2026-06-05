@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
 import { Header } from '../components/layout/Header'
@@ -6,12 +6,32 @@ import { RecipeCard } from '../components/recipes/RecipeCard'
 import { ImportDialog } from '../components/recipes/ImportDialog'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
-import { useRecipes } from '../hooks/useRecipes'
-import { useGitHub } from '../hooks/useGitHub'
-import { toSlug } from '../lib/slug'
+import { useGitHubFiles } from '../hooks/useGitHubFiles'
 import PlusIcon from '../assets/icons/plus.svg?react'
 import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
+
+function pathToSlug(path: string): string {
+  return path.replace(/^recipes\//, '').replace(/\.md$/, '')
+}
+
+function deSlugTitle(slug: string): string {
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
+function extractHeading(markdown: string): string {
+  return markdown.match(/^#\s+(.+)/m)?.[1] ?? ''
+}
+
+function extractOrigin(markdown: string): string {
+  return markdown.match(/\*\*Origin:\*\*\s*([^\n*]+)/)?.[1]?.trim() ?? ''
+}
+
+interface CardInfo {
+  path: string
+  title: string
+  origin: string
+}
 
 function SkeletonCard() {
   return (
@@ -53,9 +73,41 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
 }
 
 export function Shelf() {
-  const { recipes, addRecipe } = useRecipes()
-  const { hydrating } = useGitHub()
+  const { files, loading, error, fetchFile, saveFile, reload } = useGitHubFiles()
+  const [cards, setCards] = useState<CardInfo[]>([])
   const [importOpen, setImportOpen] = useState(false)
+
+  // Initialise cards from filenames, then lazily load real titles
+  useEffect(() => {
+    setCards(
+      files.map((path) => ({
+        path,
+        title: deSlugTitle(pathToSlug(path)),
+        origin: '',
+      })),
+    )
+
+    for (const path of files) {
+      fetchFile(path)
+        .then((md) => {
+          const heading = extractHeading(md)
+          const origin = extractOrigin(md)
+          if (heading) {
+            setCards((prev) =>
+              prev.map((c) =>
+                c.path === path ? { ...c, title: heading, origin } : c,
+              ),
+            )
+          }
+        })
+        .catch(() => {/* leave filename-derived title */})
+    }
+  }, [files]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function handleImportClose() {
+    setImportOpen(false)
+    reload()
+  }
 
   return (
     <Shell>
@@ -81,17 +133,22 @@ export function Shelf() {
       />
 
       <main className="max-w-6xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-        {hydrating ? (
+        {loading ? (
           <ShelfSkeleton />
-        ) : recipes.length === 0 ? (
+        ) : error ? (
+          <div className="empty">
+            <p className="t-body" style={{ color: 'var(--c-error)' }}>{error}</p>
+          </div>
+        ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
         ) : (
           <div className="recipe-grid gap-5">
-            {recipes.map((recipe) => (
+            {cards.map((card) => (
               <RecipeCard
-                key={recipe.title}
-                recipe={recipe}
-                to={`/recipe/${toSlug(recipe.title)}`}
+                key={card.path}
+                title={card.title}
+                origin={card.origin}
+                to={`/recipe/${pathToSlug(card.path)}`}
               />
             ))}
           </div>
@@ -100,8 +157,8 @@ export function Shelf() {
 
       <ImportDialog
         open={importOpen}
-        onClose={() => setImportOpen(false)}
-        addRecipe={addRecipe}
+        onClose={handleImportClose}
+        saveFile={saveFile}
       />
     </Shell>
   )

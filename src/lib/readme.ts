@@ -1,10 +1,12 @@
-import type { Recipe } from '../types'
-
-function cell(value: string): string {
-  return value.replace(/\|/g, '\\|').replace(/\n/g, ' ')
+function deSlug(slug: string): string {
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export function generateReadme(recipes: Recipe[], username: string): string {
+function escapePipe(value: string): string {
+  return value.replace(/\|/g, '\\|')
+}
+
+export function generateReadme(files: string[], username: string): string {
   const lines: string[] = [
     `# Commeat — ${username}'s Cookbook`,
     '',
@@ -12,24 +14,19 @@ export function generateReadme(recipes: Recipe[], username: string): string {
     '',
   ]
 
-  if (recipes.length === 0) {
+  if (files.length === 0) {
     lines.push(
       'No recipes yet. Add your first recipe and commit it to get started.',
       '',
     )
   } else {
-    const sorted = [...recipes].sort((a, b) =>
-      b.committedAt.localeCompare(a.committedAt),
-    )
+    lines.push('| Recipe | File |')
+    lines.push('| --- | --- |')
 
-    lines.push('| Recipe | Origin | Tags | Last committed | Version |')
-    lines.push('| --- | --- | --- | --- | --- |')
-
-    for (const r of sorted) {
-      const tags = cell(r.tags.join(', '))
-      lines.push(
-        `| ${cell(r.title)} | ${cell(r.origin)} | ${tags} | ${r.committedAt} | v${r.version} |`,
-      )
+    for (const path of files) {
+      const slug = path.replace(/^recipes\//, '').replace(/\.md$/, '')
+      const name = escapePipe(deSlug(slug))
+      lines.push(`| [${name}](${escapePipe(path)}) | \`${escapePipe(path)}\` |`)
     }
 
     lines.push('')

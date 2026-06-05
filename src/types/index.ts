@@ -1,1 +1,6 @@
-export type { Recipe, CommitEntry, ShelfConfig } from './recipe'
+export interface ShelfConfig {
+  repoName: string
+  theme: string
+  cardLayout: 'portrait'
+  printFormat: 'A5'
+}
