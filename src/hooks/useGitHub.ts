@@ -1,13 +1,12 @@
 import { useCallback } from 'react'
 import { useGitHubStore } from '../store/github'
 import { useRecipes } from './useRecipes'
-import { parseRecipe } from '../lib/parser'
-import { serializeRecipe } from '../lib/parser'
-import { toSlug } from '../lib/slug'
+import { parseRecipe, recipeSlug } from '../lib/parser'
 import {
   validateToken,
   initRepo,
   commitFile,
+  commitRecipeFile,
   deleteFile,
   readFile,
   listRecipes,
@@ -64,11 +63,10 @@ export function useGitHub() {
 
       const doSync = async () => {
         await initRepo(auth)
-        const newPath = `recipes/${toSlug(recipe.title)}.md`
-        await commitFile(auth, newPath, serializeRecipe(recipe), message)
+        await commitRecipeFile(auth, recipe, message)
 
         if (previousTitle && previousTitle !== recipe.title) {
-          const oldPath = `recipes/${toSlug(previousTitle)}.md`
+          const oldPath = `recipes/${recipeSlug(previousTitle)}.md`
           await deleteFile(auth, oldPath)
         }
 

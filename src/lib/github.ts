@@ -1,3 +1,6 @@
+import { serializeRecipe, recipeSlug } from './parser'
+import type { Recipe } from '../types'
+
 export class GitHubError extends Error {
   constructor(message: string, public readonly status?: number) {
     super(message)
@@ -142,6 +145,15 @@ export async function readFile(auth: GitHubAuth, filePath: string): Promise<stri
   if (!res.ok) throw new GitHubError(`Could not read file: ${res.status}`, res.status)
   const { content } = await res.json() as { content: string }
   return decodeFromBase64(content)
+}
+
+export async function commitRecipeFile(
+  auth: GitHubAuth,
+  recipe: Recipe,
+  message: string,
+): Promise<void> {
+  const path = `recipes/${recipeSlug(recipe.title)}.md`
+  await commitFile(auth, path, serializeRecipe(recipe), message)
 }
 
 export async function listRecipes(auth: GitHubAuth): Promise<string[]> {

@@ -113,6 +113,14 @@ export function serializeRecipe(recipe: Recipe): string {
   return `---\n${frontmatter}\n---\n\n${body}`
 }
 
+export function recipeSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 export function appendCommit(recipe: Recipe, message: string): Recipe {
   const newVersion = recipe.version + 1
   const today = new Date().toISOString().split('T')[0]
