@@ -147,6 +147,11 @@ export async function readFile(auth: GitHubAuth, filePath: string): Promise<stri
   return decodeFromBase64(content)
 }
 
+export async function deleteRecipeFile(auth: GitHubAuth, title: string): Promise<void> {
+  const path = `recipes/${recipeSlug(title)}.md`
+  await deleteFile(auth, path)
+}
+
 export async function commitRecipeFile(
   auth: GitHubAuth,
   recipe: Recipe,

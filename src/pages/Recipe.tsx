@@ -6,9 +6,11 @@ import { RecipeEditor } from '../components/recipes/RecipeEditor'
 import { CommitBar } from '../components/recipes/CommitBar'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
+import { Dialog } from '../components/ui/Dialog'
 import { useRecipeEditor } from '../hooks/useRecipeEditor'
 import BackIcon from '../assets/icons/back.svg?react'
 import EditIcon from '../assets/icons/edit.svg?react'
+import TrashIcon from '../assets/icons/trash.svg?react'
 
 const backLinkStyle = {
   display: 'inline-flex',
@@ -25,10 +27,11 @@ const backLinkStyle = {
 export function Recipe() {
   const { slug = '' } = useParams()
   const {
-    recipe, draft, editing, confirming,
+    recipe, draft, editing, confirming, confirmingDelete,
     commitMessage, enterEdit, cancelEdit,
     updateDraft, beginCommit, cancelCommit,
     setCommitMessage, confirmCommit, isDirty,
+    beginDelete, cancelDelete, confirmDelete,
   } = useRecipeEditor(slug)
 
   if (!recipe) {
@@ -65,9 +68,14 @@ export function Recipe() {
               <Button variant="primary" size="sm" onClick={beginCommit}>Commit changes</Button>
             </div>
           ) : (
-            <IconButton label="Edit recipe" variant="ghost" onClick={enterEdit}>
-              <EditIcon />
-            </IconButton>
+            <div className="flex items-center gap-1">
+              <IconButton label="Delete recipe" variant="ghost" onClick={beginDelete}>
+                <TrashIcon />
+              </IconButton>
+              <IconButton label="Edit recipe" variant="ghost" onClick={enterEdit}>
+                <EditIcon />
+              </IconButton>
+            </div>
           )
         }
       />
@@ -80,6 +88,16 @@ export function Recipe() {
           onCancel={cancelCommit}
         />
       )}
+
+      <Dialog open={confirmingDelete} onClose={cancelDelete} title="Delete recipe">
+        <p className="t-body" style={{ marginBottom: '1.5rem' }}>
+          <strong>{recipe?.title}</strong> will be permanently removed from your cookbook. This cannot be undone.
+        </p>
+        <div className="flex justify-end gap-2">
+          <Button variant="ghost" size="sm" onClick={cancelDelete}>Keep it</Button>
+          <Button variant="primary" size="sm" onClick={confirmDelete}>Delete recipe</Button>
+        </div>
+      </Dialog>
 
       <main className="max-w-2xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         {editing && draft ? (

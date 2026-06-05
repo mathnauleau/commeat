@@ -14,12 +14,13 @@ function comparableValue(recipe: Recipe, key: keyof Recipe): unknown {
 
 export function useRecipeEditor(slug: string) {
   const recipe = useRecipe(slug)
-  const { updateRecipe } = useRecipes()
-  const { syncRecipe } = useGitHub()
+  const { updateRecipe, deleteRecipe } = useRecipes()
+  const { syncRecipe, syncDeleteRecipe } = useGitHub()
   const navigate = useNavigate()
 
   const [editing, setEditing] = useState(false)
   const [confirming, setConfirming] = useState(false)
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
   const [draft, setDraft] = useState<Recipe | null>(null)
   const [commitMessage, setCommitMessage] = useState('')
 
@@ -71,6 +72,17 @@ export function useRecipeEditor(slug: string) {
     if (newSlug !== slug) navigate(`/recipe/${newSlug}`, { replace: true })
   }, [draft, recipe, commitMessage, updateRecipe, syncRecipe, slug, navigate])
 
+  const beginDelete = useCallback(() => setConfirmingDelete(true), [])
+  const cancelDelete = useCallback(() => setConfirmingDelete(false), [])
+
+  const confirmDelete = useCallback(() => {
+    if (!recipe) return
+    const title = recipe.title
+    deleteRecipe(title)
+    syncDeleteRecipe(title)
+    navigate('/', { replace: true })
+  }, [recipe, deleteRecipe, syncDeleteRecipe, navigate])
+
   const isDirty = useCallback(
     (key: keyof Recipe): boolean => {
       if (!draft || !recipe) return false
@@ -87,6 +99,7 @@ export function useRecipeEditor(slug: string) {
     draft,
     editing,
     confirming,
+    confirmingDelete,
     commitMessage,
     enterEdit,
     cancelEdit,
@@ -95,6 +108,9 @@ export function useRecipeEditor(slug: string) {
     cancelCommit,
     setCommitMessage,
     confirmCommit,
+    beginDelete,
+    cancelDelete,
+    confirmDelete,
     isDirty,
   }
 }

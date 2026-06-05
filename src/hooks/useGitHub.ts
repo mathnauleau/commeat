@@ -7,6 +7,7 @@ import {
   initRepo,
   commitFile,
   commitRecipeFile,
+  deleteRecipeFile,
   deleteFile,
   readFile,
   listRecipes,
@@ -82,6 +83,22 @@ export function useGitHub() {
     [auth, setSyncError],
   )
 
+  const syncDeleteRecipe = useCallback(
+    (title: string) => {
+      if (!auth) return
+
+      const doSync = async () => {
+        await deleteRecipeFile(auth, title)
+        const currentRecipes = useRecipeStore.getState().recipes
+        const readme = generateReadme(currentRecipes, auth.username)
+        await commitFile(auth, 'README.md', readme, 'Update cookbook index')
+      }
+
+      doSync().catch((err) => setSyncError(formatSyncError(err)))
+    },
+    [auth, setSyncError],
+  )
+
   // Loads all recipes from the GitHub repo into the Zustand store.
   // No-ops if the repo is empty (preserves local data on first connect).
   const hydrate = useCallback(async () => {
@@ -112,6 +129,7 @@ export function useGitHub() {
     connect,
     disconnect,
     syncRecipe,
+    syncDeleteRecipe,
     hydrate,
   }
 }
