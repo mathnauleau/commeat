@@ -24,6 +24,18 @@ function EditIcon() {
   )
 }
 
+const backLinkStyle = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  fontSize: 'var(--t-small)',
+  color: 'var(--c-ink-soft)',
+  textDecoration: 'none',
+  minHeight: '44px',
+  padding: '0 4px',
+  transition: 'color var(--t-fast) var(--ease)',
+}
+
 export function Recipe() {
   const { slug = '' } = useParams()
   const {
@@ -38,14 +50,14 @@ export function Recipe() {
       <Shell>
         <Header
           left={
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-body text-content-secondary hover:text-content-primary transition-colors min-h-11 px-1">
+            <Link to="/" style={backLinkStyle}>
               <BackIcon />Shelf
             </Link>
           }
         />
-        <main className="max-w-2xl mx-auto px-4 sm:px-6 py-24 flex flex-col items-center gap-5 text-center">
-          <h1 className="font-display text-2xl font-medium text-content-primary">Recipe not found.</h1>
-          <p className="text-content-muted font-body">This recipe may have been moved or deleted.</p>
+        <main className="max-w-2xl mx-auto px-4 py-24 flex flex-col items-center gap-5 text-center">
+          <h1 className="t-h2">Recipe not found.</h1>
+          <p className="t-lead" style={{ fontSize: 'var(--t-body)' }}>This recipe may have been moved or deleted.</p>
           <Button variant="secondary" onClick={() => window.history.back()}>Back to shelf</Button>
         </main>
       </Shell>
@@ -56,10 +68,7 @@ export function Recipe() {
     <Shell>
       <Header
         left={
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-sm font-body text-content-secondary hover:text-content-primary transition-colors min-h-11 px-1"
-          >
+          <Link to="/" style={backLinkStyle}>
             <BackIcon />Shelf
           </Link>
         }
@@ -86,7 +95,7 @@ export function Recipe() {
         />
       )}
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-2xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         {editing && draft ? (
           <RecipeEditor draft={draft} onUpdate={updateDraft} isDirty={isDirty} />
         ) : (

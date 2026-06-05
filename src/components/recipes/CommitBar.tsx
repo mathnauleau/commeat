@@ -15,8 +15,16 @@ export function CommitBar({ message, onChange, onConfirm, onCancel }: CommitBarP
   }
 
   return (
-    <div className="sticky top-16 z-10 border-b border-border bg-surface-raised/95 backdrop-blur-sm">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex items-end gap-3">
+    <div
+      className="sticky z-10"
+      style={{
+        top: '4rem',
+        borderBottom: '1px solid var(--c-line)',
+        background: 'rgba(251,248,241,0.95)',
+        backdropFilter: 'blur(8px)',
+      }}
+    >
+      <div className="max-w-2xl mx-auto px-4 py-3 flex items-end gap-3">
         <div className="flex-1">
           <Input
             placeholder="What changed? (optional)"
@@ -26,12 +34,8 @@ export function CommitBar({ message, onChange, onConfirm, onCancel }: CommitBarP
             autoFocus
           />
         </div>
-        <Button variant="primary" size="sm" onClick={onConfirm}>
-          Commit
-        </Button>
-        <Button variant="ghost" size="sm" onClick={onCancel}>
-          Back
-        </Button>
+        <Button variant="primary" size="sm" onClick={onConfirm}>Commit</Button>
+        <Button variant="ghost" size="sm" onClick={onCancel}>Back</Button>
       </div>
     </div>
   )

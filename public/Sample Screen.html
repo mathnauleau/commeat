@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commeat · Grandmother's ragù</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="commeat.css">
+<style>
+  body { min-height: 100vh; }
+  .app { max-width: 1180px; margin: 0 auto; padding: 0 var(--sp-6) var(--sp-9); }
+
+  .topbar { display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4) 0; position: sticky; top: 0; background: linear-gradient(var(--c-sage) 70%, rgba(215,222,201,0)); z-index: 5; }
+  .topbar .brand { display: flex; align-items: center; gap: var(--sp-3); }
+  .topbar .brand img { width: 34px; height: 34px; border-radius: var(--r-sm); }
+  .topbar .brand .wm { font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+  .topbar .search { flex: 1; max-width: 420px; margin-left: var(--sp-4); }
+  .topbar .spacer { flex: 1; }
+
+  .crumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--t-caption); color: var(--c-ink-faint); margin: var(--sp-4) 0 var(--sp-5); }
+  .crumbs a { color: var(--c-ink-soft); text-decoration: none; }
+  .crumbs a:hover { color: var(--c-forest); }
+  .crumbs svg { width: 14px; height: 14px; }
+
+  .layout { display: grid; grid-template-columns: 1fr 340px; gap: var(--sp-6); align-items: start; }
+
+  .hero { border-radius: var(--r-xl); overflow: hidden; border: 1px solid var(--c-line); box-shadow: var(--e-2); }
+  .hero .photo { aspect-ratio: 16 / 7; background:
+      repeating-linear-gradient(135deg, var(--c-sage) 0 18px, var(--c-sage-deep) 18px 36px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--c-forest); }
+  .hero .photo svg { width: 38px; height: 38px; opacity: 0.6; }
+  .hero .photo .ph { font-size: var(--t-meta); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-ink-faint); }
+  .hero .body { background: var(--c-paper); padding: var(--sp-6); }
+  .hero .label-row { display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-bottom: var(--sp-3); }
+  .hero h1 { font-size: var(--t-h1); margin-bottom: var(--sp-2); }
+  .forked-line { font-family: var(--font-display); font-style: italic; color: var(--c-clay); font-size: var(--t-lead); }
+  .hero .meta { display: flex; align-items: center; gap: var(--sp-5); margin-top: var(--sp-4); color: var(--c-ink-soft); font-size: var(--t-small); flex-wrap: wrap; }
+  .hero .meta .row { gap: 6px; }
+  .hero .meta svg { width: 17px; height: 17px; color: var(--c-forest); }
+  .hero .actions { display: flex; gap: var(--sp-3); margin-top: var(--sp-5); flex-wrap: wrap; }
+
+  .content-card { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-lg); padding: var(--sp-6); margin-top: var(--sp-5); }
+  .content-card h2 { font-size: var(--t-h2); margin-bottom: var(--sp-4); }
+  .content-card h2:not(:first-child) { margin-top: var(--sp-6); }
+  .ingredients { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: var(--sp-6); }
+  .ingredients li { break-inside: avoid; padding: var(--sp-2) 0; border-bottom: 1px solid var(--c-line); font-size: var(--t-body); }
+  .ingredients li .amt { color: var(--c-forest); font-weight: 500; }
+  .steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sp-4); }
+  .step { display: flex; gap: var(--sp-4); }
+  .step .n { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--c-forest-tint); color: var(--c-forest); display: grid; place-items: center; font-family: var(--font-display); font-weight: 600; font-size: var(--t-small); }
+  .step p { line-height: var(--lh-body); padding-top: 4px; }
+  .step .latest { background: var(--c-clay-tint); border-radius: var(--r-md); padding: 2px 8px; font-size: var(--t-caption); color: var(--c-clay-deep); font-weight: 600; margin-left: var(--sp-2); }
+
+  .side { position: sticky; top: 72px; display: flex; flex-direction: column; gap: var(--sp-4); }
+  .panel { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-lg); padding: var(--sp-5); }
+  .panel .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-4); }
+  .panel .head .overline { display: flex; align-items: center; gap: var(--sp-2); }
+  .panel .head svg { width: 16px; height: 16px; color: var(--c-forest); }
+  .commit { cursor: pointer; border-radius: var(--r-sm); }
+  .commit:hover { background: var(--c-cream); }
+  .commit-msg { font-size: var(--t-small); }
+  .view-all { display: block; text-align: center; margin-top: var(--sp-3); font-size: var(--t-caption); font-weight: 600; color: var(--c-forest); text-decoration: none; padding: var(--sp-2); border-radius: var(--r-sm); }
+  .view-all:hover { background: var(--c-forest-tint); }
+
+  .diff-head { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+  .diff-head svg { width: 16px; height: 16px; color: var(--c-forest); }
+
+  .fork-panel { background: var(--c-clay-tint); border-color: transparent; }
+  .fork-panel h3 { font-family: var(--font-display); font-size: var(--t-h3); color: var(--c-clay-deep); margin-bottom: var(--sp-2); }
+  .fork-panel p { font-size: var(--t-small); color: var(--c-clay-deep); margin-bottom: var(--sp-4); }
+
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; }
+    .side { position: static; }
+    .ingredients { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></symbol>
+  <symbol id="i-commit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.5"/><line x1="12" y1="3" x2="12" y2="8.5"/><line x1="12" y1="15.5" x2="12" y2="21"/></symbol>
+  <symbol id="i-fork" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="7" cy="18" r="2.5"/><path d="M7 8.5v7M17 8.5v2a4 4 0 0 1-4 4H7"/></symbol>
+  <symbol id="i-diff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v18M7 7h6M4 18h6"/><path d="M17 21v-7M14 17.5h6"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 1 2.6 6.1"/><polyline points="3 19 3.5 14 8.5 14.5"/><polyline points="12 7.5 12 12 15.5 14"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4l4 4L8 20H4v-4z"/><line x1="13.5" y1="6.5" x2="17.5" y2="10.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><polyline points="12 7 12 12 15.5 14"/></symbol>
+  <symbol id="i-pot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><line x1="2.5" y1="9" x2="21.5" y2="9"/><path d="M9 5.5c0-1 1-1.5 1.5-2.5M13 5.5c0-1 1-1.5 1.5-2.5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 5.5a3 3 0 0 1 0 5.5M17 14a5.5 5.5 0 0 1 3.5 5"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7l9 9-7 7-9-9z"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<div class="app">
+  <div class="topbar">
+    <a href="Commeat Styleguide.html" class="brand" style="text-decoration:none;color:inherit">
+      <img src="assets/favicon.svg" alt="Commeat">
+      <span class="wm">Commeat</span>
+    </a>
+    <div class="search"><svg class="ico"><use href="#i-search"/></svg><input class="input" placeholder="Search your recipes…"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-secondary btn-sm"><svg class="ico"><use href="#i-edit"/></svg> Edit</button>
+    <button class="btn btn-primary btn-sm"><svg class="ico"><use href="#i-commit"/></svg> Commit</button>
+  </div>
+
+  <div class="crumbs">
+    <a href="#">My cookbook</a> <svg><use href="#i-chevron"/></svg>
+    <a href="#">Pasta &amp; sauces</a> <svg><use href="#i-chevron"/></svg>
+    <span>Grandmother's ragù</span>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="hero">
+        <div class="photo">
+          <svg><use href="#i-pot"/></svg>
+          <span class="ph">drop a photo of the finished dish</span>
+        </div>
+        <div class="body">
+          <div class="label-row">
+            <span class="chip badge-fork"><svg class="ico"><use href="#i-fork"/></svg> forked</span>
+            <span class="chip tag"><svg class="ico"><use href="#i-tag"/></svg> pasta</span>
+            <span class="chip tag"><svg class="ico"><use href="#i-tag"/></svg> sunday</span>
+            <span class="hash">v14</span>
+          </div>
+          <h1>Grandmother's ragù</h1>
+          <p class="forked-line">forked from Nonna Lucia's original</p>
+          <div class="meta">
+            <span class="row"><svg class="ico"><use href="#i-clock"/></svg> 3 hours</span>
+            <span class="row"><svg class="ico"><use href="#i-users"/></svg> Serves 6</span>
+            <span class="row"><svg class="ico"><use href="#i-commit"/></svg> 14 commits</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-ghost"><svg class="ico"><use href="#i-history"/></svg> Full history</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <p class="t-lead" style="margin-bottom:var(--sp-5)">A loose, forgiving sauce that rewards patience more than precision. The version I keep coming back to — adjust the wine to whatever's open.</p>
+
+        <h2>Ingredients</h2>
+        <ul class="ingredients">
+          <li><span class="amt">2 tbsp</span> olive oil</li>
+          <li><span class="amt">1</span> onion, finely diced</li>
+          <li><span class="amt">2</span> carrots, finely diced</li>
+          <li><span class="amt">2</span> celery ribs, finely diced</li>
+          <li><span class="amt">150g</span> guanciale, diced</li>
+          <li><span class="amt">500g</span> beef &amp; pork mince</li>
+          <li><span class="amt">1 cup</span> whole milk, warmed</li>
+          <li><span class="amt">1 cup</span> dry white wine</li>
+          <li><span class="amt">400g</span> tinned tomatoes</li>
+          <li><span class="amt">handful</span> torn basil</li>
+        </ul>
+
+        <h2>Method</h2>
+        <ol class="steps">
+          <li class="step"><span class="n">1</span><p>Soften the soffritto slowly in olive oil — ten unhurried minutes, until everything turns translucent and sweet.</p></li>
+          <li class="step"><span class="n">2</span><p>Add the guanciale and let it render, then raise the heat and brown the mince well, breaking up any clumps.</p></li>
+          <li class="step"><span class="n">3</span><p>Pour in the warmed milk and let it bubble away almost completely <span class="latest">latest change</span></p></li>
+          <li class="step"><span class="n">4</span><p>Add the wine, reduce by half, then the tomatoes. Simmer uncovered for 3 hours, stirring now and then.</p></li>
+          <li class="step"><span class="n">5</span><p>Finish with a handful of torn basil and a long rest off the heat before serving.</p></li>
+        </ol>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="panel">
+        <div class="head">
+          <span class="overline"><svg><use href="#i-history"/></svg> History</span>
+          <span class="chip"><svg class="ico"><use href="#i-commit"/></svg> 14</span>
+        </div>
+        <div class="timeline">
+          <div class="commit is-current">
+            <div class="commit-msg">Added a splash of milk to mellow acidity</div>
+            <div class="commit-meta"><span class="hash">v14</span> · 2 days ago</div>
+          </div>
+          <div class="commit">
+            <div class="commit-msg">Swapped pancetta for guanciale</div>
+            <div class="commit-meta"><span class="hash">v13</span> · 3 weeks ago</div>
+          </div>
+          <div class="commit">
+            <div class="commit-msg">Longer simmer, less tomato</div>
+            <div class="commit-meta"><span class="hash">v12</span> · 6 weeks ago</div>
+          </div>
+          <div class="commit is-fork">
+            <div class="commit-msg">Forked from Nonna's original</div>
+            <div class="commit-meta"><span class="chip badge-fork" style="padding:3px 8px"><svg class="ico"><use href="#i-fork"/></svg> fork</span> · 2 months</div>
+          </div>
+        </div>
+        <a href="#" class="view-all">View all 14 commits →</a>
+      </div>
+
+      <div class="panel">
+        <div class="diff-head"><svg><use href="#i-diff"/></svg><span class="overline">Latest diff · v14</span></div>
+        <div class="diff">
+          <div class="diff-row diff-add"><span class="mark">+</span><span class="text">1 cup whole milk, warmed</span></div>
+          <div class="diff-row diff-del"><span class="mark">−</span><span class="text">½ cup heavy cream</span></div>
+          <div class="diff-row diff-add"><span class="mark">+</span><span class="text">Let the milk bubble away before the wine</span></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+</body>
+</html>

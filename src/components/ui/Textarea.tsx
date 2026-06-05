@@ -1,4 +1,4 @@
-import { useId, type TextareaHTMLAttributes } from 'react'
+import { useId, type CSSProperties, type TextareaHTMLAttributes } from 'react'
 
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
@@ -6,34 +6,29 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   dirty?: boolean
 }
 
-export function Textarea({ label, error, dirty, id: externalId, className = '', ...props }: TextareaProps) {
+export function Textarea({ label, error, dirty, id: externalId, className = '', style, ...props }: TextareaProps) {
   const generatedId = useId()
   const id = externalId ?? (label ? generatedId : undefined)
 
+  const borderStyle: CSSProperties = error
+    ? { borderColor: 'var(--c-error)', borderWidth: '2px' }
+    : dirty
+    ? { borderColor: 'var(--c-forest)' }
+    : {}
+
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="field">
       {label && (
-        <label htmlFor={id} className="text-sm font-body font-medium text-content-primary">
-          {label}
-        </label>
+        <label htmlFor={id} className="label">{label}</label>
       )}
       <textarea
         id={id}
-        className={[
-          'w-full bg-surface-raised rounded-lg px-3 py-3 text-sm font-body text-content-primary',
-          'placeholder:text-content-muted transition-colors resize-y min-h-24',
-          'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-          error
-            ? 'border-2 border-error'
-            : dirty
-            ? 'border border-accent'
-            : 'border border-border focus:border-accent',
-          className,
-        ].join(' ')}
+        className={['textarea', className].filter(Boolean).join(' ')}
+        style={{ ...borderStyle, ...style }}
         {...props}
       />
       {error && (
-        <span className="text-xs font-body text-error">{error}</span>
+        <span className="hint" style={{ color: 'var(--c-error)' }}>{error}</span>
       )}
     </div>
   )

@@ -30,13 +30,33 @@ function SettingsIcon() {
   )
 }
 
+function BookIcon() {
+  return (
+    <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path
+        d="M20 6 C14 6 8 8 8 12 L8 32 C8 34 10 35 12 35 L20 35 L28 35 C30 35 32 34 32 32 L32 12 C32 8 26 6 20 6 Z"
+        fill="var(--c-cream)"
+        stroke="var(--c-line-sage)"
+        strokeWidth="1.5"
+      />
+      <line x1="20" y1="6" x2="20" y2="35" stroke="var(--c-line-sage)" strokeWidth="1.5" />
+      <line x1="11" y1="16" x2="18" y2="16" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="11" y1="21" x2="18" y2="21" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="11" y1="26" x2="16" y2="26" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="22" y1="16" x2="29" y2="16" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="22" y1="21" x2="29" y2="21" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="22" y1="26" x2="27" y2="26" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function SkeletonCard() {
   return (
-    <div className="bg-surface-raised border border-border rounded-lg overflow-hidden animate-pulse">
-      <div className="h-36 bg-surface-sunken" />
+    <div className="card animate-pulse overflow-hidden">
+      <div style={{ height: '9rem', background: 'var(--c-cream)' }} />
       <div className="p-4 flex flex-col gap-3">
-        <div className="h-4 bg-surface-sunken rounded w-3/4" />
-        <div className="h-3 bg-surface-sunken rounded w-1/2" />
+        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--c-cream)' }} />
+        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--c-cream)' }} />
       </div>
     </div>
   )
@@ -52,29 +72,13 @@ function ShelfSkeleton() {
 
 function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center py-24 gap-6 text-center">
-      <div className="w-20 h-20 rounded-full bg-accent-soft flex items-center justify-center">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <path
-            d="M20 6 C14 6 8 8 8 12 L8 32 C8 34 10 35 12 35 L20 35 L28 35 C30 35 32 34 32 32 L32 12 C32 8 26 6 20 6 Z"
-            fill="var(--color-surface-sunken)"
-            stroke="var(--color-border-strong)"
-            strokeWidth="1.5"
-          />
-          <line x1="20" y1="6" x2="20" y2="35" stroke="var(--color-border-strong)" strokeWidth="1.5" />
-          <line x1="11" y1="16" x2="18" y2="16" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="11" y1="21" x2="18" y2="21" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="11" y1="26" x2="16" y2="26" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="22" y1="16" x2="29" y2="16" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="22" y1="21" x2="29" y2="21" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="22" y1="26" x2="27" y2="26" stroke="var(--color-content-muted)" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
+    <div className="empty">
+      <div className="empty-mark">
+        <BookIcon />
       </div>
       <div className="flex flex-col gap-2">
-        <h2 className="font-display text-2xl font-medium text-content-primary">
-          Your cookbook is empty.
-        </h2>
-        <p className="text-content-muted font-body text-base max-w-xs">
+        <h2 className="t-h3">Your cookbook is empty.</h2>
+        <p style={{ color: 'var(--c-ink-soft)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
           Every great collection starts with the first recipe. What will yours be?
         </p>
       </div>
@@ -94,31 +98,26 @@ export function Shelf() {
     <Shell>
       <Header
         left={
-          <span className="font-display text-xl font-semibold text-content-primary tracking-tight">
-            Commeat
-          </span>
+          <span className="t-h3" style={{ letterSpacing: '-0.02em' }}>Commeat</span>
         }
         right={
           <div className="flex items-center gap-1">
             <Link
               to="/settings"
               aria-label="Settings"
-              className="inline-flex items-center justify-center w-11 h-11 rounded-lg transition-colors text-content-secondary hover:bg-surface-sunken hover:text-content-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="btn btn-ghost btn-icon"
+              style={{ textDecoration: 'none' }}
             >
               <SettingsIcon />
             </Link>
-            <IconButton
-              label="Add recipe"
-              variant="default"
-              onClick={() => setImportOpen(true)}
-            >
+            <IconButton label="Add recipe" variant="default" onClick={() => setImportOpen(true)}>
               <PlusIcon />
             </IconButton>
           </div>
         }
       />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         {hydrating ? (
           <ShelfSkeleton />
         ) : recipes.length === 0 ? (

@@ -10,14 +10,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: 'bg-accent text-surface-raised hover:opacity-90',
-  secondary: 'bg-surface-sunken text-content-primary border border-border hover:bg-surface-raised',
-  ghost: 'text-content-secondary hover:bg-surface-sunken hover:text-content-primary',
+  primary:   'btn btn-primary',
+  secondary: 'btn btn-secondary',
+  ghost:     'btn btn-ghost',
 }
 
 const sizeClasses: Record<Size, string> = {
-  sm: 'px-3 text-sm',
-  md: 'px-5 text-sm',
+  sm: 'btn-sm',
+  md: '',
 }
 
 export function Button({
@@ -31,14 +31,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={[
-        'inline-flex items-center justify-center gap-2 font-body font-medium rounded-lg min-h-11 transition-colors cursor-pointer select-none',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-        variantClasses[variant],
-        sizeClasses[size],
-        className,
-      ].join(' ')}
+      className={[variantClasses[variant], sizeClasses[size], className].filter(Boolean).join(' ')}
       {...props}
     >
       {children}

@@ -15,14 +15,19 @@ export function SyncErrorBanner() {
   return (
     <div
       role="alert"
-      className="bg-error/10 border-b border-error/30 px-4 py-2.5 flex items-center justify-between gap-4"
+      className="flex items-center justify-between gap-4 px-4 py-2"
+      style={{
+        background: 'rgba(160,82,45,0.08)',
+        borderBottom: '1px solid rgba(160,82,45,0.2)',
+      }}
     >
-      <p className="text-sm font-body text-error leading-snug">{syncError}</p>
+      <p className="t-small" style={{ color: 'var(--c-error)' }}>{syncError}</p>
       <button
         type="button"
         aria-label="Dismiss sync error"
         onClick={clearSyncError}
-        className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded text-error hover:bg-error/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-error"
+        className="btn btn-ghost btn-icon"
+        style={{ minWidth: '32px', minHeight: '32px', color: 'var(--c-error)' }}
       >
         <XIcon />
       </button>

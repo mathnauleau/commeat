@@ -9,8 +9,8 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 const variantClasses: Record<Variant, string> = {
-  default: 'bg-accent text-surface-raised hover:opacity-90',
-  ghost: 'text-content-secondary hover:bg-surface-sunken hover:text-content-primary',
+  default: 'btn btn-primary btn-icon',
+  ghost:   'btn btn-ghost btn-icon',
 }
 
 export function IconButton({
@@ -25,13 +25,7 @@ export function IconButton({
     <button
       type={type}
       aria-label={label}
-      className={[
-        'inline-flex items-center justify-center w-11 h-11 rounded-lg transition-colors cursor-pointer',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent',
-        variantClasses[variant],
-        className,
-      ].join(' ')}
+      className={[variantClasses[variant], className].filter(Boolean).join(' ')}
       {...props}
     >
       {children}

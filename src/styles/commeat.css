@@ -1,0 +1,274 @@
+/* ============================================================================
+   COMMEAT — Design System
+   A personal recipe book where recipes are Markdown, versioned like code.
+   Warm, handmade, botanical. The git metaphor, softened.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+/* ----------------------------------------------------------------------------
+   1. TOKENS
+   ---------------------------------------------------------------------------- */
+:root {
+  /* — Surfaces & backgrounds (warm sage → paper) — */
+  --c-sage:        #D7DEC9;
+  --c-sage-deep:   #C5CEB2;
+  --c-paper:       #FBF8F1;
+  --c-cream:       #F3ECDD;
+  --c-cream-deep:  #EADFCB;
+
+  /* — Ink (forest-tinted, never pure black) — */
+  --c-ink:         #232C24;
+  --c-ink-soft:    #4C564B;
+  --c-ink-faint:   #828B79;
+
+  /* — Forest green (brand + primary actions) — */
+  --c-forest:      #3A6B4A;
+  --c-forest-deep: #2C5239;
+  --c-forest-tint: #E3EADB;
+
+  /* — Clay (warm botanical highlight — forks, new, bookmarks) — */
+  --c-clay:        #BC6B47;
+  --c-clay-deep:   #9F562F;
+  --c-clay-tint:   #F2E1D5;
+
+  /* — Lines & dividers — */
+  --c-line:        #DED6C4;
+  --c-line-strong: #CDC4AE;
+  --c-line-sage:   #B7C0A2;
+
+  /* — Error (warm sienna — reads clearly without clashing the sage palette) — */
+  --c-error:       #A0522D;
+
+  /* — Diff (softened, warm — never red/green clash) — */
+  --c-add-bg:      #E4ECDC;  --c-add-ink:  #355B3F;  --c-add-bar: #6E9A6E;
+  --c-del-bg:      #F3E2D6;  --c-del-ink:  #9F562F;  --c-del-bar: #C99172;
+
+  /* — Focus — */
+  --c-focus:       #3A6B4A;
+  --ring:          0 0 0 3px rgba(58,107,74,0.28);
+
+  /* — Typography — */
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body:    'Spectral', Georgia, serif;
+
+  /* type scale (px) / line-height */
+  --t-display:  56px;  --lh-display:  1.04;
+  --t-h1:       40px;  --lh-h1:       1.10;
+  --t-h2:       30px;  --lh-h2:       1.16;
+  --t-h3:       22px;  --lh-h3:       1.28;
+  --t-lead:     20px;  --lh-lead:     1.55;
+  --t-body:     17px;  --lh-body:     1.62;
+  --t-small:    15px;  --lh-small:    1.5;
+  --t-caption:  13px;  --lh-caption:  1.45;
+  --t-meta:     12px;  --lh-meta:     1.4;
+
+  /* — Spacing (4-based) — */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+
+  /* — Radius (tactile, generous) — */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px; --r-pill: 999px;
+
+  /* — Elevation (soft, warm-tinted, low) — */
+  --e-1: 0 1px 2px rgba(45,52,38,0.06), 0 1px 1px rgba(45,52,38,0.04);
+  --e-2: 0 2px 6px rgba(45,52,38,0.07), 0 4px 12px rgba(45,52,38,0.05);
+  --e-3: 0 6px 18px rgba(45,52,38,0.10), 0 12px 30px rgba(45,52,38,0.07);
+
+  /* — Motion (subtle, purposeful) — */
+  --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 120ms; --t-base: 200ms; --t-slow: 320ms;
+}
+
+/* ----------------------------------------------------------------------------
+   2. BASE
+   ---------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--c-sage);
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,h2,h3,h4 { font-family: var(--font-display); font-weight: 500; color: var(--c-ink); margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--c-forest); text-decoration-color: rgba(58,107,74,0.35); text-underline-offset: 3px; }
+a:hover { color: var(--c-forest-deep); }
+::selection { background: var(--c-forest-tint); }
+
+/* ----------------------------------------------------------------------------
+   3. TYPE HELPERS
+   ---------------------------------------------------------------------------- */
+.t-display { font-family: var(--font-display); font-size: var(--t-display); line-height: var(--lh-display); font-weight: 500; letter-spacing: -0.02em; }
+.t-h1 { font-family: var(--font-display); font-size: var(--t-h1); line-height: var(--lh-h1); font-weight: 500; }
+.t-h2 { font-family: var(--font-display); font-size: var(--t-h2); line-height: var(--lh-h2); font-weight: 500; }
+.t-h3 { font-family: var(--font-display); font-size: var(--t-h3); line-height: var(--lh-h3); font-weight: 600; }
+.t-lead { font-size: var(--t-lead); line-height: var(--lh-lead); color: var(--c-ink-soft); }
+.t-body { font-size: var(--t-body); line-height: var(--lh-body); }
+.t-small { font-size: var(--t-small); line-height: var(--lh-small); }
+.t-caption { font-size: var(--t-caption); line-height: var(--lh-caption); color: var(--c-ink-faint); }
+.t-serif-italic { font-family: var(--font-display); font-style: italic; }
+
+.overline {
+  font-family: var(--font-body);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+}
+
+/* ----------------------------------------------------------------------------
+   4. BUTTONS
+   ---------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--font-body); font-size: var(--t-small); font-weight: 600;
+  line-height: 1; padding: 11px 18px; border-radius: var(--r-pill);
+  border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
+              transform var(--t-fast) var(--ease);
+}
+.btn:active { transform: translateY(0.5px); }
+.btn:focus-visible { outline: none; box-shadow: var(--ring); }
+.btn .ico { width: 17px; height: 17px; }
+
+.btn-primary { background: var(--c-forest); color: #FBF8F1; box-shadow: var(--e-1); }
+.btn-primary:hover { background: var(--c-forest-deep); }
+
+.btn-secondary { background: var(--c-paper); color: var(--c-ink); border-color: var(--c-line-strong); }
+.btn-secondary:hover { background: var(--c-cream); border-color: var(--c-ink-faint); }
+
+.btn-ghost { background: transparent; color: var(--c-ink-soft); }
+.btn-ghost:hover { background: var(--c-forest-tint); color: var(--c-ink); }
+
+.btn-clay { background: var(--c-clay); color: #FBF8F1; box-shadow: var(--e-1); }
+.btn-clay:hover { background: var(--c-clay-deep); }
+
+.btn-sm { padding: 7px 13px; font-size: var(--t-caption); }
+.btn-lg { padding: 14px 24px; font-size: var(--t-body); }
+.btn-icon { padding: 9px; border-radius: var(--r-pill); min-width: 44px; min-height: 44px; justify-content: center; }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+
+/* ----------------------------------------------------------------------------
+   5. FORM CONTROLS
+   ---------------------------------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: var(--sp-2); }
+.label { font-size: var(--t-caption); font-weight: 600; color: var(--c-ink-soft); }
+.input, .textarea, .select {
+  font-family: var(--font-body); font-size: var(--t-body); color: var(--c-ink);
+  background: var(--c-paper); border: 1px solid var(--c-line-strong);
+  border-radius: var(--r-md); padding: 11px 14px; width: 100%;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.input::placeholder, .textarea::placeholder { color: var(--c-ink-faint); }
+.input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--c-forest); box-shadow: var(--ring); }
+.textarea { resize: vertical; min-height: 96px; line-height: var(--lh-body); }
+.hint { font-size: var(--t-caption); color: var(--c-ink-faint); }
+
+/* search */
+.search { position: relative; display: flex; align-items: center; }
+.search .ico { position: absolute; left: 14px; width: 18px; height: 18px; color: var(--c-ink-faint); pointer-events: none; }
+.search .input { padding-left: 42px; border-radius: var(--r-pill); }
+
+/* toggle */
+.toggle { position: relative; width: 44px; height: 26px; flex: none; cursor: pointer; }
+.toggle input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.toggle .track { position: absolute; inset: 0; background: var(--c-line-strong); border-radius: var(--r-pill); transition: background var(--t-base) var(--ease); }
+.toggle .thumb { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--c-paper); border-radius: 50%; box-shadow: var(--e-1); transition: transform var(--t-base) var(--ease-out); }
+.toggle input:checked ~ .track { background: var(--c-forest); }
+.toggle input:checked ~ .thumb { transform: translateX(18px); }
+.toggle input:focus-visible ~ .track { box-shadow: var(--ring); }
+
+/* checkbox */
+.check { display: inline-flex; align-items: center; gap: var(--sp-3); cursor: pointer; }
+.check input { position: absolute; opacity: 0; }
+.check .box { width: 22px; height: 22px; border: 1.5px solid var(--c-line-strong); border-radius: var(--r-sm); background: var(--c-paper); display: grid; place-items: center; transition: all var(--t-fast) var(--ease); }
+.check .box svg { width: 14px; height: 14px; color: #FBF8F1; opacity: 0; transform: scale(0.6); transition: all var(--t-fast) var(--ease-out); }
+.check input:checked ~ .box { background: var(--c-forest); border-color: var(--c-forest); }
+.check input:checked ~ .box svg { opacity: 1; transform: scale(1); }
+.check input:focus-visible ~ .box { box-shadow: var(--ring); }
+
+/* ----------------------------------------------------------------------------
+   6. CARDS & SURFACES
+   ---------------------------------------------------------------------------- */
+.card { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-lg); box-shadow: var(--e-1); }
+
+/* ----------------------------------------------------------------------------
+   7. CHIPS, BADGES & TAGS
+   ---------------------------------------------------------------------------- */
+.chip {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-caption); font-weight: 500; line-height: 1;
+  padding: 5px 11px; border-radius: var(--r-pill);
+  background: var(--c-cream); color: var(--c-ink-soft); border: 1px solid var(--c-line);
+}
+.chip .ico { width: 14px; height: 14px; }
+
+.hash {
+  font-family: var(--font-body); font-weight: 600; font-size: var(--t-caption);
+  letter-spacing: 0.06em; color: var(--c-forest);
+  background: var(--c-forest-tint); padding: 3px 8px; border-radius: var(--r-sm);
+}
+.badge-fork { background: var(--c-clay-tint); color: var(--c-clay-deep); border-color: transparent; }
+.badge-fork .ico { color: var(--c-clay-deep); }
+.tag { background: transparent; border: 1px solid var(--c-line-sage); color: var(--c-ink-soft); }
+
+/* ----------------------------------------------------------------------------
+   8. COMMIT TIMELINE
+   ---------------------------------------------------------------------------- */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: var(--c-line-sage); }
+.commit { position: relative; padding: var(--sp-3) 0; }
+.commit::before {
+  content: ""; position: absolute; left: -28px; top: 18px;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--c-paper); border: 3px solid var(--c-forest); box-sizing: border-box;
+}
+.commit.is-fork::before { border-color: var(--c-clay); }
+.commit.is-current::before { background: var(--c-forest); }
+.commit-msg { font-size: var(--t-body); color: var(--c-ink); }
+.commit-meta { display: flex; align-items: center; gap: var(--sp-2); margin-top: var(--sp-1); font-size: var(--t-caption); color: var(--c-ink-faint); flex-wrap: wrap; }
+
+/* ----------------------------------------------------------------------------
+   9. DIFF
+   ---------------------------------------------------------------------------- */
+.diff { border: 1px solid var(--c-line); border-radius: var(--r-md); overflow: hidden; background: var(--c-paper); }
+.diff-row { display: flex; gap: var(--sp-3); padding: 7px 14px 7px 12px; font-size: var(--t-small); line-height: 1.5; border-left: 3px solid transparent; }
+.diff-row .mark { width: 14px; color: var(--c-ink-faint); flex: none; text-align: center; font-weight: 600; }
+.diff-add { background: var(--c-add-bg); border-left-color: var(--c-add-bar); }
+.diff-add .mark { color: var(--c-add-ink); }
+.diff-del { background: var(--c-del-bg); border-left-color: var(--c-del-bar); }
+.diff-del .mark { color: var(--c-del-ink); }
+.diff-del .text { color: var(--c-del-ink); text-decoration: line-through; text-decoration-color: rgba(159,86,47,0.4); }
+
+/* ----------------------------------------------------------------------------
+   10. EMPTY STATES
+   ---------------------------------------------------------------------------- */
+.empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--sp-3); padding: var(--sp-8) var(--sp-5); }
+.empty-mark { width: 76px; height: 76px; border-radius: var(--r-xl); background: var(--c-forest-tint); display: grid; place-items: center; color: var(--c-forest); }
+.empty-mark svg { width: 36px; height: 36px; }
+.empty h3 { font-size: var(--t-h3); }
+.empty p { color: var(--c-ink-soft); max-width: 38ch; }
+
+/* ----------------------------------------------------------------------------
+   11. UTILITIES
+   ---------------------------------------------------------------------------- */
+.row { display: flex; align-items: center; gap: var(--sp-3); }
+.col { display: flex; flex-direction: column; }
+.wrap { flex-wrap: wrap; }
+.ico { display: inline-block; vertical-align: middle; }
+.divider { height: 1px; background: var(--c-line); border: 0; margin: var(--sp-5) 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

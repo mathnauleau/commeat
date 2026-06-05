@@ -5,7 +5,6 @@ import { Header } from '../components/layout/Header'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
-import { Badge } from '../components/ui/Badge'
 import { useGitHub } from '../hooks/useGitHub'
 
 function BackIcon() {
@@ -18,24 +17,9 @@ function BackIcon() {
 
 function GitHubIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
     </svg>
-  )
-}
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="font-display text-lg font-medium text-content-primary">{children}</h2>
-  )
-}
-
-function ReadOnlyField({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col gap-1">
-      <span className="text-xs font-body font-medium text-content-muted uppercase tracking-wide">{label}</span>
-      <span className="text-sm font-body text-content-primary">{value}</span>
-    </div>
   )
 }
 
@@ -50,14 +34,14 @@ function ConnectedSection({ username, onDisconnect }: { username: string; onDisc
         <img
           src={avatarUrl}
           alt={`${username}'s GitHub avatar`}
-          className="w-12 h-12 rounded-full border border-border bg-surface-sunken"
+          style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--c-line)', background: 'var(--c-cream)' }}
         />
-        <div className="flex flex-col gap-0.5 min-w-0">
+        <div className="flex flex-col gap-1 min-w-0">
           <a
             href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-body font-medium text-content-primary hover:text-accent transition-colors"
+            style={{ fontWeight: 600, color: 'var(--c-ink)', fontSize: 'var(--t-body)' }}
           >
             @{username}
           </a>
@@ -65,18 +49,16 @@ function ConnectedSection({ username, onDisconnect }: { username: string; onDisc
             href={repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-body text-content-secondary hover:text-accent transition-colors truncate"
+            className="t-caption"
+            style={{ color: 'var(--c-forest)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
           >
             commeat-{username} ↗
           </a>
         </div>
-        <Badge variant="accent">Connected</Badge>
+        <span className="hash" style={{ marginLeft: 'auto', flexShrink: 0 }}>Connected</span>
       </div>
-
       <div>
-        <Button variant="ghost" size="sm" onClick={onDisconnect}>
-          Disconnect
-        </Button>
+        <Button variant="ghost" size="sm" onClick={onDisconnect}>Disconnect</Button>
       </div>
     </div>
   )
@@ -104,7 +86,7 @@ function DisconnectedSection() {
 
   return (
     <div className="flex flex-col gap-5">
-      <p className="text-sm font-body text-content-secondary leading-relaxed">
+      <p style={{ fontSize: 'var(--t-body)', color: 'var(--c-ink-soft)', lineHeight: 'var(--lh-body)', margin: 0 }}>
         Connect a GitHub account to sync your recipes as Markdown files in a private repo.
         Your recipes live in your account — Commeat just commits them.
       </p>
@@ -120,9 +102,9 @@ function DisconnectedSection() {
           error={error ?? undefined}
           autoComplete="off"
         />
-        <p className="text-xs font-body text-content-muted">
-          Needs <code className="bg-surface-sunken px-1 py-0.5 rounded text-content-secondary">repo</code> scope.
-          Generate one in GitHub → Settings → Developer settings → Personal access tokens.
+        <p className="hint">
+          Needs <code style={{ fontFamily: 'monospace', background: 'var(--c-cream)', padding: '1px 5px', borderRadius: 'var(--r-sm)' }}>repo</code> scope.
+          GitHub → Settings → Developer settings → Personal access tokens.
         </p>
       </div>
 
@@ -138,6 +120,31 @@ function DisconnectedSection() {
   )
 }
 
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return <h2 className="t-h3">{children}</h2>
+}
+
+function ReadOnlyField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="overline">{label}</span>
+      <span style={{ fontSize: 'var(--t-body)', color: 'var(--c-ink)' }}>{value}</span>
+    </div>
+  )
+}
+
+const backLinkStyle = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  fontSize: 'var(--t-small)',
+  color: 'var(--c-ink-soft)',
+  textDecoration: 'none',
+  minHeight: '44px',
+  padding: '0 4px',
+  transition: 'color var(--t-fast) var(--ease)',
+}
+
 export function Settings() {
   const { isConnected, username, disconnect } = useGitHub()
 
@@ -145,19 +152,16 @@ export function Settings() {
     <Shell>
       <Header
         left={
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-sm font-body text-content-secondary hover:text-content-primary transition-colors min-h-11 px-1"
-          >
+          <Link to="/" style={backLinkStyle}>
             <BackIcon />Shelf
           </Link>
         }
       />
 
-      <main className="max-w-xl mx-auto px-4 sm:px-6 py-10 flex flex-col gap-10">
+      <main className="max-w-xl mx-auto px-4 py-10 flex flex-col gap-10" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
 
         {/* GitHub */}
-        <section className="flex flex-col gap-5">
+        <section className="flex flex-col gap-4">
           <SectionHeading>GitHub</SectionHeading>
           <Card className="p-6">
             {isConnected && username ? (
@@ -169,41 +173,43 @@ export function Settings() {
         </section>
 
         {/* Shelf configuration */}
-        <section className="flex flex-col gap-5">
+        <section className="flex flex-col gap-4">
           <SectionHeading>Shelf</SectionHeading>
           <Card className="p-6 flex flex-col gap-6">
 
-            {/* Theme */}
             <div className="flex flex-col gap-3">
-              <span className="text-sm font-body font-medium text-content-primary">Theme</span>
+              <span className="label">Theme</span>
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
                   aria-pressed="true"
-                  className="px-4 py-2 rounded-lg text-sm font-body font-medium border-2 border-accent bg-accent text-surface-raised cursor-default min-h-11 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  className="btn btn-primary btn-sm"
+                  style={{ cursor: 'default', borderRadius: 'var(--r-md)' }}
                 >
                   Botanical
                 </button>
                 <button
                   type="button"
                   disabled
-                  className="px-4 py-2 rounded-lg text-sm font-body border border-border text-content-muted cursor-not-allowed min-h-11 flex items-center gap-2"
+                  className="btn btn-secondary btn-sm"
+                  style={{ borderRadius: 'var(--r-md)', gap: '6px' }}
                 >
                   Linen
-                  <span className="text-xs text-content-muted">Coming soon</span>
+                  <span className="t-caption" style={{ color: 'var(--c-ink-faint)' }}>Coming soon</span>
                 </button>
                 <button
                   type="button"
                   disabled
-                  className="px-4 py-2 rounded-lg text-sm font-body border border-border text-content-muted cursor-not-allowed min-h-11 flex items-center gap-2"
+                  className="btn btn-secondary btn-sm"
+                  style={{ borderRadius: 'var(--r-md)', gap: '6px' }}
                 >
                   Dusk
-                  <span className="text-xs text-content-muted">Coming soon</span>
+                  <span className="t-caption" style={{ color: 'var(--c-ink-faint)' }}>Coming soon</span>
                 </button>
               </div>
             </div>
 
-            <div className="flex gap-8 border-t border-border pt-5">
+            <div className="flex gap-8" style={{ borderTop: '1px solid var(--c-line)', paddingTop: 'var(--sp-5)' }}>
               <ReadOnlyField label="Card layout" value="Portrait" />
               <ReadOnlyField label="Print format" value="A5" />
             </div>

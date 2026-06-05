@@ -1,25 +1,24 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 type Variant = 'default' | 'accent' | 'muted'
 
 export interface BadgeProps {
   variant?: Variant
+  className?: string
   children: ReactNode
 }
 
-const variantClasses: Record<Variant, string> = {
-  default: 'bg-surface-sunken text-content-secondary border border-border',
-  accent: 'bg-accent text-surface-raised',
-  muted: 'bg-accent-soft text-content-muted',
+const variantStyles: Record<Variant, CSSProperties> = {
+  default: {},
+  accent:  { background: 'var(--c-forest)', color: 'var(--c-paper)', borderColor: 'transparent' },
+  muted:   { background: 'var(--c-forest-tint)', color: 'var(--c-ink-faint)', borderColor: 'transparent' },
 }
 
-export function Badge({ variant = 'default', children }: BadgeProps) {
+export function Badge({ variant = 'default', className = '', children }: BadgeProps) {
   return (
     <span
-      className={[
-        'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-body font-medium',
-        variantClasses[variant],
-      ].join(' ')}
+      className={['chip', className].filter(Boolean).join(' ')}
+      style={variantStyles[variant]}
     >
       {children}
     </span>
