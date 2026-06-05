@@ -9,46 +9,9 @@ import { Button } from '../components/ui/Button'
 import { useRecipes } from '../hooks/useRecipes'
 import { useGitHub } from '../hooks/useGitHub'
 import { toSlug } from '../lib/slug'
-
-function PlusIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function SettingsIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-      <circle cx="9" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.4" />
-      <path
-        d="M9 1.5v1.25M9 15.25V16.5M1.5 9h1.25M15.25 9H16.5M3.4 3.4l.88.88M13.72 13.72l.88.88M14.6 3.4l-.88.88M4.28 13.72l-.88.88"
-        stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"
-      />
-    </svg>
-  )
-}
-
-function BookIcon() {
-  return (
-    <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <path
-        d="M20 6 C14 6 8 8 8 12 L8 32 C8 34 10 35 12 35 L20 35 L28 35 C30 35 32 34 32 32 L32 12 C32 8 26 6 20 6 Z"
-        fill="var(--c-cream)"
-        stroke="var(--c-line-sage)"
-        strokeWidth="1.5"
-      />
-      <line x1="20" y1="6" x2="20" y2="35" stroke="var(--c-line-sage)" strokeWidth="1.5" />
-      <line x1="11" y1="16" x2="18" y2="16" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="11" y1="21" x2="18" y2="21" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="11" y1="26" x2="16" y2="26" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="22" y1="16" x2="29" y2="16" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="22" y1="21" x2="29" y2="21" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="22" y1="26" x2="27" y2="26" stroke="var(--c-ink-faint)" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
+import PlusIcon from '../assets/icons/plus.svg?react'
+import SettingsIcon from '../assets/icons/settings.svg?react'
+import BookIcon from '../assets/icons/book.svg?react'
 
 function SkeletonCard() {
   return (

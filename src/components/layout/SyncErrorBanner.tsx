@@ -1,12 +1,5 @@
 import { useGitHub } from '../../hooks/useGitHub'
-
-function XIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M11 3L3 11M3 3l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
+import CloseIcon from '../../assets/icons/close.svg?react'
 
 export function SyncErrorBanner() {
   const { syncError, clearSyncError } = useGitHub()
@@ -29,7 +22,7 @@ export function SyncErrorBanner() {
         className="btn btn-ghost btn-icon"
         style={{ minWidth: '32px', minHeight: '32px', color: 'var(--c-error)' }}
       >
-        <XIcon />
+        <CloseIcon width={14} height={14} />
       </button>
     </div>
   )

@@ -7,22 +7,8 @@ import { CommitBar } from '../components/recipes/CommitBar'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
 import { useRecipeEditor } from '../hooks/useRecipeEditor'
-
-function BackIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function EditIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M11.5 2.5a1.414 1.414 0 0 1 2 2L5 13H3v-2L11.5 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  )
-}
+import BackIcon from '../assets/icons/back.svg?react'
+import EditIcon from '../assets/icons/edit.svg?react'
 
 const backLinkStyle = {
   display: 'inline-flex',

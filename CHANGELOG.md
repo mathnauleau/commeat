@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased] — SVG icon files · 2026-06-05
+
+Extracted all inline SVG icon functions to standalone files in `src/assets/icons/`. No visual changes.
+
+### Added
+- `src/assets/icons/` — 7 SVG files: `back.svg`, `book.svg`, `close.svg`, `edit.svg`, `github.svg`, `plus.svg`, `settings.svg`
+- `vite-plugin-svgr` dev dependency — enables `import Icon from './icon.svg?react'` syntax
+- `src/vite-env.d.ts` — type reference for `vite-plugin-svgr/client`
+
+### Changed
+- `Dialog`, `SyncErrorBanner`, `Shelf`, `Settings`, `Recipe` — inline `function *Icon()` components replaced with SVG imports. `CloseIcon` and `XIcon` consolidated into a single `close.svg` (size passed as prop where needed).
+
+---
+
 ## [Unreleased] — Design system migration · 2026-06-05
 
 Adopted `commeat.css` as the canonical design source. Full visual and token refactor across every component and page. No logic or routing changes.

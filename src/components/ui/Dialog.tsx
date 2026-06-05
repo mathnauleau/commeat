@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { IconButton } from './IconButton'
+import CloseIcon from '../../assets/icons/close.svg?react'
 
 export interface DialogProps {
   open: boolean
@@ -15,13 +16,6 @@ const sizeStyles = {
   lg: { maxWidth: '42rem' },
 }
 
-function CloseIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 export function Dialog({ open, onClose, title, size = 'md', children }: DialogProps) {
   useEffect(() => {
