@@ -119,6 +119,25 @@ interface ShelfConfig {
 
 Recipes are stored as `.md` files with YAML frontmatter. Use `gray-matter` to parse. `lib/parser.ts` handles all serialization — never parse markdown outside of that file.
 
+### File naming — recipeSlug()
+
+Every recipe maps to `recipes/[slug].md` in the GitHub repo. The slug is always derived from the title at commit time:
+
+```ts
+export function recipeSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+// "Grandma Marie's Tomato Sauce" → "recipes/grandmas-maries-tomato-sauce.md"
+```
+
+- Always call `recipeSlug(recipe.title)` in `lib/github.ts` to compute the file path
+- Never hardcode file paths
+- Never store the slug in the recipe frontmatter
+
 ---
 
 ## Key interactions & copy
