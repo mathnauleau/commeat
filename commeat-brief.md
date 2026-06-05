@@ -117,11 +117,26 @@ Recipe `.md` files never contain style information — they are pure content. `s
 ```
 commeat-[username]/
   recipes/
-    grandma-tomato.md
+    grandmas-maries-tomato-sauce.md
     pasta-carbonara.md
   shelf.json
   README.md        ← auto-generated index of all recipes
 ```
+
+Each recipe maps to `recipes/[slug].md` where the slug is derived from the recipe title via `recipeSlug()` in `lib/parser.ts`:
+
+```ts
+export function recipeSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+// "Grandma Marie's Tomato Sauce" → "recipes/grandmas-maries-tomato-sauce.md"
+```
+
+The slug is computed at commit time in `lib/github.ts` and used as the file path. It is never stored in the recipe frontmatter.
 
 ---
 
