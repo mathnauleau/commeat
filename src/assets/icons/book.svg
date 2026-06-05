@@ -1,10 +1,1 @@
-<svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M20 6 C14 6 8 8 8 12 L8 32 C8 34 10 35 12 35 L20 35 L28 35 C30 35 32 34 32 32 L32 12 C32 8 26 6 20 6 Z" fill="var(--c-cream)" stroke="var(--c-line-sage)" stroke-width="1.5" />
-  <line x1="20" y1="6" x2="20" y2="35" stroke="var(--c-line-sage)" stroke-width="1.5" />
-  <line x1="11" y1="16" x2="18" y2="16" stroke="var(--c-ink-faint)" stroke-width="1.5" stroke-linecap="round" />
-  <line x1="11" y1="21" x2="18" y2="21" stroke="var(--c-ink-faint)" stroke-width="1.5" stroke-linecap="round" />
-  <line x1="11" y1="26" x2="16" y2="26" stroke="var(--c-ink-faint)" stroke-width="1.5" stroke-linecap="round" />
-  <line x1="22" y1="16" x2="29" y2="16" stroke="var(--c-ink-faint)" stroke-width="1.5" stroke-linecap="round" />
-  <line x1="22" y1="21" x2="29" y2="21" stroke="var(--c-ink-faint)" stroke-width="1.5" stroke-linecap="round" />
-  <line x1="22" y1="26" x2="27" y2="26" stroke="var(--c-ink-faint)" stroke-width="1.5" stroke-linecap="round" />
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-marked-icon lucide-book-marked"><path d="M10 2v8l3-3 3 3V2"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
