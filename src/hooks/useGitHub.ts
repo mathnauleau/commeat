@@ -60,14 +60,23 @@ export function useGitHub() {
   // Pass previousTitle when the recipe title changed, to delete the old file.
   const syncRecipe = useCallback(
     (recipe: Recipe, message: string, previousTitle?: string) => {
-      if (!auth) return
+      if (!auth) {
+        console.warn('[commeat] syncRecipe: no auth — token or username missing, skipping sync')
+        return
+      }
 
       const doSync = async () => {
+        console.log('[commeat] syncRecipe: starting sync', { username: auth.username, title: recipe.title })
         await initRepo(auth)
+
+        const recipePath = `recipes/${recipeSlug(recipe.title)}.md`
+        console.log('[commeat] syncRecipe: committing recipe file', recipePath)
         await commitRecipeFile(auth, recipe, message)
+        console.log('[commeat] syncRecipe: recipe file committed OK')
 
         if (previousTitle && previousTitle !== recipe.title) {
           const oldPath = `recipes/${recipeSlug(previousTitle)}.md`
+          console.log('[commeat] syncRecipe: deleting old file after rename', oldPath)
           await deleteFile(auth, oldPath)
         }
 
@@ -76,25 +85,39 @@ export function useGitHub() {
         const currentRecipes = useRecipeStore.getState().recipes
         const readme = generateReadme(currentRecipes, auth.username)
         await commitFile(auth, 'README.md', readme, 'Update cookbook index')
+        console.log('[commeat] syncRecipe: README updated OK')
       }
 
-      doSync().catch((err) => setSyncError(formatSyncError(err)))
+      doSync().catch((err) => {
+        console.error('[commeat] syncRecipe: sync failed', err)
+        setSyncError(formatSyncError(err))
+      })
     },
     [auth, setSyncError],
   )
 
   const syncDeleteRecipe = useCallback(
     (title: string) => {
-      if (!auth) return
+      if (!auth) {
+        console.warn('[commeat] syncDeleteRecipe: no auth — skipping sync')
+        return
+      }
 
       const doSync = async () => {
+        const deletePath = `recipes/${recipeSlug(title)}.md`
+        console.log('[commeat] syncDeleteRecipe: deleting', deletePath)
         await deleteRecipeFile(auth, title)
+        console.log('[commeat] syncDeleteRecipe: file deleted OK')
         const currentRecipes = useRecipeStore.getState().recipes
         const readme = generateReadme(currentRecipes, auth.username)
         await commitFile(auth, 'README.md', readme, 'Update cookbook index')
+        console.log('[commeat] syncDeleteRecipe: README updated OK')
       }
 
-      doSync().catch((err) => setSyncError(formatSyncError(err)))
+      doSync().catch((err) => {
+        console.error('[commeat] syncDeleteRecipe: sync failed', err)
+        setSyncError(formatSyncError(err))
+      })
     },
     [auth, setSyncError],
   )
