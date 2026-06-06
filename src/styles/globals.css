@@ -118,6 +118,13 @@
   color: var(--c-ink-soft);
 }
 
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+}
+
 /* Lists */
 .prose ul,
 .prose ol {

@@ -6,22 +6,25 @@ export interface RecipeCardProps {
   title: string
   origin: string
   tags?: string[]
+  image?: string | null
   to: string
 }
 
-export function RecipeCard({ title, origin, tags = [], to }: RecipeCardProps) {
+export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardProps) {
   return (
     <Link
       to={to}
       className="card card-hover block overflow-hidden focus:outline-none"
       style={{ textDecoration: 'none' }}
     >
-      {/* Illustration placeholder */}
       <div
-        className="flex items-center justify-center"
+        className="flex items-center justify-center overflow-hidden"
         style={{ height: '9rem', background: 'var(--c-forest-tint)' }}
       >
-        <CookingPotIcon width={40} height={40} aria-hidden />
+        {image
+          ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <CookingPotIcon width={40} height={40} aria-hidden />
+        }
       </div>
 
       {/* Card body */}

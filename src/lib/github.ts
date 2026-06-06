@@ -146,6 +146,20 @@ export async function readFile(auth: GitHubAuth, filePath: string): Promise<stri
   return decodeFromBase64(content)
 }
 
+const IMAGE_MIME: Record<string, string> = {
+  jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png',
+  gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml',
+}
+
+export async function readImageAsDataUrl(auth: GitHubAuth, filePath: string): Promise<string> {
+  const res = await apiFetch(auth, 'GET', repoPath(auth, filePath))
+  if (!res.ok) throw new GitHubError(`Could not read image: ${res.status}`, res.status)
+  const { content } = await res.json() as { content: string }
+  const ext = filePath.split('.').pop()?.toLowerCase() ?? ''
+  const mime = IMAGE_MIME[ext] ?? 'image/jpeg'
+  return `data:${mime};base64,${content.replace(/\n/g, '')}`
+}
+
 export async function listRecipes(auth: GitHubAuth): Promise<string[]> {
   const res = await apiFetch(
     auth,

@@ -3,6 +3,7 @@ import { useGitHubStore } from '../store/github'
 import {
   listRecipes,
   readFile,
+  readImageAsDataUrl,
   commitFile,
   deleteFile as deleteFileGH,
   GitHubError,
@@ -104,5 +105,46 @@ export function useGitHubFiles() {
     [token, username, updateReadme, setSyncError], // eslint-disable-line react-hooks/exhaustive-deps
   )
 
-  return { files, loading, error, fetchFile, saveFile, deleteFile, reload }
+  const resolveImages = useCallback(
+    async (markdown: string, fromPath: string): Promise<string> => {
+      if (!auth) return markdown
+
+      const dir = fromPath.replace(/\/[^/]+$/, '') // e.g. "recipes"
+
+      // Collect all relative src values from markdown ![]() and HTML <img>
+      const mdMatches = [...markdown.matchAll(/!\[[^\]]*\]\(([^)]+)\)/g)].map((m) => m[1])
+      const htmlMatches = [...markdown.matchAll(/<img[^>]+src="([^"]+)"/g)].map((m) => m[1])
+      const relativePaths = [...new Set([...mdMatches, ...htmlMatches])].filter(
+        (s) => !s.startsWith('http') && !s.startsWith('data:'),
+      )
+
+      if (relativePaths.length === 0) return markdown
+
+      const replacements = await Promise.all(
+        relativePaths.map(async (relPath) => {
+          try {
+            const parts = [...dir.split('/'), ...relPath.split('/')]
+            const resolved: string[] = []
+            for (const p of parts) {
+              if (p === '..') resolved.pop()
+              else if (p !== '.') resolved.push(p)
+            }
+            const dataUrl = await readImageAsDataUrl(auth, resolved.join('/'))
+            return [relPath, dataUrl] as const
+          } catch {
+            return null
+          }
+        }),
+      )
+
+      let result = markdown
+      for (const pair of replacements) {
+        if (pair) result = result.replaceAll(pair[0], pair[1])
+      }
+      return result
+    },
+    [token, username], // eslint-disable-line react-hooks/exhaustive-deps
+  )
+
+  return { files, loading, error, fetchFile, saveFile, deleteFile, reload, resolveImages }
 }

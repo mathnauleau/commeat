@@ -33,11 +33,12 @@ function recipeSlugFromMarkdown(markdown: string): string {
 export function Recipe() {
   const { slug = '' } = useParams()
   const navigate = useNavigate()
-  const { fetchFile, saveFile, deleteFile } = useGitHubFiles()
+  const { fetchFile, saveFile, deleteFile, resolveImages } = useGitHubFiles()
 
   const originalPath = `recipes/${slug}.md`
 
   const [markdown, setMarkdown] = useState('')
+  const [renderedMarkdown, setRenderedMarkdown] = useState('')
   const [loadError, setLoadError] = useState<string | null>(null)
   const [fetching, setFetching] = useState(true)
 
@@ -54,7 +55,12 @@ export function Recipe() {
     setFetching(true)
     setLoadError(null)
     fetchFile(originalPath)
-      .then((md) => { if (!cancelled) { setMarkdown(md); setFetching(false) } })
+      .then(async (md) => {
+        if (cancelled) return
+        setMarkdown(md)
+        const resolved = await resolveImages(md, originalPath)
+        if (!cancelled) { setRenderedMarkdown(resolved); setFetching(false) }
+      })
       .catch((err) => {
         if (!cancelled) {
           setLoadError(err instanceof Error ? err.message : 'Failed to load recipe')
@@ -195,7 +201,7 @@ export function Recipe() {
         ) : (
           <div
             className="prose"
-            dangerouslySetInnerHTML={{ __html: marked.parse(markdown) as string }}
+            dangerouslySetInnerHTML={{ __html: marked.parse(renderedMarkdown) as string }}
           />
         )}
       </main>

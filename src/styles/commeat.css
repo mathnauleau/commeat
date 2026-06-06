@@ -201,7 +201,7 @@ a:hover { color: var(--c-forest-deep); }
 /* ----------------------------------------------------------------------------
    6. CARDS & SURFACES
    ---------------------------------------------------------------------------- */
-.card { background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--r-lg); box-shadow: var(--e-1); }
+.card { background: var(--c-paper); border: 1px solid var(--c-sage-deep); border-radius: var(--r-lg); box-shadow: var(--e-1); }
 
 /* ----------------------------------------------------------------------------
    7. CHIPS, BADGES & TAGS
