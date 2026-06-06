@@ -27,10 +27,16 @@ function extractOrigin(markdown: string): string {
   return markdown.match(/\*\*Origin:\*\*\s*([^\n*]+)/)?.[1]?.trim() ?? ''
 }
 
+function extractTags(markdown: string): string[] {
+  const raw = markdown.match(/\*\*Tags:\*\*\s*([^\n*]+)/)?.[1]?.trim() ?? ''
+  return raw ? raw.split(',').map((t) => t.trim()).filter(Boolean) : []
+}
+
 interface CardInfo {
   path: string
   title: string
   origin: string
+  tags: string[]
 }
 
 function SkeletonCard() {
@@ -84,6 +90,7 @@ export function Shelf() {
         path,
         title: deSlugTitle(pathToSlug(path)),
         origin: '',
+        tags: [],
       })),
     )
 
@@ -92,10 +99,11 @@ export function Shelf() {
         .then((md) => {
           const heading = extractHeading(md)
           const origin = extractOrigin(md)
+          const tags = extractTags(md)
           if (heading) {
             setCards((prev) =>
               prev.map((c) =>
-                c.path === path ? { ...c, title: heading, origin } : c,
+                c.path === path ? { ...c, title: heading, origin, tags } : c,
               ),
             )
           }
@@ -148,6 +156,7 @@ export function Shelf() {
                 key={card.path}
                 title={card.title}
                 origin={card.origin}
+                tags={card.tags}
                 to={`/recipe/${pathToSlug(card.path)}`}
               />
             ))}

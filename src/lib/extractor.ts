@@ -6,6 +6,7 @@ Use this structure:
 # [Recipe title]
 
 **Origin:** [where it came from]
+**Tags:** [2–4 short category tags, comma-separated, e.g. Italian, Pasta, Vegetarian]
 **Prep time:** [time] · **Cook time:** [time] · **Serves:** [number]
 
 ## Ingredients
