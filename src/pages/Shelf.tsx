@@ -7,6 +7,7 @@ import { ImportDialog } from '../components/recipes/ImportDialog'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
 import { useGitHubFiles } from '../hooks/useGitHubFiles'
+import Logo from '../assets/logo.svg?react'
 import PlusIcon from '../assets/icons/plus.svg?react'
 import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
@@ -130,7 +131,7 @@ export function Shelf() {
     <Shell>
       <Header
         left={
-          <span className="t-h3" style={{ letterSpacing: '-0.02em' }}>Commeat</span>
+          <Logo style={{ height: '28px', width: 'auto' }} />
         }
         right={
           <div className="flex items-center gap-1">

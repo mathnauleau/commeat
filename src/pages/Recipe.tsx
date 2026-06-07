@@ -157,10 +157,10 @@ export function Recipe() {
             </div>
           ) : (
             <div className="flex items-center gap-1">
-              <IconButton label="Delete recipe" variant="ghost" onClick={() => setConfirmingDelete(true)}>
+              <IconButton label="Delete recipe" variant="destructive" onClick={() => setConfirmingDelete(true)}>
                 <TrashIcon />
               </IconButton>
-              <IconButton label="Edit recipe" variant="ghost" onClick={enterEdit}>
+              <IconButton label="Edit recipe" variant="default" onClick={enterEdit}>
                 <EditIcon />
               </IconButton>
             </div>

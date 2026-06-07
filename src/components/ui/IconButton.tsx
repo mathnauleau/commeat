@@ -9,10 +9,10 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 const variantClasses: Record<Variant, string> = {
-  default:     'btn btn-primary btn-icon',
-  secondary:   'btn btn-secondary btn-icon',
-  ghost:       'btn btn-ghost btn-icon',
-  destructive: 'btn btn-clay btn-icon',
+  default: 'btn btn-primary btn-icon',
+  secondary: 'btn btn-secondary btn-icon',
+  ghost: 'btn btn-ghost btn-icon',
+  destructive: 'btn btn-destructive btn-icon',
 }
 
 export function IconButton({

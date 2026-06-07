@@ -10,10 +10,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary:     'btn btn-primary',
-  secondary:   'btn btn-secondary',
-  ghost:       'btn btn-ghost',
-  destructive: 'btn btn-clay',
+  primary: 'btn btn-primary',
+  secondary: 'btn btn-secondary',
+  ghost: 'btn btn-ghost',
+  destructive: 'btn btn-destructive',
 }
 
 const sizeClasses: Record<Size, string> = {
