@@ -19,7 +19,7 @@ export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardPr
     >
       <div
         className="flex items-center justify-center overflow-hidden"
-        style={{ height: '9rem', background: 'var(--c-forest-tint)' }}
+        style={{ height: '9rem', background: 'var(--bg-subtle)' }}
       >
         {image
           ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

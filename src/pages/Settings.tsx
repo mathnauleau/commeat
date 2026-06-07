@@ -21,14 +21,14 @@ function ConnectedSection({ username, onDisconnect }: { username: string; onDisc
         <img
           src={avatarUrl}
           alt={`${username}'s GitHub avatar`}
-          style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--c-line)', background: 'var(--c-cream)' }}
+          style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid var(--border-default)', background: 'var(--bg-surface)' }}
         />
         <div className="flex flex-col gap-1 min-w-0">
           <a
             href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontWeight: 600, color: 'var(--c-ink)', fontSize: 'var(--t-body)' }}
+            style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: 'var(--t-body)' }}
           >
             @{username}
           </a>
@@ -37,7 +37,7 @@ function ConnectedSection({ username, onDisconnect }: { username: string; onDisc
             target="_blank"
             rel="noopener noreferrer"
             className="t-caption"
-            style={{ color: 'var(--c-forest)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+            style={{ color: 'var(--text-link)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
           >
             commeat-{username} ↗
           </a>
@@ -73,7 +73,7 @@ function DisconnectedSection() {
 
   return (
     <div className="flex flex-col gap-5">
-      <p style={{ fontSize: 'var(--t-body)', color: 'var(--c-ink-soft)', lineHeight: 'var(--lh-body)', margin: 0 }}>
+      <p style={{ fontSize: 'var(--t-body)', color: 'var(--text-secondary)', lineHeight: 'var(--lh-body)', margin: 0 }}>
         Connect a GitHub account to sync your recipes as Markdown files in a private repo.
         Your recipes live in your account — Commeat just commits them.
       </p>
@@ -90,7 +90,7 @@ function DisconnectedSection() {
           autoComplete="off"
         />
         <p className="hint">
-          Needs <code style={{ fontFamily: 'monospace', background: 'var(--c-cream)', padding: '1px 5px', borderRadius: 'var(--r-sm)' }}>repo</code> scope.
+          Needs <code style={{ fontFamily: 'monospace', background: 'var(--bg-surface)', padding: '1px 5px', borderRadius: 'var(--r-sm)' }}>repo</code> scope.
           GitHub → Settings → Developer settings → Personal access tokens.
         </p>
       </div>
@@ -115,7 +115,7 @@ function ReadOnlyField({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1">
       <span className="overline">{label}</span>
-      <span style={{ fontSize: 'var(--t-body)', color: 'var(--c-ink)' }}>{value}</span>
+      <span style={{ fontSize: 'var(--t-body)', color: 'var(--text-primary)' }}>{value}</span>
     </div>
   )
 }
@@ -125,7 +125,7 @@ const backLinkStyle = {
   alignItems: 'center',
   gap: '6px',
   fontSize: 'var(--t-small)',
-  color: 'var(--c-ink-soft)',
+  color: 'var(--text-secondary)',
   textDecoration: 'none',
   minHeight: '44px',
   padding: '0 4px',
@@ -185,7 +185,7 @@ export function Settings() {
                   style={{ borderRadius: 'var(--r-md)', gap: '6px' }}
                 >
                   Linen
-                  <span className="t-caption" style={{ color: 'var(--c-ink-faint)' }}>Coming soon</span>
+                  <span className="t-caption" style={{ color: 'var(--text-muted)' }}>Coming soon</span>
                 </button>
                 <button
                   type="button"
@@ -194,12 +194,12 @@ export function Settings() {
                   style={{ borderRadius: 'var(--r-md)', gap: '6px' }}
                 >
                   Dusk
-                  <span className="t-caption" style={{ color: 'var(--c-ink-faint)' }}>Coming soon</span>
+                  <span className="t-caption" style={{ color: 'var(--text-muted)' }}>Coming soon</span>
                 </button>
               </div>
             </div>
 
-            <div className="flex gap-8" style={{ borderTop: '1px solid var(--c-line)', paddingTop: 'var(--sp-5)' }}>
+            <div className="flex gap-8" style={{ borderTop: '1px solid var(--border-default)', paddingTop: 'var(--sp-5)' }}>
               <ReadOnlyField label="Card layout" value="Portrait" />
               <ReadOnlyField label="Print format" value="A5" />
             </div>

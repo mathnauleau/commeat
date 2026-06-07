@@ -19,8 +19,8 @@ export function CommitBar({ message, onChange, onConfirm, onCancel }: CommitBarP
       className="sticky z-10"
       style={{
         top: '4rem',
-        borderBottom: '1px solid var(--c-line)',
-        background: 'rgba(251,248,241,0.95)',
+        borderBottom: '1px solid var(--border-default)',
+        background: 'var(--bg-frosted)',
         backdropFilter: 'blur(8px)',
       }}
     >

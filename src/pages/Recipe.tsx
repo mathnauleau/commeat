@@ -18,7 +18,7 @@ const backLinkStyle = {
   alignItems: 'center',
   gap: '6px',
   fontSize: 'var(--t-small)',
-  color: 'var(--c-ink-soft)',
+  color: 'var(--text-secondary)',
   textDecoration: 'none',
   minHeight: '44px',
   padding: '0 4px',
@@ -122,7 +122,7 @@ export function Recipe() {
       <Shell>
         <Header left={<Link to="/" style={backLinkStyle}><BackIcon />Shelf</Link>} />
         <main className="max-w-2xl mx-auto px-4 py-24 flex items-center justify-center">
-          <p className="t-body" style={{ color: 'var(--c-ink-soft)' }}>Loading…</p>
+          <p className="t-body" style={{ color: 'var(--text-secondary)' }}>Loading…</p>
         </main>
       </Shell>
     )
@@ -189,7 +189,7 @@ export function Recipe() {
 
       <main className="max-w-2xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         {saving && (
-          <p className="t-caption" style={{ color: 'var(--c-ink-soft)', marginBottom: '1rem' }}>Saving…</p>
+          <p className="t-caption" style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>Saving…</p>
         )}
         {editing ? (
           <Textarea

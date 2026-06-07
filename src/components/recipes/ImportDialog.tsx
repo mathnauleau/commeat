@@ -38,7 +38,7 @@ function ExtractionSkeleton() {
           style={{
             height: i === 0 ? '20px' : '16px',
             width: `${w * 100}%`,
-            background: 'var(--c-cream)',
+            background: 'var(--bg-surface)',
           }}
         />
       ))}
@@ -143,7 +143,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
                   type="button"
                   onClick={() => fileRef.current?.click()}
                   className="t-caption"
-                  style={{ color: 'var(--c-forest)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
+                  style={{ color: 'var(--text-link)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
                 >
                   upload a photo
                 </button>
@@ -169,17 +169,17 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
                 <div
                   className="rounded-lg px-4 py-3 flex flex-col gap-2"
                   style={{
-                    background: 'rgba(160,82,45,0.08)',
-                    border: '1px solid rgba(160,82,45,0.25)',
+                    background: 'var(--feedback-error-bg-subtle)',
+                    border: '1px solid var(--feedback-error-border-subtle)',
                     borderRadius: 'var(--r-md)',
                   }}
                 >
-                  <p className="t-small" style={{ color: 'var(--c-error)' }}>{error}</p>
+                  <p className="t-small" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
                   <button
                     type="button"
                     onClick={enterManually}
                     className="t-caption"
-                    style={{ color: 'var(--c-ink-soft)', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
+                    style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
                   >
                     Enter the recipe manually instead →
                   </button>
@@ -211,7 +211,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
           />
           <div
             className="flex gap-3 pt-2"
-            style={{ borderTop: '1px solid var(--c-line)' }}
+            style={{ borderTop: '1px solid var(--border-default)' }}
           >
             <Button variant="primary" onClick={() => setStep(3)}>Looks good →</Button>
             <Button variant="ghost" size="sm" onClick={() => { setStep(1); setError(null) }}>← Back</Button>
@@ -224,7 +224,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
         <div className="flex flex-col gap-6">
           <div
             className="p-4 flex flex-col gap-1"
-            style={{ background: 'var(--c-cream)', borderRadius: 'var(--r-md)' }}
+            style={{ background: 'var(--bg-surface)', borderRadius: 'var(--r-md)' }}
           >
             <p className="t-h3" style={{ fontSize: 'var(--t-lead)', lineHeight: 'var(--lh-h3)' }}>
               {extractTitle(markdown)}
@@ -241,7 +241,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
           />
 
           {error && (
-            <p className="t-small" style={{ color: 'var(--c-error)' }}>{error}</p>
+            <p className="t-small" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
           )}
 
           <div className="flex gap-3">

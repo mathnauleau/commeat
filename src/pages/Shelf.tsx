@@ -49,10 +49,10 @@ interface CardInfo {
 function SkeletonCard() {
   return (
     <div className="card animate-pulse overflow-hidden">
-      <div style={{ height: '9rem', background: 'var(--c-cream)' }} />
+      <div style={{ height: '9rem', background: 'var(--bg-surface)' }} />
       <div className="p-4 flex flex-col gap-3">
-        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--c-cream)' }} />
-        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--c-cream)' }} />
+        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--bg-surface)' }} />
+        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--bg-surface)' }} />
       </div>
     </div>
   )
@@ -74,7 +74,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="t-h3">Your cookbook is empty.</h2>
-        <p style={{ color: 'var(--c-ink-soft)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
           Every great collection starts with the first recipe. What will yours be?
         </p>
       </div>
@@ -154,7 +154,7 @@ export function Shelf() {
           <ShelfSkeleton />
         ) : error ? (
           <div className="empty">
-            <p className="t-body" style={{ color: 'var(--c-error)' }}>{error}</p>
+            <p className="t-body" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
           </div>
         ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />

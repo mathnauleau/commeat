@@ -111,6 +111,80 @@
   --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --t-fast: 120ms; --t-base: 200ms; --t-slow: 320ms;
+
+  /* ==========================================================================
+     SEMANTIC TOKENS — use these in all components, never primitives directly
+     ========================================================================== */
+
+  /* Backgrounds */
+  --bg-base:           var(--c-paper);
+  --bg-surface:        var(--c-cream);
+  --bg-surface-raised: #FFFFFF;
+  --bg-sunken:         var(--c-cream-deep);
+  --bg-subtle:         var(--c-forest-tint);
+  --bg-frosted:        rgba(251,248,241,0.95);
+  --overlay-bg:        rgba(35,44,36,0.45);
+
+  /* Content */
+  --text-primary:   var(--c-ink);
+  --text-secondary: var(--c-ink-soft);
+  --text-muted:     var(--c-ink-faint);
+  --text-inverse:   var(--c-paper);
+  --text-link:      var(--c-forest);
+
+  /* Borders */
+  --border-default:  var(--c-line);
+  --border-strong:   var(--c-line-strong);
+  --border-emphasis: var(--c-line-sage);
+
+  /* Primary action — CTA, commit button */
+  --action-primary-bg:       var(--c-forest);
+  --action-primary-bg-hover: var(--c-forest-deep);
+  --action-primary-text:     var(--c-paper);
+
+  /* Secondary action — ghost, cancel */
+  --action-secondary-bg:     transparent;
+  --action-secondary-border: var(--c-line-strong);
+  --action-secondary-text:   var(--c-ink-soft);
+
+  /* Accent primary — forest (nav, active, tags) */
+  --accent-primary:      var(--c-forest);
+  --accent-primary-bg:   var(--c-forest-tint);
+  --accent-primary-text: var(--c-forest-deep);
+
+  /* Accent secondary — clay (forks, new, highlights) */
+  --accent-secondary:      var(--c-clay);
+  --accent-secondary-bg:   var(--c-clay-tint);
+  --accent-secondary-text: var(--c-clay-deep);
+
+  /* Feedback — error */
+  --feedback-error-bg:            var(--c-clay-tint);
+  --feedback-error-bg-subtle:     rgba(160,82,45,0.08);
+  --feedback-error-text:          var(--c-error);
+  --feedback-error-border:        var(--c-clay);
+  --feedback-error-border-subtle: rgba(160,82,45,0.25);
+
+  /* Feedback — success */
+  --feedback-success-bg:     var(--c-forest-tint);
+  --feedback-success-text:   var(--c-forest-deep);
+  --feedback-success-border: var(--c-forest);
+
+  /* Feedback — warning */
+  --feedback-warning-bg:     #F5EDD6;
+  --feedback-warning-text:   #8A5C1A;
+  --feedback-warning-border: #C9973A;
+
+  /* Diff */
+  --diff-add-bg:   var(--c-add-bg);
+  --diff-add-text: var(--c-add-ink);
+  --diff-add-bar:  var(--c-add-bar);
+  --diff-del-bg:   var(--c-del-bg);
+  --diff-del-text: var(--c-del-ink);
+  --diff-del-bar:  var(--c-del-bar);
+
+  /* Focus */
+  --focus-ring:  var(--ring);
+  --focus-color: var(--c-focus);
 }
 
 /* ----------------------------------------------------------------------------
