@@ -6,8 +6,8 @@
 /* Tailwind (must come first so our rules can override it) */
 @import 'tailwindcss';
 
-/* Tokens — design system + Tailwind mappings */
-@import './tokens.css';
+/* Design system — tokens + component styles */
+@import '../../public/commeat.css';
 
 /* ----------------------------------------------------------------------------
    APP-SPECIFIC RULES
