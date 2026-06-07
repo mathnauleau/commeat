@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-type Variant = 'default' | 'ghost'
+type Variant = 'default' | 'secondary' | 'ghost' | 'destructive'
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string
@@ -9,8 +9,10 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 const variantClasses: Record<Variant, string> = {
-  default: 'btn btn-primary btn-icon',
-  ghost:   'btn btn-ghost btn-icon',
+  default:     'btn btn-primary btn-icon',
+  secondary:   'btn btn-secondary btn-icon',
+  ghost:       'btn btn-ghost btn-icon',
+  destructive: 'btn btn-clay btn-icon',
 }
 
 export function IconButton({
