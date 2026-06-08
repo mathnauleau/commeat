@@ -8,6 +8,7 @@ import {
   deleteFile as deleteFileGH,
   GitHubError,
   type GitHubAuth,
+  type GitHubReadConfig,
 } from '../lib/github'
 import { generateReadme } from '../lib/readme'
 import shelfConfig from '../shelf.json'
@@ -23,6 +24,15 @@ function formatError(err: unknown): string {
 
 export function useGitHubFiles() {
   const { token, username, setSyncError } = useGitHubStore()
+
+  // Read config always works — public repo is readable without a token
+  const readConfig: GitHubReadConfig = {
+    username: shelfConfig.repoOwner,
+    repoName: shelfConfig.repoName,
+    token: token ?? undefined,
+  }
+
+  // Write auth — only available when a PAT is configured
   const auth: GitHubAuth | null =
     token && username ? { token, username, repoName: shelfConfig.repoName } : null
 
@@ -31,18 +41,17 @@ export function useGitHubFiles() {
   const [error, setError] = useState<string | null>(null)
 
   const reload = useCallback(async () => {
-    if (!auth) return
     setLoading(true)
     setError(null)
     try {
-      const paths = await listRecipes(auth)
+      const paths = await listRecipes(readConfig)
       setFiles(paths)
     } catch (err) {
       setError(formatError(err))
     } finally {
       setLoading(false)
     }
-  }, [token, username]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     reload()
@@ -61,10 +70,9 @@ export function useGitHubFiles() {
 
   const fetchFile = useCallback(
     async (path: string): Promise<string> => {
-      if (!auth) throw new Error('Not connected to GitHub')
-      return readFile(auth, path)
+      return readFile(readConfig, path)
     },
-    [token, username], // eslint-disable-line react-hooks/exhaustive-deps
+    [token], // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   const saveFile = useCallback(
@@ -107,7 +115,6 @@ export function useGitHubFiles() {
 
   const resolveImages = useCallback(
     async (markdown: string, fromPath: string): Promise<string> => {
-      if (!auth) return markdown
 
       const dir = fromPath.replace(/\/[^/]+$/, '') // e.g. "recipes"
 
@@ -129,7 +136,7 @@ export function useGitHubFiles() {
               if (p === '..') resolved.pop()
               else if (p !== '.') resolved.push(p)
             }
-            const dataUrl = await readImageAsDataUrl(auth, resolved.join('/'))
+            const dataUrl = await readImageAsDataUrl(readConfig, resolved.join('/'))
             return [relPath, dataUrl] as const
           } catch {
             return null
@@ -143,7 +150,7 @@ export function useGitHubFiles() {
       }
       return result
     },
-    [token, username], // eslint-disable-line react-hooks/exhaustive-deps
+    [token], // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   return { files, loading, error, fetchFile, saveFile, deleteFile, reload, resolveImages }

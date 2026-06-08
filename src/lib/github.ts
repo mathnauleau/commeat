@@ -13,6 +13,13 @@ export interface GitHubAuth {
   repoName: string
 }
 
+// Read-only config — token is optional, works against public repos without auth
+export interface GitHubReadConfig {
+  username: string
+  repoName: string
+  token?: string
+}
+
 function encodeToBase64(content: string): string {
   const bytes = new TextEncoder().encode(content)
   let binary = ''
@@ -47,8 +54,20 @@ async function apiFetch(
   })
 }
 
-function repoPath(auth: GitHubAuth, filePath: string): string {
-  return `/repos/${auth.username}/${auth.repoName}/contents/${filePath}`
+// Read-only fetch — no Authorization header when token is absent (public repos)
+async function readFetch(config: GitHubReadConfig, path: string): Promise<Response> {
+  const url = path.startsWith('http') ? path : `https://api.github.com${path}`
+  return fetch(url, {
+    headers: {
+      ...(config.token ? { Authorization: `Bearer ${config.token}` } : {}),
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  })
+}
+
+function repoPath(config: { username: string; repoName: string }, filePath: string): string {
+  return `/repos/${config.username}/${config.repoName}/contents/${filePath}`
 }
 
 export async function validateToken(token: string): Promise<{ username: string }> {
@@ -139,8 +158,8 @@ export async function deleteFile(
   }
 }
 
-export async function readFile(auth: GitHubAuth, filePath: string): Promise<string> {
-  const res = await apiFetch(auth, 'GET', repoPath(auth, filePath))
+export async function readFile(config: GitHubReadConfig, filePath: string): Promise<string> {
+  const res = await readFetch(config, repoPath(config, filePath))
   if (!res.ok) throw new GitHubError(`Could not read file: ${res.status}`, res.status)
   const { content } = await res.json() as { content: string }
   return decodeFromBase64(content)
@@ -151,8 +170,8 @@ const IMAGE_MIME: Record<string, string> = {
   gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml',
 }
 
-export async function readImageAsDataUrl(auth: GitHubAuth, filePath: string): Promise<string> {
-  const res = await apiFetch(auth, 'GET', repoPath(auth, filePath))
+export async function readImageAsDataUrl(config: GitHubReadConfig, filePath: string): Promise<string> {
+  const res = await readFetch(config, repoPath(config, filePath))
   if (!res.ok) throw new GitHubError(`Could not read image: ${res.status}`, res.status)
   const { content } = await res.json() as { content: string }
   const ext = filePath.split('.').pop()?.toLowerCase() ?? ''
@@ -160,11 +179,10 @@ export async function readImageAsDataUrl(auth: GitHubAuth, filePath: string): Pr
   return `data:${mime};base64,${content.replace(/\n/g, '')}`
 }
 
-export async function listRecipes(auth: GitHubAuth): Promise<string[]> {
-  const res = await apiFetch(
-    auth,
-    'GET',
-    `/repos/${auth.username}/${auth.repoName}/contents/recipes`,
+export async function listRecipes(config: GitHubReadConfig): Promise<string[]> {
+  const res = await readFetch(
+    config,
+    `/repos/${config.username}/${config.repoName}/contents/recipes`,
   )
   if (res.status === 404) return []
   if (!res.ok) throw new GitHubError(`Could not list recipes: ${res.status}`, res.status)
