@@ -7,10 +7,13 @@ import { ImportDialog } from '../components/recipes/ImportDialog'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
 import { useGitHubFiles } from '../hooks/useGitHubFiles'
+import { useGitHubStore } from '../store/github'
+import shelfConfig from '../shelf.json'
 import Logo from '../assets/logo.svg?react'
 import PlusIcon from '../assets/icons/plus.svg?react'
 import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
+import GitHubIcon from '../assets/icons/github.svg?react'
 
 function pathToSlug(path: string): string {
   return path.replace(/^recipes\//, '').replace(/\.md$/, '')
@@ -86,8 +89,11 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
   )
 }
 
+const SUGGEST_URL = `https://github.com/${shelfConfig.repoOwner}/${shelfConfig.repoName}/issues/new?title=Recipe+suggestion&body=I%27d+like+to+suggest+a+recipe+for+the+cookbook.`
+
 export function Shelf() {
   const { files, loading, error, fetchFile, saveFile, reload } = useGitHubFiles()
+  const { token } = useGitHubStore()
   const [cards, setCards] = useState<CardInfo[]>([])
   const [importOpen, setImportOpen] = useState(false)
 
@@ -135,6 +141,18 @@ export function Shelf() {
         }
         right={
           <div className="flex items-center gap-1">
+            {!token && (
+              <a
+                href={SUGGEST_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+              >
+                <GitHubIcon style={{ width: '16px', height: '16px', flexShrink: 0 }} />
+                Suggest a recipe
+              </a>
+            )}
             <Link
               to="/settings"
               aria-label="Settings"
@@ -143,9 +161,11 @@ export function Shelf() {
             >
               <SettingsIcon />
             </Link>
-            <IconButton label="Add recipe" variant="default" onClick={() => setImportOpen(true)}>
-              <PlusIcon />
-            </IconButton>
+            {token && (
+              <IconButton label="Add recipe" variant="default" onClick={() => setImportOpen(true)}>
+                <PlusIcon />
+              </IconButton>
+            )}
           </div>
         }
       />

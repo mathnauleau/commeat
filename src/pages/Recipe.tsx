@@ -9,9 +9,12 @@ import { Button } from '../components/ui/Button'
 import { Textarea } from '../components/ui/Textarea'
 import { Dialog } from '../components/ui/Dialog'
 import { useGitHubFiles } from '../hooks/useGitHubFiles'
+import { useGitHubStore } from '../store/github'
+import shelfConfig from '../shelf.json'
 import BackIcon from '../assets/icons/back.svg?react'
 import EditIcon from '../assets/icons/edit.svg?react'
 import TrashIcon from '../assets/icons/trash.svg?react'
+import GitHubIcon from '../assets/icons/github.svg?react'
 
 const backLinkStyle = {
   display: 'inline-flex',
@@ -34,6 +37,7 @@ export function Recipe() {
   const { slug = '' } = useParams()
   const navigate = useNavigate()
   const { fetchFile, saveFile, deleteFile, resolveImages } = useGitHubFiles()
+  const { token } = useGitHubStore()
 
   const originalPath = `recipes/${slug}.md`
 
@@ -157,12 +161,28 @@ export function Recipe() {
             </div>
           ) : (
             <div className="flex items-center gap-1">
-              <IconButton label="Delete recipe" variant="destructive" onClick={() => setConfirmingDelete(true)}>
-                <TrashIcon />
-              </IconButton>
-              <IconButton label="Edit recipe" variant="default" onClick={enterEdit}>
-                <EditIcon />
-              </IconButton>
+              {!token && (
+                <a
+                  href={`https://github.com/${shelfConfig.repoOwner}/${shelfConfig.repoName}/issues/new?title=Suggestion+for+${encodeURIComponent(slug.replace(/-/g, ' '))}&body=I%27d+like+to+suggest+a+change+to+this+recipe.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost btn-sm"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+                >
+                  <GitHubIcon style={{ width: '16px', height: '16px', flexShrink: 0 }} />
+                  Suggest a change
+                </a>
+              )}
+              {token && (
+                <>
+                  <IconButton label="Delete recipe" variant="destructive" onClick={() => setConfirmingDelete(true)}>
+                    <TrashIcon />
+                  </IconButton>
+                  <IconButton label="Edit recipe" variant="default" onClick={enterEdit}>
+                    <EditIcon />
+                  </IconButton>
+                </>
+              )}
             </div>
           )
         }
