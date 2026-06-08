@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Tag } from '../ui/Tag'
-import CookingPotIcon from '../../assets/icons/cooking-pot.svg?react'
+import CookingPotIcon from '../../assets/icons/cooking-pot-l.svg?react'
 
 export interface RecipeCardProps {
   title: string
@@ -19,7 +19,7 @@ export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardPr
     >
       <div
         className="flex items-center justify-center overflow-hidden"
-        style={{ height: '9rem', background: 'var(--bg-subtle)' }}
+        style={{ height: '9rem', background: 'var(--bg-surface)' }}
       >
         {image
           ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

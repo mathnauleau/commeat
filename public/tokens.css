@@ -10,6 +10,7 @@
    ---------------------------------------------------------------------------- */
 :root {
   /* — Primitives — */
+  --white: #FFFFFF; 
   --neutral-50: #FBF6ED; 
   --neutral-100: #F7EDDA;   /* Venetian Lace */
   --neutral-200: #F7DFBA;   /* Macadamia Beige */

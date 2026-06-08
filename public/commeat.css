@@ -16,7 +16,7 @@
 
 body {
   margin: 0;
-  background: var(--neutral-50);
+  background: var(--neutral-100);
   color: var(--green-800);
   font-family: var(--font-body);
   font-size: var(--t-body);
@@ -60,7 +60,7 @@ a:hover { color: var(--green-800); }
 .btn {
   display: inline-flex; align-items: center; gap: var(--sp-2);
   font-family: var(--font-body); font-size: var(--t-small); font-weight: 600;
-  line-height: 1; padding: 11px 18px; border-radius: var(--r-pill);
+  line-height: 1; padding: 12px 18px; border-radius: var(--r-pill);
   border: 1px solid transparent; cursor: pointer; white-space: nowrap;
   transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease),
               border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease),
@@ -94,7 +94,7 @@ a:hover { color: var(--green-800); }
 .label { font-size: var(--t-caption); font-weight: 600; color: var(--green-300); }
 .input, .textarea, .select {
   font-family: var(--font-body); font-size: var(--t-body); color: var(--green-800);
-  background: var(--neutral-100); border: 1px solid var(--neutral-200);
+  background: var(--white); border: 1px solid var(--neutral-200);
   border-radius: var(--r-md); padding: 11px 14px; width: 100%;
   transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
 }
@@ -129,7 +129,7 @@ a:hover { color: var(--green-800); }
 /* ----------------------------------------------------------------------------
    6. CARDS & SURFACES
    ---------------------------------------------------------------------------- */
-.card { background: var(--neutral-100); border: 1px solid var(--neutral-200); border-radius: var(--r-lg);}
+.card { background: var(--white); border: 1px solid var(--neutral-200); border-radius: var(--r-lg);}
 
 /* ----------------------------------------------------------------------------
    7. CHIPS, BADGES & TAGS
