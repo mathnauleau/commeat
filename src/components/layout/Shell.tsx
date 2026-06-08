@@ -5,5 +5,5 @@ interface ShellProps {
 }
 
 export function Shell({ children }: ShellProps) {
-  return <div className="min-h-dvh bg-surface font-body">{children}</div>
+  return <div className="min-h-dvh font-body">{children}</div>
 }

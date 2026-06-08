@@ -16,7 +16,7 @@
 
 body {
   margin: 0;
-  background: var(--neutral-100);
+  background: var(--neutral-50);
   color: var(--green-800);
   font-family: var(--font-body);
   font-size: var(--t-body);
@@ -129,7 +129,7 @@ a:hover { color: var(--green-800); }
 /* ----------------------------------------------------------------------------
    6. CARDS & SURFACES
    ---------------------------------------------------------------------------- */
-.card { background: var(--neutral-100); border: 1px solid var(--neutral-200); border-radius: var(--r-lg); box-shadow: var(--e-1); }
+.card { background: var(--neutral-100); border: 1px solid var(--neutral-200); border-radius: var(--r-lg);}
 
 /* ----------------------------------------------------------------------------
    7. CHIPS, BADGES & TAGS
@@ -138,7 +138,7 @@ a:hover { color: var(--green-800); }
   display: inline-flex; align-items: center; gap: var(--sp-2);
   font-size: var(--t-caption); font-weight: 500; line-height: 1;
   padding: 5px 11px; border-radius: var(--r-pill);
-  background: var(--neutral-100); color: var(--green-300); border: 1px solid var(--neutral-200);
+  background: var(--neutral-50); color: var(--green-300); border: 1px solid var(--neutral-200);
 }
 .chip .ico { width: 14px; height: 14px; }
 

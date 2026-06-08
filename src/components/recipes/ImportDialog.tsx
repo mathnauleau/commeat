@@ -167,7 +167,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
 
               {error && (
                 <div
-                  className="rounded-lg px-4 py-3 flex flex-col gap-2"
+                  className="px-4 py-3 flex flex-col gap-2"
                   style={{
                     background: 'var(--feedback-error-bg-subtle)',
                     border: '1px solid var(--feedback-error-border-subtle)',

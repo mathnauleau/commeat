@@ -10,6 +10,7 @@
    ---------------------------------------------------------------------------- */
 :root {
   /* — Primitives — */
+  --neutral-50: #FBF6ED; 
   --neutral-100: #F7EDDA;   /* Venetian Lace */
   --neutral-200: #F7DFBA;   /* Macadamia Beige */
   --orange-300:  #FFA74F;   /* Pumpkin Vapor */
@@ -58,8 +59,8 @@
      ========================================================================== */
 
   /* Backgrounds */
-  --bg-base:           var(--neutral-100);
-  --bg-surface:        var(--neutral-100);
+  --bg-base:           var(--neutral-50);
+  --bg-surface:        var(--neutral-50);
   --bg-surface-raised: #FFFFFF;
   --bg-sunken:         var(--neutral-100);
   --bg-subtle:         var(--neutral-100);
@@ -135,33 +136,12 @@
 /* ----------------------------------------------------------------------------
    2. TAILWIND THEME MAPPINGS
    @theme is processed by Vite/Tailwind only — browsers skip it harmlessly.
-   Must mirror primitives as static hex values (var() not allowed in @theme).
+   Colors are intentionally excluded: components use CSS classes and var() tokens
+   directly. Only non-color utilities (fonts, radius) need @theme.
    ---------------------------------------------------------------------------- */
 @theme {
   --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-body:    'Spectral', Georgia, serif;
-
-  /* Primitives */
-  --color-neutral-100: #F7EDDA;
-  --color-neutral-200: #F7DFBA;
-  --color-orange-300:  #FFA74F;
-  --color-orange-600:  #f48962;
-  --color-orange-700:  #fe7644;
-  --color-green-300:   #2E4B3C;
-  --color-green-800:   #09332C;
-
-  /* Semantic shortcuts for Tailwind utility classes */
-  --color-surface:           #F7DFBA;   /* neutral-200 */
-  --color-surface-raised:    #F7EDDA;   /* neutral-100 */
-  --color-surface-sunken:    #F7DFBA;   /* neutral-200 */
-  --color-border:            #F7DFBA;   /* neutral-200 */
-  --color-border-strong:     #F7DFBA;   /* neutral-200 */
-  --color-content-primary:   #09332C;   /* green-800 */
-  --color-content-secondary: #2E4B3C;   /* green-300 */
-  --color-content-muted:     #2E4B3C;   /* green-300 */
-  --color-accent:            #2E4B3C;   /* green-300 */
-  --color-accent-soft:       #F7EDDA;   /* neutral-100 */
-  --color-error:             #fe7644;   /* orange-700 */
 
   --radius-sm: 0.375rem;   /* 6px */
   --radius-md: 0.625rem;   /* 10px */
