@@ -25,8 +25,8 @@ export function SyncToast() {
         right: 'var(--sp-6)',
         zIndex: 50,
         maxWidth: '360px',
-        background: 'var(--c-paper)',
-        border: '1px solid rgba(160,82,45,0.3)',
+        background: 'var(--bg-base)',
+        border: '1px solid var(--feedback-error-border-subtle)',
         borderRadius: 'var(--r-lg)',
         boxShadow: 'var(--e-3)',
         padding: 'var(--sp-4) var(--sp-3) var(--sp-4) var(--sp-5)',
@@ -36,14 +36,14 @@ export function SyncToast() {
       }}
     >
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--sp-1)' }}>
-        <p className="t-small" style={{ color: 'var(--c-error)', margin: 0, fontWeight: 500 }}>
+        <p className="t-small" style={{ color: 'var(--feedback-error-text)', margin: 0, fontWeight: 500 }}>
           Sync failed — check your GitHub connection in Settings.
         </p>
         <Link
           to="/settings"
           onClick={clearSyncError}
           className="t-caption"
-          style={{ color: 'var(--c-forest)', textDecoration: 'underline' }}
+          style={{ color: 'var(--text-link)', textDecoration: 'underline' }}
         >
           Go to Settings
         </Link>

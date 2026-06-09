@@ -10,8 +10,8 @@ export interface BadgeProps {
 
 const variantStyles: Record<Variant, CSSProperties> = {
   default: {},
-  accent:  { background: 'var(--c-forest)', color: 'var(--c-paper)', borderColor: 'transparent' },
-  muted:   { background: 'var(--c-forest-tint)', color: 'var(--c-ink-faint)', borderColor: 'transparent' },
+  accent:  { background: 'var(--accent-primary)', color: 'var(--text-inverse)', borderColor: 'transparent' },
+  muted:   { background: 'var(--accent-primary-bg)', color: 'var(--text-muted)', borderColor: 'transparent' },
 }
 
 export function Badge({ variant = 'default', className = '', children }: BadgeProps) {

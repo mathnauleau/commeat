@@ -4,11 +4,9 @@ interface GitHubStore {
   token: string | null
   username: string | null
   syncError: string | null
-  hydrating: boolean
   setAuth: (token: string, username: string) => void
   clearAuth: () => void
   setSyncError: (error: string | null) => void
-  setHydrating: (hydrating: boolean) => void
 }
 
 function loadStored(): { token: string | null; username: string | null } {
@@ -25,7 +23,6 @@ export const useGitHubStore = create<GitHubStore>((set) => ({
   token: stored.token,
   username: stored.username,
   syncError: null,
-  hydrating: false,
 
   setAuth: (token, username) => {
     localStorage.setItem('commeat-github', JSON.stringify({ token, username }))
@@ -38,6 +35,4 @@ export const useGitHubStore = create<GitHubStore>((set) => ({
   },
 
   setSyncError: (error) => set({ syncError: error }),
-
-  setHydrating: (hydrating) => set({ hydrating }),
 }))

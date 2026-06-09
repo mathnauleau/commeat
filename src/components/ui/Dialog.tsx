@@ -31,7 +31,7 @@ export function Dialog({ open, onClose, title, size = 'md', children }: DialogPr
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-10 px-4 pb-4">
       <div
         className="absolute inset-0"
-        style={{ background: 'rgba(35,44,36,0.45)' }}
+        style={{ background: 'var(--overlay-bg)' }}
         onClick={onClose}
         aria-hidden="true"
       />
@@ -46,7 +46,7 @@ export function Dialog({ open, onClose, title, size = 'md', children }: DialogPr
         {title && (
           <div
             className="flex-none flex items-center justify-between px-6 py-4"
-            style={{ borderBottom: '1px solid var(--c-line)' }}
+            style={{ borderBottom: '1px solid var(--border-default)' }}
           >
             <h2
               id="dialog-title"
