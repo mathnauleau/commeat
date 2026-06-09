@@ -167,9 +167,9 @@ export function Recipe() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-ghost btn-sm"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
                 >
-                  <GitHubIcon style={{ width: '16px', height: '16px', flexShrink: 0 }} />
+                  <GitHubIcon style={{ width: '24px', height: '24px', flexShrink: 0 }} />
                   Suggest a change
                 </a>
               )}

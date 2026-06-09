@@ -54,16 +54,25 @@ async function apiFetch(
   })
 }
 
-// Read-only fetch — no Authorization header when token is absent (public repos)
+// Read-only fetch — no Authorization header when token is absent (public repos).
+// If an invalid/expired token causes a 401, retries without auth so public repos
+// remain readable even when the stored token has expired.
 async function readFetch(config: GitHubReadConfig, path: string): Promise<Response> {
   const url = path.startsWith('http') ? path : `https://api.github.com${path}`
-  return fetch(url, {
+  const baseHeaders = {
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  }
+  const res = await fetch(url, {
     headers: {
       ...(config.token ? { Authorization: `Bearer ${config.token}` } : {}),
-      Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
+      ...baseHeaders,
     },
   })
+  if (res.status === 401 && config.token) {
+    return fetch(url, { headers: baseHeaders })
+  }
+  return res
 }
 
 function repoPath(config: { username: string; repoName: string }, filePath: string): string {
@@ -97,7 +106,7 @@ export async function initRepo(auth: GitHubAuth): Promise<void> {
   const create = await apiFetch(auth, 'POST', '/user/repos', {
     name: auth.repoName,
     description: 'My personal cookbook, managed by Commeat — your recipes, committed.',
-    private: true,
+    private: false,
     auto_init: true,
   })
 

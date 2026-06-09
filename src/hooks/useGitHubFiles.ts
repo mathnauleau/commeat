@@ -13,9 +13,10 @@ import {
 import { generateReadme } from '../lib/readme'
 import shelfConfig from '../shelf.json'
 
-function formatError(err: unknown): string {
+function formatError(err: unknown, isWrite = false): string {
   if (err instanceof GitHubError) {
-    if (err.status === 401 || err.status === 403) return 'GitHub authentication failed. Please reconnect in Settings.'
+    if ((err.status === 401 || err.status === 403) && isWrite) return 'GitHub authentication failed. Please reconnect in Settings.'
+    if (err.status === 401 || err.status === 403) return 'Could not reach the recipe shelf. The cookbook may be private.'
     if (err.status === 429) return 'GitHub rate limit reached. Try again in a moment.'
     return `GitHub sync failed: ${err.message}`
   }
@@ -86,7 +87,7 @@ export function useGitHubFiles() {
           return next
         })
       } catch (err) {
-        const msg = formatError(err)
+        const msg = formatError(err, true)
         setSyncError(msg)
         throw err
       }
@@ -105,7 +106,7 @@ export function useGitHubFiles() {
           return next
         })
       } catch (err) {
-        const msg = formatError(err)
+        const msg = formatError(err, true)
         setSyncError(msg)
         throw err
       }

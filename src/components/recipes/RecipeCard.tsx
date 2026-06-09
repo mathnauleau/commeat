@@ -19,25 +19,25 @@ export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardPr
     >
       <div
         className="flex items-center justify-center overflow-hidden"
-        style={{ height: '9rem', background: 'var(--bg-surface)' }}
+        style={{ height: '9rem', background: 'var(--bg-surface-raised)' }}
       >
         {image
-          ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', border: '8px solid white', borderRadius: '16px' }} />
           : <CookingPotIcon width={40} height={40} aria-hidden />
         }
       </div>
 
       {/* Card body */}
-      <div className="p-4 flex flex-col gap-2">
+      <div className="p-4 flex flex-col gap-">
         <h3 className="t-h3" style={{ fontSize: 'var(--t-small)', fontWeight: 600, lineHeight: 'var(--lh-small)' }}>
           {title}
         </h3>
         <div className="flex flex-wrap gap-1">
           {origin && (
-            <Tag style={{ fontSize: '11px', padding: '3px 8px' }}>{origin}</Tag>
+            <Tag style={{ fontSize: '12px', padding: '4px 8px' }}>{origin}</Tag>
           )}
           {tags.map((tag) => (
-            <Tag key={tag} style={{ fontSize: '11px', padding: '3px 8px' }}>{tag}</Tag>
+            <Tag key={tag} style={{ fontSize: '12px', padding: '4px 8px' }}>{tag}</Tag>
           ))}
         </div>
       </div>

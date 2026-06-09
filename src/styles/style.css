@@ -27,6 +27,7 @@
 
 /* ----------------------------------------------------------------------------
    PROSE — recipe markdown rendering
+   Cookbook layout, not a README. Visual hierarchy for recipe structure.
    ---------------------------------------------------------------------------- */
 .prose {
   font-family: var(--font-body);
@@ -35,11 +36,14 @@
   color: var(--green-300);
 }
 
+/* Flow — cookbooks breathe less than essays */
 .prose > * { margin-top: 0; margin-bottom: 0; }
-.prose > * + *  { margin-top: var(--sp-5); }
-.prose > * + h2 { margin-top: var(--sp-7); }
+.prose > * + *  { margin-top: var(--sp-4); }
+.prose > * + h2 { margin-top: var(--sp-8); }
 .prose > * + h3 { margin-top: var(--sp-6); }
+.prose > * + h4 { margin-top: var(--sp-5); }
 
+/* h1 — recipe title */
 .prose h1 {
   font-family: var(--font-display);
   font-size: var(--t-h1);
@@ -47,37 +51,55 @@
   font-weight: 700;
   color: var(--green-800);
   letter-spacing: -0.02em;
-  padding-bottom: 16px;
+  padding-bottom: 24px;
 }
 
+/* h2 — section divider: "Ingredients", "Instructions", "Notes"
+   Treated as an overline label, not a big heading */
 .prose h2 {
   font-family: var(--font-display);
   font-size: var(--t-h2);
   line-height: var(--lh-h2);
-  font-weight: 500;
-  color: var(--green-800);
   padding-bottom: 32px;
+  font-weight: 600;
+  color: var(--green-800);
+  letter-spacing: 0.12em;
+  border-top: 1px solid var(--neutral-300);
+  padding-top: var(--sp-4);
 }
 
+/* h3 — sub-section or prep name: "For the sauce", "Day before" */
 .prose h3 {
   font-family: var(--font-display);
   font-size: var(--t-h3);
   line-height: var(--lh-h3);
   font-weight: 600;
+  font-style: italic;
   color: var(--green-800);
-    padding-bottom: 24px;
+  padding-bottom: 24px;
+}
+
+/* h4 — inline sub-label */
+.prose h4 {
+  font-family: var(--font-body);
+  font-size: var(--t-caption);
+  line-height: var(--lh-caption);
+  font-weight: 600;
+  color: var(--green-300);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .prose p { margin: 0; color: var(--green-300); }
 .prose strong { font-weight: 600; color: var(--green-800); }
 .prose em { font-style: italic; }
 
+/* Blockquote — chef's note: italic, inset, no loud border */
 .prose blockquote {
   padding: var(--sp-3) var(--sp-5);
   margin-left: 0;
   margin-right: 0;
-  background: var(--neutral-100);
-  border-radius: var(--r-md);
+  border-left: 1.5px solid var(--neutral-200);
 }
 
 .prose blockquote p {
@@ -93,23 +115,27 @@
   max-width: 100%;
   height: auto;
   border-radius: var(--r-md);
+  margin: var(--sp-6) 0;
 }
 
+/* ul — ingredient list: tight, minimal indent */
 .prose ul,
 .prose ol {
   padding-left: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
 }
 
-.prose ul { list-style: none; }
+.prose ul {
+  list-style: none;
+  gap: var(--sp-2);
+}
 
 .prose ol {
   list-style: none;
   counter-reset: step;
-  gap: var(--sp-5);
+  gap: var(--sp-4);
 }
 
 .prose ul li {
@@ -119,16 +145,19 @@
   color: var(--green-300);
 }
 
+/* Small dot bullet, not a GitHub-sized blob */
 .prose ul li::before {
   content: '';
   flex-shrink: 0;
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: var(--green-300);
-  margin-top: 0.6em;
+  opacity: 0.45;
+  margin-top: 0.65em;
 }
 
+/* ol — step list: number visually prominent, offset from text */
 .prose ol li {
   display: flex;
   align-items: flex-start;
@@ -140,14 +169,17 @@
 .prose ol li::before {
   content: counter(step);
   flex-shrink: 0;
-  min-width: 2rem;
+  width: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 0.6;
+  color: var(--orange-700);
+  opacity: 0.35;
   text-align: right;
-  font-weight: 600;
-  font-size: var(--t-small);
-  color: var(--green-300);
-  line-height: var(--lh-body);
 }
 
+/* Table — substitution / reference chart: clean, no zebra stripes */
 .prose table {
   width: 100%;
   border-collapse: collapse;
@@ -157,15 +189,55 @@
 .prose th,
 .prose td {
   padding: var(--sp-2) var(--sp-3);
-  border: 1px solid var(--green-300);
   text-align: left;
   vertical-align: top;
+  border: none;
+  border-bottom: 1px solid var(--neutral-200);
 }
 
-.prose th { font-weight: 600; color: var(--green-800); background: var(--neutral-100); }
+.prose th {
+  font-weight: 600;
+  color: var(--green-800);
+  border-bottom: 2px solid var(--neutral-200);
+}
+
 .prose td { color: var(--green-300); }
 
-.prose hr { border: none; border-top: 1px solid var(--green-300); }
+/* hr — section break: short, centered, not full-width */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: var(--neutral-200);
+  width: 48px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* code/pre — quiet aside, not a feature */
+.prose code {
+  font-family: monospace;
+  font-size: var(--t-caption);
+  color: var(--green-300);
+  background: var(--neutral-100);
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+}
+
+.prose pre {
+  background: var(--neutral-100);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  overflow-x: auto;
+  font-size: var(--t-caption);
+  line-height: 1.6;
+  color: var(--green-300);
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
 
 .prose a { color: var(--green-300); text-decoration-color: rgba(46,75,60,0.35); }
 .prose a:hover { color: var(--green-800); }
