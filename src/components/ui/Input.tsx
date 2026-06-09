@@ -11,9 +11,9 @@ export function Input({ label, error, dirty, id: externalId, className = '', sty
   const id = externalId ?? (label ? generatedId : undefined)
 
   const borderStyle: CSSProperties = error
-    ? { borderColor: 'var(--c-error)', borderWidth: '2px' }
+    ? { borderColor: 'var(--feedback-error-text)', borderWidth: '2px' }
     : dirty
-    ? { borderColor: 'var(--c-forest)' }
+    ? { borderColor: 'var(--accent-primary)' }
     : {}
 
   return (
@@ -28,7 +28,7 @@ export function Input({ label, error, dirty, id: externalId, className = '', sty
         {...props}
       />
       {error && (
-        <span className="hint" style={{ color: 'var(--c-error)' }}>{error}</span>
+        <span className="hint" style={{ color: 'var(--feedback-error-text)' }}>{error}</span>
       )}
     </div>
   )

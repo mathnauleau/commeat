@@ -9,7 +9,7 @@ import { useGitHub } from './hooks/useGitHub'
 const ENV_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
 
 function AppRoutes() {
-  const { isConnected, connect, hydrate } = useGitHub()
+  const { isConnected, connect } = useGitHub()
 
   // Auto-connect from env var if not already connected (dev convenience)
   useEffect(() => {
@@ -17,11 +17,6 @@ function AppRoutes() {
       connect(ENV_TOKEN).catch(console.error)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Hydrate store from GitHub on app load when connected
-  useEffect(() => {
-    if (isConnected) hydrate()
-  }, [isConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

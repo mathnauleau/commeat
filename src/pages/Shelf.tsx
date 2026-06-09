@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
 import { Header } from '../components/layout/Header'
@@ -6,20 +6,57 @@ import { RecipeCard } from '../components/recipes/RecipeCard'
 import { ImportDialog } from '../components/recipes/ImportDialog'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
-import { useRecipes } from '../hooks/useRecipes'
-import { useGitHub } from '../hooks/useGitHub'
-import { toSlug } from '../lib/slug'
+import { useGitHubFiles } from '../hooks/useGitHubFiles'
+import { useGitHubStore } from '../store/github'
+import shelfConfig from '../shelf.json'
+import Logo from '../assets/logo.svg?react'
 import PlusIcon from '../assets/icons/plus.svg?react'
 import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
+import GitHubIcon from '../assets/icons/github.svg?react'
+
+function pathToSlug(path: string): string {
+  return path.replace(/^recipes\//, '').replace(/\.md$/, '')
+}
+
+function deSlugTitle(slug: string): string {
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
+function extractHeading(markdown: string): string {
+  return markdown.match(/^#\s+(.+)/m)?.[1] ?? ''
+}
+
+function extractOrigin(markdown: string): string {
+  return markdown.match(/\*\*Origin:\*\*\s*([^\n*]+)/)?.[1]?.trim() ?? ''
+}
+
+function extractTags(markdown: string): string[] {
+  const raw = markdown.match(/\*\*Tags:\*\*\s*([^\n*]+)/)?.[1]?.trim() ?? ''
+  return raw ? raw.split(',').map((t) => t.trim()).filter(Boolean) : []
+}
+
+function extractImage(markdown: string): string | null {
+  const md = markdown.match(/!\[[^\]]*\]\((https?:\/\/[^)]+)\)/)?.[1]
+  const html = markdown.match(/<img[^>]+src="(https?:\/\/[^"]+)"/)?.[1]
+  return md ?? html ?? null
+}
+
+interface CardInfo {
+  path: string
+  title: string
+  origin: string
+  tags: string[]
+  image: string | null
+}
 
 function SkeletonCard() {
   return (
     <div className="card animate-pulse overflow-hidden">
-      <div style={{ height: '9rem', background: 'var(--c-cream)' }} />
+      <div style={{ height: '9rem', background: 'var(--bg-surface)' }} />
       <div className="p-4 flex flex-col gap-3">
-        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--c-cream)' }} />
-        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--c-cream)' }} />
+        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--bg-surface)' }} />
+        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--bg-surface)' }} />
       </div>
     </div>
   )
@@ -41,7 +78,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="t-h3">Your cookbook is empty.</h2>
-        <p style={{ color: 'var(--c-ink-soft)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
           Every great collection starts with the first recipe. What will yours be?
         </p>
       </div>
@@ -52,19 +89,70 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
   )
 }
 
+const SUGGEST_URL = `https://github.com/${shelfConfig.repoOwner}/${shelfConfig.repoName}/issues/new?title=Recipe+suggestion&body=I%27d+like+to+suggest+a+recipe+for+the+cookbook.`
+
 export function Shelf() {
-  const { recipes, addRecipe } = useRecipes()
-  const { hydrating } = useGitHub()
+  const { files, loading, error, fetchFile, saveFile, reload } = useGitHubFiles()
+  const { token } = useGitHubStore()
+  const [cards, setCards] = useState<CardInfo[]>([])
   const [importOpen, setImportOpen] = useState(false)
+
+  // Initialise cards from filenames, then lazily load real titles
+  useEffect(() => {
+    setCards(
+      files.map((path) => ({
+        path,
+        title: deSlugTitle(pathToSlug(path)),
+        origin: '',
+        tags: [],
+        image: null,
+      })),
+    )
+
+    for (const path of files) {
+      fetchFile(path)
+        .then((md) => {
+          const heading = extractHeading(md)
+          const origin = extractOrigin(md)
+          const tags = extractTags(md)
+          const image = extractImage(md)
+          if (heading) {
+            setCards((prev) =>
+              prev.map((c) =>
+                c.path === path ? { ...c, title: heading, origin, tags, image } : c,
+              ),
+            )
+          }
+        })
+        .catch(() => {/* leave filename-derived title */ })
+    }
+  }, [files]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function handleImportClose() {
+    setImportOpen(false)
+    reload()
+  }
 
   return (
     <Shell>
       <Header
         left={
-          <span className="t-h3" style={{ letterSpacing: '-0.02em' }}>Commeat</span>
+          <Logo style={{ height: '28px', width: 'auto' }} />
         }
         right={
           <div className="flex items-center gap-1">
+            {!token && (
+              <a
+                href={SUGGEST_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
+              >
+                <GitHubIcon style={{ width: '24px', height: '24px', flexShrink: 0 }} />
+                Suggest a recipe
+              </a>
+            )}
             <Link
               to="/settings"
               aria-label="Settings"
@@ -73,25 +161,34 @@ export function Shelf() {
             >
               <SettingsIcon />
             </Link>
-            <IconButton label="Add recipe" variant="default" onClick={() => setImportOpen(true)}>
-              <PlusIcon />
-            </IconButton>
+            {token && (
+              <IconButton label="Add recipe" variant="default" onClick={() => setImportOpen(true)}>
+                <PlusIcon />
+              </IconButton>
+            )}
           </div>
         }
       />
 
       <main className="max-w-6xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-        {hydrating ? (
+        {loading ? (
           <ShelfSkeleton />
-        ) : recipes.length === 0 ? (
+        ) : error ? (
+          <div className="empty">
+            <p className="t-body" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
+          </div>
+        ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
         ) : (
           <div className="recipe-grid gap-5">
-            {recipes.map((recipe) => (
+            {cards.map((card) => (
               <RecipeCard
-                key={recipe.title}
-                recipe={recipe}
-                to={`/recipe/${toSlug(recipe.title)}`}
+                key={card.path}
+                title={card.title}
+                origin={card.origin}
+                tags={card.tags}
+                image={card.image}
+                to={`/recipe/${pathToSlug(card.path)}`}
               />
             ))}
           </div>
@@ -100,8 +197,8 @@ export function Shelf() {
 
       <ImportDialog
         open={importOpen}
-        onClose={() => setImportOpen(false)}
-        addRecipe={addRecipe}
+        onClose={handleImportClose}
+        saveFile={saveFile}
       />
     </Shell>
   )

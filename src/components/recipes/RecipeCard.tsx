@@ -1,49 +1,44 @@
 import { Link } from 'react-router-dom'
 import { Tag } from '../ui/Tag'
-import type { Recipe } from '../../types'
+import CookingPotIcon from '../../assets/icons/cooking-pot-l.svg?react'
 
-interface RecipeCardProps {
-  recipe: Recipe
+export interface RecipeCardProps {
+  title: string
+  origin: string
+  tags?: string[]
+  image?: string | null
   to: string
 }
 
-export function RecipeCard({ recipe, to }: RecipeCardProps) {
+export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardProps) {
   return (
     <Link
       to={to}
       className="card card-hover block overflow-hidden focus:outline-none"
       style={{ textDecoration: 'none' }}
     >
-      {/* Illustration placeholder */}
       <div
-        className="flex items-center justify-center"
-        style={{ height: '9rem', background: 'var(--c-forest-tint)' }}
+        className="flex items-center justify-center overflow-hidden"
+        style={{ height: '9rem', background: 'var(--bg-surface-raised)' }}
       >
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-          <path
-            d="M20 6 C14 6 8 8 8 12 L8 32 C8 34 10 35 12 35 L20 35 L28 35 C30 35 32 34 32 32 L32 12 C32 8 26 6 20 6 Z"
-            fill="var(--c-cream)"
-            stroke="var(--c-line-sage)"
-            strokeWidth="1"
-          />
-          <line x1="20" y1="6" x2="20" y2="35" stroke="var(--c-line-sage)" strokeWidth="1" />
-          <line x1="11" y1="17" x2="18" y2="17" stroke="var(--c-ink-faint)" strokeWidth="1" strokeLinecap="round" />
-          <line x1="11" y1="21" x2="18" y2="21" stroke="var(--c-ink-faint)" strokeWidth="1" strokeLinecap="round" />
-          <line x1="11" y1="25" x2="16" y2="25" stroke="var(--c-ink-faint)" strokeWidth="1" strokeLinecap="round" />
-          <line x1="22" y1="17" x2="29" y2="17" stroke="var(--c-ink-faint)" strokeWidth="1" strokeLinecap="round" />
-          <line x1="22" y1="21" x2="29" y2="21" stroke="var(--c-ink-faint)" strokeWidth="1" strokeLinecap="round" />
-          <line x1="22" y1="25" x2="27" y2="25" stroke="var(--c-ink-faint)" strokeWidth="1" strokeLinecap="round" />
-        </svg>
+        {image
+          ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', border: '8px solid white', borderRadius: '16px' }} />
+          : <CookingPotIcon width={40} height={40} aria-hidden />
+        }
       </div>
 
       {/* Card body */}
-      <div className="p-4 flex flex-col gap-2">
+      <div className="p-4 flex flex-col gap-">
         <h3 className="t-h3" style={{ fontSize: 'var(--t-small)', fontWeight: 600, lineHeight: 'var(--lh-small)' }}>
-          {recipe.title}
+          {title}
         </h3>
-        <div className="flex items-center justify-between gap-2">
-          <Tag style={{ fontSize: '11px', padding: '3px 8px' }}>{recipe.origin}</Tag>
-          <span className="t-caption" style={{ flexShrink: 0 }}>{recipe.prepTime}</span>
+        <div className="flex flex-wrap gap-1">
+          {origin && (
+            <Tag style={{ fontSize: '12px', padding: '4px 8px' }}>{origin}</Tag>
+          )}
+          {tags.map((tag) => (
+            <Tag key={tag} style={{ fontSize: '12px', padding: '4px 8px' }}>{tag}</Tag>
+          ))}
         </div>
       </div>
     </Link>

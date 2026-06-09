@@ -51,29 +51,133 @@ One concern per file. No component over 200 lines. Co-locate feature components,
 
 ## Design tokens
 
-```js
-// tailwind.config.ts
-colors: {
-  surface: {
-    DEFAULT: '#F2F5F0',   // sage parchment
-    raised: '#FFFFFF',
-    sunken: '#E4EBE1',
-  },
-  border: {
-    DEFAULT: '#C8D8C4',
-    strong: '#A8C0A2',
-  },
-  content: {
-    primary: '#1A2E22',   // forest ink
-    secondary: '#4A6B54',
-    muted: '#7A9E84',
-  },
-  accent: {
-    DEFAULT: '#3A6B4A',   // forest green
-    soft: '#E4EBE1',
-  },
-}
+The color system is two-layered. **Always use semantic tokens in components — never primitives directly.**
+
+### Layer 1 — Primitives (in globals.css, never used in components)
+
+```css
+/* Sage */
+--c-sage:        #D7DEC9;
+--c-sage-deep:   #C5CEB2;
+--c-paper:       #FBF8F1;
+--c-cream:       #F3ECDD;
+--c-cream-deep:  #EADFCB;
+
+/* Ink */
+--c-ink:         #232C24;
+--c-ink-soft:    #4C564B;
+--c-ink-faint:   #828B79;
+
+/* Forest green — brand + primary actions */
+--c-forest:      #3A6B4A;
+--c-forest-deep: #2C5239;
+--c-forest-tint: #E3EADB;
+
+/* Clay — secondary accent, forks, highlights */
+--c-clay:        #BC6B47;
+--c-clay-deep:   #9F562F;
+--c-clay-tint:   #F2E1D5;
+
+/* Lines */
+--c-line:        #DED6C4;
+--c-line-strong: #CDC4AE;
+--c-line-sage:   #B7C0A2;
+
+/* Error */
+--c-error:       #A0522D;
+
+/* Diff */
+--c-add-bg: #E4ECDC; --c-add-ink: #355B3F; --c-add-bar: #6E9A6E;
+--c-del-bg: #F3E2D6; --c-del-ink: #9F562F; --c-del-bar: #C99172;
+
+/* Focus */
+--c-focus: #3A6B4A;
+--ring:     0 0 0 3px rgba(58,107,74,0.28);
 ```
+
+### Layer 2 — Semantic tokens (use these in all components)
+
+```css
+/* Backgrounds */
+--bg-base:              var(--c-paper);
+--bg-surface:           var(--c-cream);
+--bg-surface-raised:    #FFFFFF;
+--bg-sunken:            var(--c-cream-deep);
+--bg-subtle:            var(--c-forest-tint);
+
+/* Content */
+--text-primary:         var(--c-ink);
+--text-secondary:       var(--c-ink-soft);
+--text-muted:           var(--c-ink-faint);
+--text-inverse:         var(--c-paper);
+--text-link:            var(--c-forest);
+
+/* Borders */
+--border-default:       var(--c-line);
+--border-strong:        var(--c-line-strong);
+--border-emphasis:      var(--c-line-sage);
+
+/* Primary action — CTA, commit button */
+--action-primary-bg:       var(--c-forest);
+--action-primary-bg-hover: var(--c-forest-deep);
+--action-primary-text:     var(--c-paper);
+
+/* Secondary action — ghost, cancel */
+--action-secondary-bg:     transparent;
+--action-secondary-border: var(--c-line-strong);
+--action-secondary-text:   var(--c-ink-soft);
+
+/* Accent primary — forest (nav, active, tags) */
+--accent-primary:          var(--c-forest);
+--accent-primary-bg:       var(--c-forest-tint);
+--accent-primary-text:     var(--c-forest-deep);
+
+/* Accent secondary — clay (forks, new, highlights) */
+--accent-secondary:        var(--c-clay);
+--accent-secondary-bg:     var(--c-clay-tint);
+--accent-secondary-text:   var(--c-clay-deep);
+
+/* Feedback — error */
+--feedback-error-bg:       var(--c-clay-tint);
+--feedback-error-text:     var(--c-error);
+--feedback-error-border:   var(--c-clay);
+
+/* Feedback — success */
+--feedback-success-bg:     var(--c-forest-tint);
+--feedback-success-text:   var(--c-forest-deep);
+--feedback-success-border: var(--c-forest);
+
+/* Feedback — warning */
+--feedback-warning-bg:     #F5EDD6;
+--feedback-warning-text:   #8A5C1A;
+--feedback-warning-border: #C9973A;
+
+/* Diff */
+--diff-add-bg:   var(--c-add-bg);
+--diff-add-text: var(--c-add-ink);
+--diff-add-bar:  var(--c-add-bar);
+--diff-del-bg:   var(--c-del-bg);
+--diff-del-text: var(--c-del-ink);
+--diff-del-bar:  var(--c-del-bar);
+
+/* Focus */
+--focus-ring:    var(--ring);
+--focus-color:   var(--c-focus);
+```
+
+### Rule
+
+- **Primitives** live in `globals.css` only — never referenced in components
+- **Semantic tokens** are the only tokens used in components and Tailwind classes
+- Adding a new color = add a primitive first, then a semantic token that references it
+
+### Tailwind v4 constraint — do not try to fix this
+
+JSX rarely uses Tailwind color utilities directly. Most colors are applied through CSS classes like `.btn-primary`, `.card`, `.prose` — all driven by `:root` semantic tokens.
+
+`@theme` is intentionally mostly unused. Tailwind v4's `@theme` requires static values and cannot resolve `var()` references, which means it cannot point at `:root` variables. The duplication between `@theme` and `:root` is the known, accepted cost of having both systems.
+
+**Never attempt to unify `@theme` and `:root` by inlining hex values into `@theme` — that defeats the purpose of the semantic layer. Leave the duplication as-is.**
 
 Typography: `font-display` → Fraunces, `font-body` → DM Sans. Never use system-ui as a primary font.
 

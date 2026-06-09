@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-type Variant = 'primary' | 'secondary' | 'ghost'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'destructive'
 type Size = 'sm' | 'md'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,9 +10,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary:   'btn btn-primary',
+  primary: 'btn btn-primary',
   secondary: 'btn btn-secondary',
-  ghost:     'btn btn-ghost',
+  ghost: 'btn btn-ghost',
+  destructive: 'btn btn-destructive',
 }
 
 const sizeClasses: Record<Size, string> = {

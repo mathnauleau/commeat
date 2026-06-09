@@ -1,26 +1,24 @@
 import Anthropic from '@anthropic-ai/sdk'
-import type { Recipe } from '../types'
 
-const SYSTEM_PROMPT = `You are a recipe extraction assistant. Extract recipe information from the provided content and return it as a valid JSON object.
+const SYSTEM_PROMPT = `Extract this recipe and return it as clean Markdown only.
+Use this structure:
 
-The JSON must match this exact structure:
-{
-  "title": "string — the recipe name",
-  "origin": "string — who or where this recipe is from (e.g. 'Grandma Marie', 'The Guardian', 'nytimes.com')",
-  "tags": ["array of 2–4 lowercase tags, e.g. italian, vegetarian, quick"],
-  "prepTime": "string — e.g. '15 min'",
-  "cookTime": "string — e.g. '45 min'",
-  "servings": 4,
-  "quote": "optional string — a memorable quote or tip about the dish, omit key if none",
-  "ingredients": ["array — one ingredient per item with quantities"],
-  "steps": ["array — one step per item, written as clear instructions starting with a verb"],
-  "notes": "optional string — additional tips, omit key if none"
-}
+# [Recipe title]
 
-Rules:
-- Return ONLY the JSON object. No markdown fences, no explanation, no preamble.
-- ingredients and steps must be non-empty arrays.
-- If a field cannot be determined, use an empty string or 0 for numbers.`
+**Origin:** [where it came from]
+**Tags:** [2–4 short category tags, comma-separated, e.g. Italian, Pasta, Vegetarian]
+**Prep time:** [time] · **Cook time:** [time] · **Serves:** [number]
+
+## Ingredients
+- [ingredient]
+
+## Steps
+1. [step]
+
+## Notes
+[any notes]
+
+Return only the Markdown. No preamble, no explanation, no code fences.`
 
 function getClient(): Anthropic {
   const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
@@ -32,11 +30,6 @@ function getClient(): Anthropic {
   return new Anthropic({ apiKey, dangerouslyAllowBrowser: true })
 }
 
-function parseResponse(text: string): Partial<Recipe> {
-  const clean = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim()
-  return JSON.parse(clean) as Partial<Recipe>
-}
-
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer)
   let binary = ''
@@ -44,7 +37,7 @@ function arrayBufferToBase64(buffer: ArrayBuffer): string {
   return btoa(binary)
 }
 
-async function callClaude(userContent: string): Promise<Partial<Recipe>> {
+async function callClaude(userContent: string): Promise<string> {
   const client = getClient()
   const msg = await client.messages.create({
     model: 'claude-sonnet-4-20250514',
@@ -52,8 +45,7 @@ async function callClaude(userContent: string): Promise<Partial<Recipe>> {
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: userContent }],
   })
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : ''
-  return parseResponse(text)
+  return msg.content[0].type === 'text' ? msg.content[0].text : ''
 }
 
 async function fetchPageText(url: string): Promise<string> {
@@ -66,7 +58,7 @@ async function fetchPageText(url: string): Promise<string> {
   return (doc.body?.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 8000)
 }
 
-export async function extractFromUrl(url: string): Promise<Partial<Recipe>> {
+export async function extractFromUrl(url: string): Promise<string> {
   let pageText = ''
   try {
     pageText = await fetchPageText(url)
@@ -74,25 +66,18 @@ export async function extractFromUrl(url: string): Promise<Partial<Recipe>> {
     // CORS or network failure — fall back to URL-only context
   }
 
-  const hostname = new URL(url).hostname.replace(/^www\./, '')
   const content = pageText
     ? `URL: ${url}\n\nPage content:\n${pageText}`
-    : `URL: ${url}\n\n(Page content could not be fetched. Extract what metadata you can from the URL, and use placeholder values for anything you cannot determine.)`
+    : `URL: ${url}\n\n(Page content could not be fetched. Extract what you can from the URL.)`
 
-  const partial = await callClaude(content)
-  return {
-    ...partial,
-    importedFrom: url,
-    origin: partial.origin || `From ${hostname}`,
-  }
+  return callClaude(content)
 }
 
-export async function extractFromText(text: string): Promise<Partial<Recipe>> {
-  const partial = await callClaude(text)
-  return { ...partial, importedFrom: 'manual entry' }
+export async function extractFromText(text: string): Promise<string> {
+  return callClaude(text)
 }
 
-export async function extractFromImage(file: File): Promise<Partial<Recipe>> {
+export async function extractFromImage(file: File): Promise<string> {
   const client = getClient()
   const buffer = await file.arrayBuffer()
   const base64 = arrayBufferToBase64(buffer)
@@ -111,6 +96,5 @@ export async function extractFromImage(file: File): Promise<Partial<Recipe>> {
     }],
   })
 
-  const text = msg.content[0].type === 'text' ? msg.content[0].text : ''
-  return { ...parseResponse(text), importedFrom: file.name }
+  return msg.content[0].type === 'text' ? msg.content[0].text : ''
 }

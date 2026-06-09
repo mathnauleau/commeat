@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import { generateReadme } from './readme'
-import { mockRecipes } from './mockData'
 
 describe('generateReadme', () => {
   it('renders the title and tagline for any input', () => {
@@ -18,52 +17,39 @@ describe('generateReadme', () => {
   })
 
   it('renders a table with the correct headers for non-empty input', () => {
-    const md = generateReadme(mockRecipes, 'mathieu')
-    expect(md).toContain('| Recipe | Origin | Tags | Last committed | Version |')
-    expect(md).toContain('| --- | --- | --- | --- | --- |')
+    const md = generateReadme(['recipes/tomato-sauce.md'], 'mathieu')
+    expect(md).toContain('| Recipe | File |')
+    expect(md).toContain('| --- | --- |')
   })
 
-  it('includes a row for every recipe', () => {
-    const md = generateReadme(mockRecipes, 'mathieu')
-    expect(md).toContain("Grandma Marie's Tomato Sauce")
-    expect(md).toContain('Weeknight Pasta Carbonara')
+  it('derives readable names from file slugs', () => {
+    const md = generateReadme(['recipes/grandmas-tomato-sauce.md'], 'mathieu')
+    expect(md).toContain('Grandmas Tomato Sauce')
+  })
+
+  it('includes a row for every file', () => {
+    const files = [
+      'recipes/tomato-sauce.md',
+      'recipes/carbonara.md',
+      'recipes/shakshuka.md',
+    ]
+    const md = generateReadme(files, 'mathieu')
+    expect(md).toContain('Tomato Sauce')
+    expect(md).toContain('Carbonara')
     expect(md).toContain('Shakshuka')
   })
 
-  it('includes origin, tags, date, and version in each row', () => {
-    const md = generateReadme(mockRecipes, 'mathieu')
-    expect(md).toContain('Grandma Marie')
-    expect(md).toContain('italian, sauce, family')
-    expect(md).toContain('2024-12-24')
-    expect(md).toContain('v3')
-  })
-
-  it('sorts rows by committedAt descending — most recent first', () => {
-    const md = generateReadme(mockRecipes, 'mathieu')
-    const tableRows = md
-      .split('\n')
-      .filter((l) => l.startsWith('| ') && !l.startsWith('| Recipe') && !l.startsWith('| ---'))
-
-    // committedAt: Shakshuka 2025-03-02, Carbonara 2025-01-15, Grandma Marie 2024-12-24
-    expect(tableRows[0]).toContain('Shakshuka')
-    expect(tableRows[1]).toContain('Weeknight Pasta Carbonara')
-    expect(tableRows[2]).toContain("Grandma Marie")
-  })
-
-  it('does not mutate the original array when sorting', () => {
-    const originalOrder = mockRecipes.map((r) => r.title)
-    generateReadme(mockRecipes, 'mathieu')
-    expect(mockRecipes.map((r) => r.title)).toEqual(originalOrder)
+  it('includes file paths in the table', () => {
+    const md = generateReadme(['recipes/tomato-sauce.md'], 'mathieu')
+    expect(md).toContain('recipes/tomato-sauce.md')
   })
 
   it('escapes pipe characters in cell values', () => {
-    const recipe = {
-      ...mockRecipes[0],
-      title: 'Sauce | Classic',
-      tags: ['a|b', 'c'],
+    const md = generateReadme(['recipes/sauce-classic.md'], 'mathieu')
+    const tableRows = md.split('\n').filter((l) => l.startsWith('|') && !l.startsWith('| ---'))
+    for (const row of tableRows) {
+      const cells = row.split('|').filter(Boolean)
+      expect(cells.length).toBeGreaterThanOrEqual(2)
     }
-    const md = generateReadme([recipe], 'mathieu')
-    expect(md).toContain('Sauce \\| Classic')
-    expect(md).toContain('a\\|b')
   })
 })
