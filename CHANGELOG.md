@@ -1,6 +1,26 @@
 # Changelog
 
-## [Unreleased] — SVG icon files · 2026-06-05
+## [v1.1.0] — File-first architecture & UI polish · 2026-06-09
+
+### Changed
+- **Architecture** — Replaced Zustand recipe store and typed parser with a file-first model. GitHub-hosted `.md` files are now the source of truth via a new `useGitHubFiles` hook.
+- **Markdown rendering** — Recipe view and editor now operate on raw Markdown (via `marked`), removing the intermediate typed-recipe layer.
+- **Design tokens** — Extracted to `public/tokens.css` as a single source of truth. Removed `@theme` color entries; all components reference semantic tokens only.
+
+### Added
+- **Read-only mode** — Shelf and recipes are browsable without a GitHub account; a sign-in prompt appears on write actions.
+- **Recipe images** — Images in recipe Markdown are resolved from the repo and shown in the recipe view and as shelf card thumbnails.
+- **Commeat logo** — SVG logo replaces the plain text title in the shelf header.
+- **Tags on cards** — Recipe tags from frontmatter now appear on shelf cards.
+
+### Fixed
+- GitHub read operations retry without auth on 401, so public repos load even with an expired token.
+- Write errors are now distinguished from read errors with clearer user-facing messages.
+- New repos are created public by default.
+
+---
+
+## [v1.0.0] — SVG icon files · 2026-06-05
 
 Extracted all inline SVG icon functions to standalone files in `src/assets/icons/`. No visual changes.
 
