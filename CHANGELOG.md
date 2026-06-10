@@ -4,6 +4,7 @@
 
 ### Fixed
 - GitHub read operations now also retry without auth on 403, so public repos load even when the stored token is expired or revoked.
+- GitHub's unauthenticated rate limit (60 req/hour per IP) returns 403, not 429. The app now reads the response body to distinguish rate limiting from access errors, and shows "Connect a GitHub account in Settings to continue" instead of the misleading "cookbook may be private" message.
 
 ---
 

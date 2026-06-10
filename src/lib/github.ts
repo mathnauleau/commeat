@@ -194,6 +194,11 @@ export async function listRecipes(config: GitHubReadConfig): Promise<string[]> {
     `/repos/${config.username}/${config.repoName}/contents/recipes`,
   )
   if (res.status === 404) return []
+  if (res.status === 403) {
+    const body = await res.json().catch(() => ({})) as { message?: string }
+    const isRateLimit = typeof body.message === 'string' && body.message.toLowerCase().includes('rate limit')
+    throw new GitHubError(isRateLimit ? 'rate limit' : `Could not list recipes: 403`, isRateLimit ? 429 : 403)
+  }
   if (!res.ok) throw new GitHubError(`Could not list recipes: ${res.status}`, res.status)
 
   const items = await res.json() as Array<{ type: string; name: string; path: string }>

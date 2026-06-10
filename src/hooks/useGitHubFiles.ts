@@ -17,7 +17,7 @@ function formatError(err: unknown, isWrite = false): string {
   if (err instanceof GitHubError) {
     if ((err.status === 401 || err.status === 403) && isWrite) return 'GitHub authentication failed. Please reconnect in Settings.'
     if (err.status === 401 || err.status === 403) return 'Could not reach the recipe shelf. The cookbook may be private.'
-    if (err.status === 429) return 'GitHub rate limit reached. Try again in a moment.'
+    if (err.status === 429) return 'GitHub rate limit reached. Connect a GitHub account in Settings to continue.'
     return `GitHub sync failed: ${err.message}`
   }
   return err instanceof Error ? err.message : 'GitHub sync failed.'
