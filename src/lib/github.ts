@@ -69,7 +69,7 @@ async function readFetch(config: GitHubReadConfig, path: string): Promise<Respon
       ...baseHeaders,
     },
   })
-  if (res.status === 401 && config.token) {
+  if ((res.status === 401 || res.status === 403) && config.token) {
     return fetch(url, { headers: baseHeaders })
   }
   return res

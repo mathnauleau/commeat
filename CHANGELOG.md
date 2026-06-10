@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.1.1] — 2026-06-10
+
+### Fixed
+- GitHub read operations now also retry without auth on 403, so public repos load even when the stored token is expired or revoked.
+
+---
+
 ## [v1.1.0] — File-first architecture & UI polish · 2026-06-09
 
 ### Changed
