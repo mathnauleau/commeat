@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
+import { ParallaxBackground } from '../components/layout/ParallaxBackground'
 import { Header } from '../components/layout/Header'
 import { RecipeCard } from '../components/recipes/RecipeCard'
 import { ImportDialog } from '../components/recipes/ImportDialog'
@@ -148,6 +149,7 @@ export function Shelf() {
 
   return (
     <Shell>
+      <ParallaxBackground />
       <Header
         left={
           <Logo style={{ height: '28px', width: 'auto' }} />
@@ -162,7 +164,6 @@ export function Shelf() {
             onBlur={() => setSearchFocused(false)}
             style={{
               width: '100%',
-              maxWidth: '24rem',
               height: '40px',
               padding: '0 12px',
               borderRadius: '9999px',
