@@ -1,5 +1,18 @@
 # Changelog
 
+## [v1.2] — UI polish · 2026-06-11
+
+### Added
+- **Parallax background** — Floating food illustrations (onion, tomato, broccoli, cheese, fish, jambon, pasta, radis, garlic, shrimp) drift at varying speeds on the Shelf page. Scoped to the homepage only to preserve readability on recipe pages.
+- **Shelf search** — Search bar in the header filters recipes by title, tag, or origin in real time. Empty results use the standard `.empty` state pattern with a "Clear search" action.
+- **Floating pill header** — Header styled as a floating pill with 16px margin, full border, and pill border-radius. On mobile, the search bar drops to a second row below the logo and buttons.
+
+### Changed
+- Rate limit error on the Shelf now uses the full `.empty` state (icon, heading, description, "Go to Settings" action) instead of a plain text message.
+- Food illustration SVGs updated to use `currentColor` so stroke and fill inherit from CSS.
+
+---
+
 ## [v1.1.1] — 2026-06-10
 
 ### Fixed

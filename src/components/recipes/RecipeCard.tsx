@@ -19,7 +19,7 @@ export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardPr
     >
       <div
         className="flex items-center justify-center overflow-hidden"
-        style={{ height: '9rem', background: 'var(--bg-surface-raised)' }}
+        style={{ height: '10rem', background: 'var(--bg-surface-raised)' }}
       >
         {image
           ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', border: '8px solid white', borderRadius: '16px' }} />
@@ -28,7 +28,7 @@ export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardPr
       </div>
 
       {/* Card body */}
-      <div className="p-4 flex flex-col gap-">
+      <div className="px-4 pt-2 flex flex-col gap-1" style={{ paddingBottom: '16px' }}>
         <h3 className="t-h3" style={{ fontSize: 'var(--t-small)', fontWeight: 600, lineHeight: 'var(--lh-small)' }}>
           {title}
         </h3>

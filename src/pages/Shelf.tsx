@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
+import { ParallaxBackground } from '../components/layout/ParallaxBackground'
 import { Header } from '../components/layout/Header'
 import { RecipeCard } from '../components/recipes/RecipeCard'
 import { ImportDialog } from '../components/recipes/ImportDialog'
@@ -96,6 +97,19 @@ export function Shelf() {
   const { token } = useGitHubStore()
   const [cards, setCards] = useState<CardInfo[]>([])
   const [importOpen, setImportOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const [searchFocused, setSearchFocused] = useState(false)
+
+  const visibleCards = query.trim()
+    ? cards.filter((c) => {
+      const q = query.toLowerCase()
+      return (
+        c.title.toLowerCase().includes(q) ||
+        c.tags.some((t) => t.toLowerCase().includes(q)) ||
+        c.origin.toLowerCase().includes(q)
+      )
+    })
+    : cards
 
   // Initialise cards from filenames, then lazily load real titles
   useEffect(() => {
@@ -135,9 +149,33 @@ export function Shelf() {
 
   return (
     <Shell>
+      <ParallaxBackground />
       <Header
         left={
           <Logo style={{ height: '28px', width: 'auto' }} />
+        }
+        center={
+          <input
+            type="search"
+            placeholder="Search recipes…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            style={{
+              width: '100%',
+              height: '40px',
+              padding: '0 12px',
+              borderRadius: '9999px',
+              border: `1px solid ${searchFocused ? 'var(--focus-color)' : 'var(--border-strong)'}`,
+              background: 'var(--bg-surface-raised)',
+              color: 'var(--text-primary)',
+              fontSize: 'var(--t-small)',
+              outline: 'none',
+              boxShadow: searchFocused ? 'var(--ring)' : 'none',
+              transition: 'border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)',
+            }}
+          />
         }
         right={
           <div className="flex items-center gap-1">
@@ -175,13 +213,33 @@ export function Shelf() {
           <ShelfSkeleton />
         ) : error ? (
           <div className="empty">
-            <p className="t-body" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
+            <div className="empty-mark" style={{ background: 'var(--c-clay-tint)', color: 'var(--c-clay-deep)' }}>
+              <GitHubIcon />
+            </div>
+            <h3 className="t-h3">Rate limit reached</h3>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+              Connect a GitHub account in Settings to keep browsing your cookbook.
+            </p>
+            <Link to="/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>
+              Go to Settings
+            </Link>
           </div>
         ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
+        ) : visibleCards.length === 0 ? (
+          <div className="empty">
+            <div className="empty-mark" style={{ background: 'var(--c-clay-tint)', color: 'var(--c-clay-deep)' }}>
+              <BookIcon />
+            </div>
+            <h3 className="t-h3">Nothing found</h3>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+              No recipes match "{query}". Try a different word, or clear your search.
+            </p>
+            <Button variant="primary" onClick={() => setQuery('')}>Clear search</Button>
+          </div>
         ) : (
           <div className="recipe-grid gap-5">
-            {cards.map((card) => (
+            {visibleCards.map((card) => (
               <RecipeCard
                 key={card.path}
                 title={card.title}
