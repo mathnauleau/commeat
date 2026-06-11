@@ -97,6 +97,7 @@ export function Shelf() {
   const [cards, setCards] = useState<CardInfo[]>([])
   const [importOpen, setImportOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [searchFocused, setSearchFocused] = useState(false)
 
   const visibleCards = query.trim()
     ? cards.filter((c) => {
@@ -157,17 +158,21 @@ export function Shelf() {
             placeholder="Search recipes…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
             style={{
               width: '100%',
               maxWidth: '24rem',
               height: '40px',
               padding: '0 12px',
               borderRadius: '9999px',
-              border: '1px solid var(--border-strong)',
+              border: `1px solid ${searchFocused ? 'var(--focus-color)' : 'var(--border-strong)'}`,
               background: 'var(--bg-surface-raised)',
               color: 'var(--text-primary)',
               fontSize: 'var(--t-small)',
               outline: 'none',
+              boxShadow: searchFocused ? 'var(--ring)' : 'none',
+              transition: 'border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)',
             }}
           />
         }
@@ -207,7 +212,16 @@ export function Shelf() {
           <ShelfSkeleton />
         ) : error ? (
           <div className="empty">
-            <p className="t-body" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
+            <div className="empty-mark" style={{ background: 'var(--c-clay-tint)', color: 'var(--c-clay-deep)' }}>
+              <GitHubIcon />
+            </div>
+            <h3 className="t-h3">Rate limit reached</h3>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+              Connect a GitHub account in Settings to keep browsing your cookbook.
+            </p>
+            <Link to="/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>
+              Go to Settings
+            </Link>
           </div>
         ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
