@@ -96,6 +96,18 @@ export function Shelf() {
   const { token } = useGitHubStore()
   const [cards, setCards] = useState<CardInfo[]>([])
   const [importOpen, setImportOpen] = useState(false)
+  const [query, setQuery] = useState('')
+
+  const visibleCards = query.trim()
+    ? cards.filter((c) => {
+      const q = query.toLowerCase()
+      return (
+        c.title.toLowerCase().includes(q) ||
+        c.tags.some((t) => t.toLowerCase().includes(q)) ||
+        c.origin.toLowerCase().includes(q)
+      )
+    })
+    : cards
 
   // Initialise cards from filenames, then lazily load real titles
   useEffect(() => {
@@ -139,6 +151,26 @@ export function Shelf() {
         left={
           <Logo style={{ height: '28px', width: 'auto' }} />
         }
+        center={
+          <input
+            type="search"
+            placeholder="Search recipes…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{
+              width: '100%',
+              maxWidth: '24rem',
+              height: '40px',
+              padding: '0 12px',
+              borderRadius: '9999px',
+              border: '1px solid var(--border-strong)',
+              background: 'var(--bg-surface-raised)',
+              color: 'var(--text-primary)',
+              fontSize: 'var(--t-small)',
+              outline: 'none',
+            }}
+          />
+        }
         right={
           <div className="flex items-center gap-1">
             {!token && (
@@ -179,9 +211,20 @@ export function Shelf() {
           </div>
         ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
+        ) : visibleCards.length === 0 ? (
+          <div className="empty">
+            <div className="empty-mark" style={{ background: 'var(--c-clay-tint)', color: 'var(--c-clay-deep)' }}>
+              <BookIcon />
+            </div>
+            <h3 className="t-h3">Nothing found</h3>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+              No recipes match "{query}". Try a different word, or clear your search.
+            </p>
+            <Button variant="primary" onClick={() => setQuery('')}>Clear search</Button>
+          </div>
         ) : (
           <div className="recipe-grid gap-5">
-            {cards.map((card) => (
+            {visibleCards.map((card) => (
               <RecipeCard
                 key={card.path}
                 title={card.title}
