@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Tag } from '../ui/Tag'
 import CookingPotIcon from '../../assets/icons/cooking-pot-l.svg?react'
+import ClockIcon from '../../assets/icons/clock.svg?react'
 
 export interface RecipeCardProps {
   title: string
@@ -41,7 +42,10 @@ export function RecipeCard({ title, origin, tags = [], prepTime, image, to }: Re
             <Tag key={tag} style={{ fontSize: '12px', padding: '4px 8px' }}>{tag}</Tag>
           ))}
           {prepTime && (
-            <Tag style={{ fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>⏱ {prepTime}</Tag>
+            <Tag style={{ fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
+              <ClockIcon style={{ width: '12px', height: '12px', display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} />
+              {prepTime}
+            </Tag>
           )}
         </div>
       </div>

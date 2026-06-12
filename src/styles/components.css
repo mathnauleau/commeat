@@ -1,0 +1,562 @@
+/* ============================================================================
+   COMMEAT — Design System
+   A personal recipe book where recipes are Markdown, versioned like code.
+   Warm, handmade, botanical. The git metaphor, softened.
+   ============================================================================ */
+
+/* Tokens — single source of truth for all CSS variables */
+@import "./tokens.css";
+
+/* ----------------------------------------------------------------------------
+   2. BASE
+   ---------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--neutral-100);
+  color: var(--green-800);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--green-800);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+p {
+  margin: 0;
+}
+a {
+  color: var(--green-300);
+  text-decoration-color: rgba(46, 75, 60, 0.35);
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--green-800);
+}
+::selection {
+  background: var(--neutral-100);
+}
+
+/* ----------------------------------------------------------------------------
+   3. TYPE HELPERS
+   ---------------------------------------------------------------------------- */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.t-h1 {
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  line-height: var(--lh-h1);
+  font-weight: 500;
+}
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  font-weight: 500;
+}
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: var(--t-h3);
+  line-height: var(--lh-h3);
+  font-weight: 600;
+}
+.t-lead {
+  font-size: var(--t-lead);
+  line-height: var(--lh-lead);
+  color: var(--green-300);
+}
+.t-body {
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+}
+.t-small {
+  font-size: var(--t-small);
+  line-height: var(--lh-small);
+}
+.t-caption {
+  font-size: var(--t-caption);
+  line-height: var(--lh-caption);
+  color: var(--green-300);
+}
+.t-serif-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+.overline {
+  font-family: var(--font-body);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-300);
+}
+
+/* ----------------------------------------------------------------------------
+   4. BUTTONS
+   ---------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-body);
+  font-size: var(--t-small);
+  font-weight: 600;
+  line-height: 1;
+  padding: 12px 18px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+.btn:active {
+  transform: translateY(0.5px);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.btn .ico {
+  width: 17px;
+  height: 17px;
+}
+
+.btn-primary {
+  background: var(--green-300);
+  color: var(--neutral-100);
+  box-shadow: var(--e-1);
+}
+.btn-primary:hover {
+  background: var(--green-800);
+}
+
+.btn-secondary {
+  background: var(--neutral-100);
+  color: var(--green-800);
+  border-color: var(--neutral-200);
+}
+.btn-secondary:hover {
+  background: var(--neutral-100);
+  border-color: var(--green-300);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--green-300);
+}
+.btn-ghost:hover {
+  background: var(--neutral-100);
+  color: var(--green-800);
+}
+
+.btn-destructive {
+  background: var(--action-destructive-default);
+  color: var(--neutral-100);
+  box-shadow: var(--e-1);
+}
+.btn-destructive:hover {
+  background: var(--action-destructive-hover);
+  color: var(--neutral-100);
+  box-shadow: var(--e-1);
+}
+
+.btn-sm {
+  padding: 7px 13px;
+  font-size: var(--t-caption);
+}
+.btn-lg {
+  padding: 14px 24px;
+  font-size: var(--t-body);
+}
+.btn-icon {
+  padding: 9px;
+  border-radius: var(--r-pill);
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------------------------
+   5. FORM CONTROLS
+   ---------------------------------------------------------------------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.label {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--green-300);
+}
+.input,
+.textarea,
+.select {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--green-800);
+  background: var(--white);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  width: 100%;
+  transition:
+    border-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--green-300);
+}
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--green-300);
+  box-shadow: var(--ring);
+}
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+  line-height: var(--lh-body);
+}
+.hint {
+  font-size: var(--t-caption);
+  color: var(--green-300);
+}
+
+/* search */
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search .ico {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--green-300);
+  pointer-events: none;
+}
+.search .input {
+  padding-left: 42px;
+  border-radius: var(--r-pill);
+}
+
+/* toggle */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  flex: none;
+  cursor: pointer;
+}
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.toggle .track {
+  position: absolute;
+  inset: 0;
+  background: var(--neutral-200);
+  border-radius: var(--r-pill);
+  transition: background var(--t-base) var(--ease);
+}
+.toggle .thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: var(--neutral-100);
+  border-radius: 50%;
+  box-shadow: var(--e-1);
+  transition: transform var(--t-base) var(--ease-out);
+}
+.toggle input:checked ~ .track {
+  background: var(--green-300);
+}
+.toggle input:checked ~ .thumb {
+  transform: translateX(18px);
+}
+.toggle input:focus-visible ~ .track {
+  box-shadow: var(--ring);
+}
+
+/* checkbox */
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  cursor: pointer;
+}
+.check input {
+  position: absolute;
+  opacity: 0;
+}
+.check .box {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--neutral-200);
+  border-radius: var(--r-sm);
+  background: var(--neutral-100);
+  display: grid;
+  place-items: center;
+  transition: all var(--t-fast) var(--ease);
+}
+.check .box svg {
+  width: 14px;
+  height: 14px;
+  color: var(--neutral-100);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all var(--t-fast) var(--ease-out);
+}
+.check input:checked ~ .box {
+  background: var(--green-300);
+  border-color: var(--green-300);
+}
+.check input:checked ~ .box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.check input:focus-visible ~ .box {
+  box-shadow: var(--ring);
+}
+
+/* ----------------------------------------------------------------------------
+   6. CARDS & SURFACES
+   ---------------------------------------------------------------------------- */
+.card {
+  background: var(--white);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--r-lg);
+}
+
+/* ----------------------------------------------------------------------------
+   7. CHIPS, BADGES & TAGS
+   ---------------------------------------------------------------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  line-height: 1;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  background: var(--neutral-50);
+  color: var(--green-300);
+  border: 1px solid var(--neutral-200);
+}
+.chip .ico {
+  width: 14px;
+  height: 14px;
+}
+
+.hash {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--t-caption);
+  letter-spacing: 0.06em;
+  color: var(--green-300);
+  background: var(--neutral-100);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+}
+.badge-fork {
+  background: var(--neutral-100);
+  color: var(--orange-700);
+  border-color: transparent;
+}
+.badge-fork .ico {
+  color: var(--orange-700);
+}
+.tag {
+  background: transparent;
+  border: 1px solid var(--neutral-200);
+  color: var(--green-300);
+}
+
+/* ----------------------------------------------------------------------------
+   8. COMMIT TIMELINE
+   ---------------------------------------------------------------------------- */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--neutral-200);
+}
+.commit {
+  position: relative;
+  padding: var(--sp-3) 0;
+}
+.commit::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: 18px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--neutral-100);
+  border: 3px solid var(--green-300);
+  box-sizing: border-box;
+}
+.commit.is-fork::before {
+  border-color: var(--orange-300);
+}
+.commit.is-current::before {
+  background: var(--green-300);
+}
+.commit-msg {
+  font-size: var(--t-body);
+  color: var(--green-800);
+}
+.commit-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+  font-size: var(--t-caption);
+  color: var(--green-300);
+  flex-wrap: wrap;
+}
+
+/* ----------------------------------------------------------------------------
+   9. DIFF
+   ---------------------------------------------------------------------------- */
+.diff {
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--neutral-100);
+}
+.diff-row {
+  display: flex;
+  gap: var(--sp-3);
+  padding: 7px 14px 7px 12px;
+  font-size: var(--t-small);
+  line-height: 1.5;
+  border-left: 3px solid transparent;
+}
+.diff-row .mark {
+  width: 14px;
+  color: var(--green-300);
+  flex: none;
+  text-align: center;
+  font-weight: 600;
+}
+.diff-add {
+  background: var(--diff-add-bg);
+  border-left-color: var(--diff-add-bar);
+}
+.diff-add .mark {
+  color: var(--diff-add-text);
+}
+.diff-del {
+  background: var(--diff-del-bg);
+  border-left-color: var(--diff-del-bar);
+}
+.diff-del .mark {
+  color: var(--orange-700);
+}
+.diff-del .text {
+  color: var(--orange-700);
+  text-decoration: line-through;
+  text-decoration-color: rgba(240, 83, 28, 0.4);
+}
+
+/* ----------------------------------------------------------------------------
+   10. EMPTY STATES
+   ---------------------------------------------------------------------------- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-3);
+  padding: var(--sp-8) var(--sp-5);
+}
+.empty-mark {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--r-xl);
+  background: var(--neutral-100);
+  display: grid;
+  place-items: center;
+  color: var(--green-300);
+}
+.empty-mark svg {
+  width: 36px;
+  height: 36px;
+}
+.empty h3 {
+  font-size: var(--t-h3);
+}
+.empty p {
+  color: var(--green-300);
+  max-width: 38ch;
+}
+
+/* ----------------------------------------------------------------------------
+   11. UTILITIES
+   ---------------------------------------------------------------------------- */
+.ico {
+  display: inline-block;
+  vertical-align: middle;
+}
+.divider {
+  height: 1px;
+  background: var(--neutral-200);
+  border: 0;
+  margin: var(--sp-5) 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

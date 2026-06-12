@@ -9,7 +9,7 @@
 @import 'tailwindcss';
 
 /* Design system — tokens + component styles */
-@import '../../public/commeat.css';
+@import './components.css';
 
 /* ----------------------------------------------------------------------------
    APP-SPECIFIC RULES
