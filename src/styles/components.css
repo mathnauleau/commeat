@@ -18,10 +18,7 @@ body {
   margin: 0;
   background: var(--neutral-100);
   color: var(--green-800);
-  font-family: var(--font-body);
-  font-size: var(--t-body);
-  line-height: var(--lh-body);
-  font-weight: 400;
+  font: var(--ts-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -55,57 +52,23 @@ a:hover {
    3. TYPE HELPERS
    ---------------------------------------------------------------------------- */
 .t-display {
-  font-family: var(--font-display);
-  font-size: var(--t-display);
-  line-height: var(--lh-display);
-  font-weight: 500;
+  font: var(--ts-display);
   letter-spacing: -0.02em;
 }
-.t-h1 {
-  font-family: var(--font-display);
-  font-size: var(--t-h1);
-  line-height: var(--lh-h1);
-  font-weight: 500;
-}
-.t-h2 {
-  font-family: var(--font-display);
-  font-size: var(--t-h2);
-  line-height: var(--lh-h2);
-  font-weight: 500;
-}
-.t-h3 {
-  font-family: var(--font-display);
-  font-size: var(--t-h3);
-  line-height: var(--lh-h3);
-  font-weight: 600;
-}
-.t-lead {
-  font-size: var(--t-lead);
-  line-height: var(--lh-lead);
-  color: var(--green-300);
-}
-.t-body {
-  font-size: var(--t-body);
-  line-height: var(--lh-body);
-}
-.t-small {
-  font-size: var(--t-small);
-  line-height: var(--lh-small);
-}
-.t-caption {
-  font-size: var(--t-caption);
-  line-height: var(--lh-caption);
-  color: var(--green-300);
-}
+.t-h1    { font: var(--ts-h1); }
+.t-h2    { font: var(--ts-h2); }
+.t-h3    { font: var(--ts-h3); }
+.t-lead  { font: var(--ts-lead);    color: var(--green-300); }
+.t-body  { font: var(--ts-body); }
+.t-small { font: var(--ts-small); }
+.t-caption { font: var(--ts-caption); color: var(--green-300); }
 .t-serif-italic {
   font-family: var(--font-display);
   font-style: italic;
 }
 
 .overline {
-  font-family: var(--font-body);
-  font-size: var(--t-meta);
-  font-weight: 600;
+  font: var(--ts-meta);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--green-300);
@@ -222,8 +185,7 @@ a:hover {
 .input,
 .textarea,
 .select {
-  font-family: var(--font-body);
-  font-size: var(--t-body);
+  font: var(--ts-body);
   color: var(--green-800);
   background: var(--white);
   border: 1px solid var(--neutral-200);
@@ -248,10 +210,9 @@ a:hover {
 .textarea {
   resize: vertical;
   min-height: 96px;
-  line-height: var(--lh-body);
 }
 .hint {
-  font-size: var(--t-caption);
+  font: var(--ts-caption);
   color: var(--green-300);
 }
 
@@ -451,7 +412,7 @@ a:hover {
   background: var(--green-300);
 }
 .commit-msg {
-  font-size: var(--t-body);
+  font: var(--ts-body);
   color: var(--green-800);
 }
 .commit-meta {
@@ -459,7 +420,7 @@ a:hover {
   align-items: center;
   gap: var(--sp-2);
   margin-top: var(--sp-1);
-  font-size: var(--t-caption);
+  font: var(--ts-caption);
   color: var(--green-300);
   flex-wrap: wrap;
 }
@@ -477,8 +438,7 @@ a:hover {
   display: flex;
   gap: var(--sp-3);
   padding: 7px 14px 7px 12px;
-  font-size: var(--t-small);
-  line-height: 1.5;
+  font: var(--ts-small);
   border-left: 3px solid transparent;
 }
 .diff-row .mark {

@@ -1,7 +1,7 @@
 /* ============================================================================
    COMMEAT — Design tokens
    Single source of truth for all CSS variables and Tailwind theme mappings.
-   Loaded by commeat.css (styleguide) and imported by style.css (app).
+   Loaded by components.css (styleguide) and imported by style.css (app).
    Browsers ignore @theme — it is only processed by Vite/Tailwind.
    ============================================================================ */
 
@@ -26,7 +26,7 @@
   --font-body: "Instrument Sans", system-ui, sans-serif;
   --font-mono: "Martian Mono", "JetBrains Mono", "Courier New", monospace;
 
-  /* type scale (px) / line-height */
+  /* type scale (px) / line-height — raw dimensions, used for single-axis overrides */
   --t-display: 56px;
   --lh-display: 1.04;
   --t-h1: 40px;
@@ -45,6 +45,19 @@
   --lh-caption: 1.45;
   --t-meta: 12px;
   --lh-meta: 1.4;
+
+  /* text styles — composite font shorthand: weight size/lh family */
+  --ts-display: 500 56px/1.04 var(--font-display);
+  --ts-h1: 500 40px/1.1 var(--font-display);
+  --ts-h2: 500 30px/1.16 var(--font-display);
+  --ts-h3: 600 22px/1.28 var(--font-display);
+  --ts-lead: 400 20px/1.55 var(--font-body);
+  --ts-body: 400 17px/1.62 var(--font-body);
+  --ts-small: 400 15px/1.5 var(--font-body);
+  --ts-caption: 400 13px/1.45 var(--font-body);
+  --ts-meta: 600 12px/1.4 var(--font-body);
+  --ts-mono: 400 13px/1.6 var(--font-mono);
+  --ts-quote: italic 400 20px/1.55 var(--font-display);
 
   /* — Spacing (4-based) — */
   --sp-1: 4px;
