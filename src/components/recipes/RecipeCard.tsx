@@ -6,11 +6,12 @@ export interface RecipeCardProps {
   title: string
   origin: string
   tags?: string[]
+  prepTime?: string
   image?: string | null
   to: string
 }
 
-export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardProps) {
+export function RecipeCard({ title, origin, tags = [], prepTime, image, to }: RecipeCardProps) {
   return (
     <Link
       to={to}
@@ -39,6 +40,9 @@ export function RecipeCard({ title, origin, tags = [], image, to }: RecipeCardPr
           {tags.map((tag) => (
             <Tag key={tag} style={{ fontSize: '12px', padding: '4px 8px' }}>{tag}</Tag>
           ))}
+          {prepTime && (
+            <Tag style={{ fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>⏱ {prepTime}</Tag>
+          )}
         </div>
       </div>
     </Link>

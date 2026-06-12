@@ -37,6 +37,14 @@ function extractTags(markdown: string): string[] {
   return raw ? raw.split(',').map((t) => t.trim()).filter(Boolean) : []
 }
 
+function extractPrepTime(markdown: string): string {
+  return (
+    markdown.match(/\*\*Prep time:\*\*\s*([^·\n*]+)/i)?.[1]?.trim() ??
+    markdown.match(/\*\*PrepTime:\*\*\s*([^·\n*]+)/)?.[1]?.trim() ??
+    ''
+  )
+}
+
 function extractImage(markdown: string): string | null {
   const md = markdown.match(/!\[[^\]]*\]\((https?:\/\/[^)]+)\)/)?.[1]
   const html = markdown.match(/<img[^>]+src="(https?:\/\/[^"]+)"/)?.[1]
@@ -48,6 +56,7 @@ interface CardInfo {
   title: string
   origin: string
   tags: string[]
+  prepTime: string
   image: string | null
 }
 
@@ -119,6 +128,7 @@ export function Shelf() {
         title: deSlugTitle(pathToSlug(path)),
         origin: '',
         tags: [],
+        prepTime: '',
         image: null,
       })),
     )
@@ -129,11 +139,12 @@ export function Shelf() {
           const heading = extractHeading(md)
           const origin = extractOrigin(md)
           const tags = extractTags(md)
+          const prepTime = extractPrepTime(md)
           const image = extractImage(md)
           if (heading) {
             setCards((prev) =>
               prev.map((c) =>
-                c.path === path ? { ...c, title: heading, origin, tags, image } : c,
+                c.path === path ? { ...c, title: heading, origin, tags, prepTime, image } : c,
               ),
             )
           }
@@ -245,6 +256,7 @@ export function Shelf() {
                 title={card.title}
                 origin={card.origin}
                 tags={card.tags}
+                prepTime={card.prepTime}
                 image={card.image}
                 to={`/recipe/${pathToSlug(card.path)}`}
               />

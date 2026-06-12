@@ -189,9 +189,6 @@ a:hover { color: var(--green-800); }
 /* ----------------------------------------------------------------------------
    11. UTILITIES
    ---------------------------------------------------------------------------- */
-.row { display: flex; align-items: center; gap: var(--sp-3); }
-.col { display: flex; flex-direction: column; }
-.wrap { flex-wrap: wrap; }
 .ico { display: inline-block; vertical-align: middle; }
 .divider { height: 1px; background: var(--neutral-200); border: 0; margin: var(--sp-5) 0; }
 
