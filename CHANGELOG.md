@@ -1,5 +1,28 @@
 # Changelog
 
+## [v1.3] — Filter bar, prep time & CSS cleanup · 2026-06-12
+
+### Added
+- **Filter + sort bar** — Appears between the header and the recipe grid when recipes are loaded. Left side: horizontally scrollable chip group showing all unique tags from the loaded recipes; chips are multi-select with OR logic; an "All" chip is active by default and deselects when any tag is picked. Right side: sort dropdown with Default, Prep time: low to high, Prep time: high to low. Filtering and sorting are applied simultaneously via a single `useMemo` derivation (`filteredCards`) that replaces the previous `visibleCards`.
+- **Prep time on recipe cards** — `extractPrepTime()` parses `**Prep time:**` (AI extractor format) or `**PrepTime:**` from recipe markdown. Displayed as a `⏱ {time}` tag at the end of the card's tag row. Only rendered when present, so existing cards without prep time are unaffected.
+- **Prep time sort parser** — `parsePrepMinutes()` converts common time strings (`"30 min"`, `"1 hr"`, `"1h 30m"`, `"2 hours"`) to minutes. Recipes with no prep time sort to the end.
+- **Filter empty state** — When active filters produce zero results, shows "No recipes match your filters." with a "Clear filters" button that resets both tag selection and search query.
+
+### Changed
+- **Color palette** — All primitive tokens updated: surfaces moved warmer (parchment/linen/taupe), green primitives shifted to sage/moss, orange primitives to terracotta/rust. Semantic tokens unchanged.
+- **Body font** — `--font-body` changed from Spectral to Fraunces. Mono stack added as `--font-mono` (Martian Mono with JetBrains Mono fallback). Google Fonts import updated accordingly.
+
+### Removed (CSS cleanup)
+- Dead layout utilities `.row`, `.col`, `.wrap` from `commeat.css` — never used in any component; all flex layouts use Tailwind equivalents.
+- Three unused semantic tokens from `tokens.css`: `--bg-sunken`, `--bg-subtle` (both equal to `--neutral-100`, zero references in source), `--border-emphasis` (equal to `--neutral-200`, zero references).
+
+### Fixed
+- `.prose h1`, `.prose h2`, `.prose h3` `padding-bottom` values replaced with spacing tokens (`var(--sp-5)`, `var(--sp-6)`, `var(--sp-5)`) — were hardcoded `px`.
+- `.prose a` and `.prose a:hover` rules removed from `style.css` — were byte-for-byte duplicates of the global `a` and `a:hover` rules already in `commeat.css`.
+- `.diff-add` and `.diff-del` in `commeat.css` now reference their own semantic tokens (`--diff-add-bg`, `--diff-add-bar`, `--diff-add-text`, `--diff-del-bg`, `--diff-del-bar`) instead of the raw primitive `var(--neutral-100)`.
+
+---
+
 ## [v1.2] — UI polish · 2026-06-11
 
 ### Added

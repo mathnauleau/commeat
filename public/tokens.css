@@ -10,20 +10,21 @@
    ---------------------------------------------------------------------------- */
 :root {
   /* — Primitives — */
-  --white: #FFFFFF; 
-  --neutral-50: #FBF6ED; 
-  --neutral-100: #F7EDDA;   /* Venetian Lace */
-  --neutral-200: #F7DFBA;   /* Macadamia Beige */
-  --neutral-300: #DAB886;   /* Wheat Gold */
-  --orange-300:  #FFA74F;   /* Pumpkin Vapor */
-  --orange-600:  #f48962;   /* Ember */
-  --orange-700:  #EE5316;   /* Fiery Glow */
-  --green-300:   #2E4B3C;   /* Norfolk Green */
-  --green-800:   #09332C;   /* Fence Green */
+  --white:        #FFFFFF;  /* cool white — not warm, not clinical */
+  --neutral-50:   #f2f2f1;  /* blueprint paper — slight blue-grey cast */
+  --neutral-100:  #EBEBE8;  /* light slate — grid paper feel */
+  --neutral-200:  #BEC7D4;  /* muted steel — dividers, borders */
+  --neutral-300:  #6B7A90;  /* slate ink — captions, metadata prose */
+  --orange-300:   #F4A84A;  /* diff yellow — added line highlight */
+  --orange-600:   #E05C2A;  /* git conflict red-orange — strong accent */
+  --orange-700:   #C13A10;  /* merge error — primary CTA only */
+  --green-300:    #3A7D5C;  /* diff green — added lines, success states */
+  --green-800:    #1B4332;  /* deep repo green — nav, badges, commit UI */
 
   /* — Typography — */
-  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --font-body:    'Spectral', Georgia, serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Instrument Sans', system-ui, sans-serif;
+  --font-mono:    'Martian Mono', 'JetBrains Mono', 'Courier New', monospace;
 
   /* type scale (px) / line-height */
   --t-display:  56px;  --lh-display:  1.04;
@@ -64,8 +65,6 @@
   --bg-base:           var(--neutral-50);
   --bg-surface:        var(--neutral-50);
   --bg-surface-raised: #FFFFFF;
-  --bg-sunken:         var(--neutral-100);
-  --bg-subtle:         var(--neutral-100);
   --bg-frosted:        rgba(247,237,218,0.95);
   --overlay-bg:        rgba(9,51,44,0.45);
 
@@ -79,7 +78,6 @@
   /* Borders */
   --border-default:  var(--neutral-200);
   --border-strong:   var(--neutral-200);
-  --border-emphasis: var(--neutral-200);
 
   /* Primary action — CTA, commit button */
   --action-primary-bg:       var(--green-300);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
 import { ParallaxBackground } from '../components/layout/ParallaxBackground'
@@ -15,6 +15,8 @@ import PlusIcon from '../assets/icons/plus.svg?react'
 import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
 import GitHubIcon from '../assets/icons/github.svg?react'
+
+type SortOrder = 'default' | 'prep-asc' | 'prep-desc'
 
 function pathToSlug(path: string): string {
   return path.replace(/^recipes\//, '').replace(/\.md$/, '')
@@ -37,10 +39,29 @@ function extractTags(markdown: string): string[] {
   return raw ? raw.split(',').map((t) => t.trim()).filter(Boolean) : []
 }
 
+function extractPrepTime(markdown: string): string {
+  return (
+    markdown.match(/\*\*Prep time:\*\*\s*([^·\n*]+)/i)?.[1]?.trim() ??
+    markdown.match(/\*\*PrepTime:\*\*\s*([^·\n*]+)/)?.[1]?.trim() ??
+    ''
+  )
+}
+
 function extractImage(markdown: string): string | null {
   const md = markdown.match(/!\[[^\]]*\]\((https?:\/\/[^)]+)\)/)?.[1]
   const html = markdown.match(/<img[^>]+src="(https?:\/\/[^"]+)"/)?.[1]
   return md ?? html ?? null
+}
+
+function parsePrepMinutes(prepTime: string): number {
+  if (!prepTime) return Infinity
+  const hours = prepTime.match(/(\d+)\s*h/i)?.[1]
+  const mins = prepTime.match(/(\d+)\s*m/i)?.[1]
+  if (!hours && !mins) {
+    const num = prepTime.match(/(\d+)/)?.[1]
+    return num ? parseInt(num, 10) : Infinity
+  }
+  return (hours ? parseInt(hours, 10) * 60 : 0) + (mins ? parseInt(mins, 10) : 0)
 }
 
 interface CardInfo {
@@ -48,6 +69,7 @@ interface CardInfo {
   title: string
   origin: string
   tags: string[]
+  prepTime: string
   image: string | null
 }
 
@@ -99,17 +121,44 @@ export function Shelf() {
   const [importOpen, setImportOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [sort, setSort] = useState<SortOrder>('default')
 
-  const visibleCards = query.trim()
-    ? cards.filter((c) => {
+  const allTags = useMemo(() => {
+    const set = new Set<string>()
+    cards.forEach((c) => c.tags.forEach((t) => set.add(t)))
+    return Array.from(set).sort()
+  }, [cards])
+
+  const filteredCards = useMemo(() => {
+    let result = cards
+
+    if (query.trim()) {
       const q = query.toLowerCase()
-      return (
-        c.title.toLowerCase().includes(q) ||
-        c.tags.some((t) => t.toLowerCase().includes(q)) ||
-        c.origin.toLowerCase().includes(q)
+      result = result.filter(
+        (c) =>
+          c.title.toLowerCase().includes(q) ||
+          c.tags.some((t) => t.toLowerCase().includes(q)) ||
+          c.origin.toLowerCase().includes(q),
       )
-    })
-    : cards
+    }
+
+    if (selectedTags.length > 0) {
+      result = result.filter((c) => selectedTags.some((tag) => c.tags.includes(tag)))
+    }
+
+    if (sort === 'prep-asc') {
+      result = [...result].sort((a, b) => parsePrepMinutes(a.prepTime) - parsePrepMinutes(b.prepTime))
+    } else if (sort === 'prep-desc') {
+      result = [...result].sort((a, b) => parsePrepMinutes(b.prepTime) - parsePrepMinutes(a.prepTime))
+    }
+
+    return result
+  }, [cards, query, selectedTags, sort])
+
+  function toggleTag(tag: string) {
+    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
+  }
 
   // Initialise cards from filenames, then lazily load real titles
   useEffect(() => {
@@ -119,6 +168,7 @@ export function Shelf() {
         title: deSlugTitle(pathToSlug(path)),
         origin: '',
         tags: [],
+        prepTime: '',
         image: null,
       })),
     )
@@ -129,11 +179,12 @@ export function Shelf() {
           const heading = extractHeading(md)
           const origin = extractOrigin(md)
           const tags = extractTags(md)
+          const prepTime = extractPrepTime(md)
           const image = extractImage(md)
           if (heading) {
             setCards((prev) =>
               prev.map((c) =>
-                c.path === path ? { ...c, title: heading, origin, tags, image } : c,
+                c.path === path ? { ...c, title: heading, origin, tags, prepTime, image } : c,
               ),
             )
           }
@@ -188,7 +239,7 @@ export function Shelf() {
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
               >
                 <GitHubIcon style={{ width: '24px', height: '24px', flexShrink: 0 }} />
-                Suggest a recipe
+                Add a recipe
               </a>
             )}
             <Link
@@ -226,30 +277,105 @@ export function Shelf() {
           </div>
         ) : cards.length === 0 ? (
           <EmptyState onAdd={() => setImportOpen(true)} />
-        ) : visibleCards.length === 0 ? (
-          <div className="empty">
-            <div className="empty-mark" style={{ background: 'var(--c-clay-tint)', color: 'var(--c-clay-deep)' }}>
-              <BookIcon />
-            </div>
-            <h3 className="t-h3">Nothing found</h3>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
-              No recipes match "{query}". Try a different word, or clear your search.
-            </p>
-            <Button variant="primary" onClick={() => setQuery('')}>Clear search</Button>
-          </div>
         ) : (
-          <div className="recipe-grid gap-5">
-            {visibleCards.map((card) => (
-              <RecipeCard
-                key={card.path}
-                title={card.title}
-                origin={card.origin}
-                tags={card.tags}
-                image={card.image}
-                to={`/recipe/${pathToSlug(card.path)}`}
-              />
-            ))}
-          </div>
+          <>
+            {/* Filter + Sort bar */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)', marginBottom: 'var(--sp-5)' }}>
+              {/* Tag chips — horizontally scrollable */}
+              <div style={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--sp-2)',
+                overflowX: 'auto',
+              }}>
+                <button
+                  className="chip"
+                  onClick={() => setSelectedTags([])}
+                  style={{
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-body)',
+                    whiteSpace: 'nowrap',
+                    background: selectedTags.length === 0 ? 'var(--green-800)' : 'var(--neutral-100)',
+                    color: selectedTags.length === 0 ? 'var(--white)' : 'var(--neutral-300)',
+                    borderColor: selectedTags.length === 0 ? 'var(--green-800)' : 'transparent',
+                  }}
+                >
+                  All
+                </button>
+                {allTags.map((tag) => {
+                  const active = selectedTags.includes(tag)
+                  return (
+                    <button
+                      key={tag}
+                      className="chip"
+                      onClick={() => toggleTag(tag)}
+                      style={{
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-body)',
+                        whiteSpace: 'nowrap',
+                        background: active ? 'var(--green-800)' : 'var(--neutral-100)',
+                        color: active ? 'var(--white)' : 'var(--neutral-300)',
+                        borderColor: active ? 'var(--green-800)' : 'transparent',
+                      }}
+                    >
+                      {tag}
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Sort dropdown */}
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value as SortOrder)}
+                style={{
+                  flexShrink: 0,
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 'var(--t-caption)',
+                  color: 'var(--text-primary)',
+                  background: 'var(--white)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--r-md)',
+                  padding: '6px 10px',
+                  cursor: 'pointer',
+                  outline: 'none',
+                }}
+              >
+                <option value="default">Default</option>
+                <option value="prep-asc">Prep time: low to high</option>
+                <option value="prep-desc">Prep time: high to low</option>
+              </select>
+            </div>
+
+            {/* Grid or filter empty state */}
+            {filteredCards.length === 0 ? (
+              <div className="empty">
+                <div className="empty-mark">
+                  <BookIcon />
+                </div>
+                <h3 className="t-h3">No recipes match your filters.</h3>
+                <Button variant="secondary" onClick={() => { setSelectedTags([]); setQuery('') }}>
+                  Clear filters
+                </Button>
+              </div>
+            ) : (
+              <div className="recipe-grid gap-5">
+                {filteredCards.map((card) => (
+                  <RecipeCard
+                    key={card.path}
+                    title={card.title}
+                    origin={card.origin}
+                    tags={card.tags}
+                    prepTime={card.prepTime}
+                    image={card.image}
+                    to={`/recipe/${pathToSlug(card.path)}`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </main>
 

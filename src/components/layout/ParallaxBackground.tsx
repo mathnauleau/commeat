@@ -23,11 +23,11 @@ interface FloatItem {
 }
 
 const ITEMS: FloatItem[] = [
-  { src: onionImg, left: '4%', top: '8%', width: 140, opacity: 0.5, rotate: -18, speed: 0.22 },
-  { src: tomatoImg, right: '6%', top: '18%', width: 100, opacity: 0.5, rotate: 12, speed: 0.38 },
+  { src: onionImg, left: '-4%', top: '12%', width: 180, opacity: 0.5, rotate: -18, speed: 0.22 },
+  { src: tomatoImg, right: '-4%', top: '18%', width: 180, opacity: 0.5, rotate: 12, speed: 0.38 },
   { src: broccoliImg, left: '18%', top: '42%', width: 120, opacity: 0.5, rotate: 8, speed: 0.28 },
   { src: cheeseImg, right: '4%', top: '55%', width: 95, opacity: 0.5, rotate: -22, speed: 0.18 },
-  { src: fishImg, left: '68%', top: '72%', width: 130, opacity: 0.5, rotate: -6, speed: 0.14 },
+  { src: fishImg, right: '6%', top: '50%', width: 190, opacity: 0.5, rotate: -6, speed: 0.14 },
   { src: jambonImg, right: '5%', top: '80%', width: 110, opacity: 0.5, rotate: 15, speed: 0.32 },
   { src: pasta1Img, left: '3%', top: '85%', width: 125, opacity: 0.5, rotate: -10, speed: 0.20 },
   { src: pasta2Img, right: '7%', top: '130%', width: 105, opacity: 0.5, rotate: 20, speed: 0.35 },
