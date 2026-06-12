@@ -171,9 +171,9 @@ a:hover { color: var(--green-800); }
 .diff { border: 1px solid var(--neutral-200); border-radius: var(--r-md); overflow: hidden; background: var(--neutral-100); }
 .diff-row { display: flex; gap: var(--sp-3); padding: 7px 14px 7px 12px; font-size: var(--t-small); line-height: 1.5; border-left: 3px solid transparent; }
 .diff-row .mark { width: 14px; color: var(--green-300); flex: none; text-align: center; font-weight: 600; }
-.diff-add { background: var(--neutral-100); border-left-color: var(--green-300); }
-.diff-add .mark { color: var(--green-300); }
-.diff-del { background: var(--neutral-100); border-left-color: var(--orange-300); }
+.diff-add { background: var(--diff-add-bg); border-left-color: var(--diff-add-bar); }
+.diff-add .mark { color: var(--diff-add-text); }
+.diff-del { background: var(--diff-del-bg); border-left-color: var(--diff-del-bar); }
 .diff-del .mark { color: var(--orange-700); }
 .diff-del .text { color: var(--orange-700); text-decoration: line-through; text-decoration-color: rgba(240,83,28,0.4); }
 

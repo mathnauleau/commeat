@@ -64,8 +64,6 @@
   --bg-base:           var(--neutral-50);
   --bg-surface:        var(--neutral-50);
   --bg-surface-raised: #FFFFFF;
-  --bg-sunken:         var(--neutral-100);
-  --bg-subtle:         var(--neutral-100);
   --bg-frosted:        rgba(247,237,218,0.95);
   --overlay-bg:        rgba(9,51,44,0.45);
 
@@ -79,7 +77,6 @@
   /* Borders */
   --border-default:  var(--neutral-200);
   --border-strong:   var(--neutral-200);
-  --border-emphasis: var(--neutral-200);
 
   /* Primary action — CTA, commit button */
   --action-primary-bg:       var(--green-300);
