@@ -33,6 +33,18 @@ function recipeSlugFromMarkdown(markdown: string): string {
   return title.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 }
 
+function extractFirstImage(html: string): { imageHtml: string; restHtml: string } | null {
+  const wrappedMatch = html.match(/<p>\s*(<img\b[^>]*\/?>)\s*<\/p>/i)
+  if (wrappedMatch) {
+    return { imageHtml: wrappedMatch[1], restHtml: html.replace(wrappedMatch[0], '').trim() }
+  }
+  const bareMatch = html.match(/<img\b[^>]*\/?>/)
+  if (bareMatch) {
+    return { imageHtml: bareMatch[0], restHtml: html.replace(bareMatch[0], '').trim() }
+  }
+  return null
+}
+
 export function Recipe() {
   const { slug = '' } = useParams()
   const navigate = useNavigate()
@@ -207,23 +219,36 @@ export function Recipe() {
         </div>
       </Dialog>
 
-      <main className="max-w-2xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+      <main className="mx-auto px-6 py-8">
         {saving && (
           <p className="t-caption" style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>Saving…</p>
         )}
         {editing ? (
-          <Textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            rows={Math.max(20, draft.split('\n').length + 4)}
-            style={{ fontFamily: 'monospace', fontSize: '0.875rem', lineHeight: 1.6 }}
-          />
-        ) : (
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: marked.parse(renderedMarkdown) as string }}
-          />
-        )}
+          <div className="max-w-2xl mx-auto">
+            <Textarea
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              rows={Math.max(20, draft.split('\n').length + 4)}
+              style={{ fontFamily: 'monospace', fontSize: '0.875rem', lineHeight: 1.6 }}
+            />
+          </div>
+        ) : (() => {
+          const fullHtml = marked.parse(renderedMarkdown) as string
+          const split = extractFirstImage(fullHtml)
+          if (!split) {
+            return <div className="max-w-2xl mx-auto prose" dangerouslySetInnerHTML={{ __html: fullHtml }} />
+          }
+          return (
+            <div className="max-w-5xl mx-auto md:flex md:gap-10 md:h-[calc(100dvh-7rem)] md:items-start">
+              <div
+                className="md:w-2/5 md:shrink-0 mb-6 md:mb-0 overflow-hidden [&_img]:block [&_img]:w-full [&_img]:h-auto [&_img]:m-0"
+                style={{ borderRadius: 'var(--r-md)' }}
+                dangerouslySetInnerHTML={{ __html: split.imageHtml }}
+              />
+              <div className="prose md:flex-1 md:overflow-y-auto md:h-full md:pr-2" dangerouslySetInnerHTML={{ __html: split.restHtml }} />
+            </div>
+          )
+        })()}
       </main>
     </Shell>
   )
