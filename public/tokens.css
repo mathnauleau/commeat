@@ -10,20 +10,20 @@
    ---------------------------------------------------------------------------- */
 :root {
   /* — Primitives — */
-  --white:        #F9F5EE;  /* warm off-white, not clinical */
-  --neutral-50:   #F2EBD9;  /* parchment — aged cookbook page */
-  --neutral-100:  #E8DCC4;  /* slightly cooler linen */
-  --neutral-200:  #C9B99A;  /* warm grey-taupe, less yellow */
-  --neutral-300:  #8C7B65;  /* ink-brown — metadata, captions */
-  --orange-300:   #D4845A;  /* terracotta — softer, more editorial */
-  --orange-600:   #B85C35;  /* dried chili — confident accent */
-  --orange-700:   #8C3A1A;  /* dark rust — primary CTA, headings */
-  --green-300:    #3D6B52;  /* sage — readable, less saturated */
-  --green-800:    #1A3D2B;  /* deep moss — nav, badges, code UI */
+  --white:        #FFFFFF;  /* cool white — not warm, not clinical */
+  --neutral-50:   #f2f2f1;  /* blueprint paper — slight blue-grey cast */
+  --neutral-100:  #EBEBE8;  /* light slate — grid paper feel */
+  --neutral-200:  #BEC7D4;  /* muted steel — dividers, borders */
+  --neutral-300:  #6B7A90;  /* slate ink — captions, metadata prose */
+  --orange-300:   #F4A84A;  /* diff yellow — added line highlight */
+  --orange-600:   #E05C2A;  /* git conflict red-orange — strong accent */
+  --orange-700:   #C13A10;  /* merge error — primary CTA only */
+  --green-300:    #3A7D5C;  /* diff green — added lines, success states */
+  --green-800:    #1B4332;  /* deep repo green — nav, badges, commit UI */
 
   /* — Typography — */
-  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --font-body:    'Fraunces', Georgia, serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Instrument Sans', system-ui, sans-serif;
   --font-mono:    'Martian Mono', 'JetBrains Mono', 'Courier New', monospace;
 
   /* type scale (px) / line-height */
