@@ -12,14 +12,17 @@
   /* — Primitives — */
   --white: #ffffff; /* cool white — not warm, not clinical */
   --neutral-50: #f2f2f1; /* blueprint paper — slight blue-grey cast */
-  --neutral-100: #ebebe8; /* light slate — grid paper feel */
+  --neutral-100: #ebe8e1; /* light slate — grid paper feel */
   --neutral-200: #bec7d4; /* muted steel — dividers, borders */
   --neutral-300: #6b7a90; /* slate ink — captions, metadata prose */
+  --neutral-900: #0e1b22; /* for text */
   --orange-300: #f4a84a; /* diff yellow — added line highlight */
-  --orange-600: #e05c2a; /* git conflict red-orange — strong accent */
-  --orange-700: #c13a10; /* merge error — primary CTA only */
-  --green-300: #3a7d5c; /* diff green — added lines, success states */
-  --green-800: #1b4332; /* deep repo green — nav, badges, commit UI */
+  --orange-600: #db824a; /* git conflict red-orange — strong accent */
+  --orange-700: #c96844; /* merge error — primary CTA only */
+  --green-500: #6f8b41; /* diff green — added lines, success states */
+  --green-700: #3d581a; /* deep repo green — nav, badges, commit UI */
+  --opal-600: #536879;
+  --opal-700: #2b3a4d;
 
   /* — Typography — */
   --font-display: "Fraunces", Georgia, serif;
@@ -48,7 +51,7 @@
 
   /* text styles — composite font shorthand: weight size/lh family */
   --ts-display: 500 56px/1.04 var(--font-display);
-  --ts-h1: 500 40px/1.1 var(--font-display);
+  --ts-h1: 700 40px/1.1 var(--font-display);
   --ts-h2: 500 30px/1.16 var(--font-display);
   --ts-h3: 600 22px/1.28 var(--font-display);
   --ts-lead: 400 20px/1.55 var(--font-body);
@@ -90,7 +93,7 @@
   --t-slow: 320ms;
 
   /* — Focus — */
-  --ring: 0 0 0 3px rgba(46, 75, 60, 0.28);
+  --ring: 0 0 0 4px rgba(46, 54, 75, 0.28);
 
   /* ==========================================================================
      SEMANTIC TOKENS
@@ -101,37 +104,31 @@
   --bg-surface: var(--neutral-50);
   --bg-surface-raised: #ffffff;
   --bg-frosted: rgba(247, 237, 218, 0.95);
-  --overlay-bg: rgba(9, 51, 44, 0.45);
+  --overlay-bg: rgba(4, 4, 4, 0.8);
 
   /* Content */
-  --text-primary: var(--green-800);
+  --text-primary: var(--neutral-900);
   --text-secondary: var(--green-300);
-  --text-muted: var(--green-300);
   --text-inverse: var(--neutral-100);
-  --text-link: var(--green-300);
 
   /* Borders */
   --border-default: var(--neutral-200);
   --border-strong: var(--neutral-200);
 
   /* Primary action — CTA, commit button */
-  --action-primary-bg: var(--green-300);
-  --action-primary-bg-hover: var(--green-800);
-  --action-primary-text: var(--neutral-100);
+  --action-primary-default: var(--green-500);
+  --action-primary-hover: var(--green-700);
 
   /* Secondary action — ghost, cancel */
-  --action-secondary-bg: transparent;
+  --action-secondary-default: transparent;
   --action-secondary-border: var(--neutral-200);
-  --action-secondary-text: var(--green-300);
 
   /* Destructive action */
-  --action-destructive-default: var(--orange-700);
-  --action-destructive-hover: var(--orange-600);
+  --action-destructive-default: var(--orange-600);
+  --action-destructive-hover: var(--orange-700);
 
   /* Accent primary — forest (nav, active, tags) */
-  --accent-primary: var(--green-300);
-  --accent-primary-bg: var(--neutral-100);
-  --accent-primary-text: var(--green-800);
+  --accent-primary: var(--opal-600);
 
   /* Accent secondary — clay (forks, new, highlights) */
   --accent-secondary: var(--orange-300);

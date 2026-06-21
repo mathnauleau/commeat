@@ -40,6 +40,8 @@ export function Recipe() {
   const { token } = useGitHubStore()
 
   const originalPath = `recipes/${slug}.md`
+  const repoUrl = `https://github.com/mathnauleau/commeat-recipes/tree/main/${originalPath}`
+  const fileName = `${slug}.md`
 
   const [markdown, setMarkdown] = useState('')
   const [renderedMarkdown, setRenderedMarkdown] = useState('')
@@ -124,7 +126,7 @@ export function Recipe() {
   if (fetching) {
     return (
       <Shell>
-        <Header left={<Link to="/" style={backLinkStyle}><BackIcon />Shelf</Link>} />
+        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
         <main className="max-w-2xl mx-auto px-4 py-24 flex items-center justify-center">
           <p className="t-body" style={{ color: 'var(--text-secondary)' }}>Loading…</p>
         </main>
@@ -135,7 +137,7 @@ export function Recipe() {
   if (loadError) {
     return (
       <Shell>
-        <Header left={<Link to="/" style={backLinkStyle}><BackIcon />Shelf</Link>} />
+        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
         <main className="max-w-2xl mx-auto px-4 py-24 flex flex-col items-center gap-5 text-center">
           <h1 className="t-h2">Recipe not found.</h1>
           <p className="t-lead" style={{ fontSize: 'var(--t-body)' }}>
@@ -150,7 +152,7 @@ export function Recipe() {
   return (
     <Shell>
       <Header
-        left={<Link to="/" style={backLinkStyle}><BackIcon />Shelf</Link>}
+        left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>}
         right={
           editing ? (
             <div className="flex items-center gap-2">

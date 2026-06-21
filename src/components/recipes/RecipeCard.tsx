@@ -24,26 +24,26 @@ export function RecipeCard({ title, origin, tags = [], prepTime, image, to }: Re
         style={{ height: '10rem', background: 'var(--bg-surface-raised)' }}
       >
         {image
-          ? <img src={image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', border: '8px solid white', borderRadius: '16px' }} />
+          ? <img src={image} />
           : <CookingPotIcon width={40} height={40} aria-hidden />
         }
       </div>
 
       {/* Card body */}
       <div className="px-4 pt-2 flex flex-col gap-1" style={{ paddingBottom: '16px' }}>
-        <h3 className="t-h3" style={{ fontSize: 'var(--t-small)', fontWeight: 600, lineHeight: 'var(--lh-small)' }}>
+        <h3>
           {title}
         </h3>
         <div className="flex flex-wrap gap-1">
           {origin && (
-            <Tag style={{ fontSize: '12px', padding: '4px 8px' }}>{origin}</Tag>
+            <Tag>{origin}</Tag>
           )}
           {tags.map((tag) => (
-            <Tag key={tag} style={{ fontSize: '12px', padding: '4px 8px' }}>{tag}</Tag>
+            <Tag key={tag}>{tag}</Tag>
           ))}
           {prepTime && (
-            <Tag style={{ fontSize: '12px', padding: '4px 8px', color: 'var(--text-muted)' }}>
-              <ClockIcon style={{ width: '12px', height: '12px', display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} />
+            <Tag>
+              <ClockIcon style={{ width: '12px', height: '12px', display: 'inline', verticalAlign: 'middle', marginRight: '2px' }} />
               {prepTime}
             </Tag>
           )}

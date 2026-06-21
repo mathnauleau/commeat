@@ -55,13 +55,29 @@ a:hover {
   font: var(--ts-display);
   letter-spacing: -0.02em;
 }
-.t-h1    { font: var(--ts-h1); }
-.t-h2    { font: var(--ts-h2); }
-.t-h3    { font: var(--ts-h3); }
-.t-lead  { font: var(--ts-lead);    color: var(--green-300); }
-.t-body  { font: var(--ts-body); }
-.t-small { font: var(--ts-small); }
-.t-caption { font: var(--ts-caption); color: var(--green-300); }
+.t-h1 {
+  font: var(--ts-h1);
+}
+.t-h2 {
+  font: var(--ts-h2);
+}
+.t-h3 {
+  font: var(--ts-h3);
+}
+.t-lead {
+  font: var(--ts-lead);
+  color: var(--green-300);
+}
+.t-body {
+  font: var(--ts-body);
+}
+.t-small {
+  font: var(--ts-small);
+}
+.t-caption {
+  font: var(--ts-caption);
+  color: var(--green-300);
+}
 .t-serif-italic {
   font-family: var(--font-display);
   font-style: italic;
@@ -110,12 +126,12 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--green-300);
+  background: var(--action-primary-default);
   color: var(--neutral-100);
   box-shadow: var(--e-1);
 }
 .btn-primary:hover {
-  background: var(--green-800);
+  background: var(--action-primary-hover);
 }
 
 .btn-secondary {
@@ -324,8 +340,30 @@ a:hover {
    ---------------------------------------------------------------------------- */
 .card {
   background: var(--white);
-  border: 1px solid var(--neutral-200);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
+}
+
+.card h3 {
+  font-size: var(--t-small);
+  font-weight: 600;
+  line-height: var(--lh-small);
+}
+
+.card-hover {
+  transition: box-shadow var(--t-base) var(--ease);
+  &:hover {
+    box-shadow:
+      rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  }
+}
+
+.card img {
+  padding: 8px 8px 0 8px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
 }
 
 /* ----------------------------------------------------------------------------
@@ -334,19 +372,23 @@ a:hover {
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-2);
+  gap: 4px;
   font-size: var(--t-caption);
   font-weight: 500;
   line-height: 1;
-  padding: 5px 11px;
+  height: 24px;
+  padding: 4px 12px;
   border-radius: var(--r-pill);
-  background: var(--neutral-50);
-  color: var(--green-300);
-  border: 1px solid var(--neutral-200);
+  background: var(--action-primary-default);
+  color: var(--text-inverse);
 }
 .chip .ico {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
+}
+
+.chip:hover {
+  background: var(--diff-del-bar);
 }
 
 .hash {
@@ -368,9 +410,19 @@ a:hover {
   color: var(--orange-700);
 }
 .tag {
+  display: inline-flex;
   background: transparent;
   border: 1px solid var(--neutral-200);
   color: var(--green-300);
+  font-size: 12px;
+  padding: 4px 8px;
+
+  align-items: center;
+  gap: 4px;
+  font-size: var(--t-caption);
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--r-pill);
 }
 
 /* ----------------------------------------------------------------------------

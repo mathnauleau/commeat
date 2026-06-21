@@ -40,7 +40,7 @@ export function Dialog({ open, onClose, title, size = 'md', children }: DialogPr
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'dialog-title' : undefined}
-        className="card relative w-full flex flex-col max-h-[90vh]"
+        className="card relative w-full flex flex-col max-h-[80vh]"
         style={{ ...sizeStyles[size], boxShadow: 'var(--e-3)' }}
       >
         {title && (
