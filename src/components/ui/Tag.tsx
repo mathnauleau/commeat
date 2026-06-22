@@ -6,7 +6,7 @@ export interface TagProps extends HTMLAttributes<HTMLSpanElement> {
 
 export function Tag({ className = '', children, ...props }: TagProps) {
   return (
-    <span className={['chip', 'tag', className].filter(Boolean).join(' ')} {...props}>
+    <span className={['tag', className].filter(Boolean).join(' ')} {...props}>
       {children}
     </span>
   )

@@ -4,27 +4,24 @@
    ============================================================================ */
 
 /* Fonts — must precede all other statements */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Martian+Mono:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Martian+Mono:wght@300;400&display=swap");
 /* Tailwind (must come first so our rules can override it) */
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* Design system — tokens + component styles */
-@import '../../public/commeat.css';
+@import "./components.css";
 
 /* ----------------------------------------------------------------------------
    APP-SPECIFIC RULES
    ---------------------------------------------------------------------------- */
 
-#root { min-height: 100dvh; }
+#root {
+  min-height: 100dvh;
+}
 
 @utility recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-}
-
-@utility card-hover {
-  transition: box-shadow var(--t-base) var(--ease);
-  &:hover { box-shadow: var(--e-2); }
 }
 
 /* ----------------------------------------------------------------------------
@@ -32,26 +29,32 @@
    Cookbook layout, not a README. Visual hierarchy for recipe structure.
    ---------------------------------------------------------------------------- */
 .prose {
-  font-family: var(--font-body);
-  font-size: var(--t-body);
-  line-height: var(--lh-body);
+  font: var(--ts-body);
   color: var(--green-300);
 }
 
 /* Flow — cookbooks breathe less than essays */
-.prose > * { margin-top: 0; margin-bottom: 0; }
-.prose > * + *  { margin-top: var(--sp-4); }
-.prose > * + h2 { margin-top: var(--sp-8); }
-.prose > * + h3 { margin-top: var(--sp-6); }
-.prose > * + h4 { margin-top: var(--sp-5); }
+.prose > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.prose > * + * {
+  margin-top: var(--sp-4);
+}
+.prose > * + h2 {
+  margin-top: var(--sp-8);
+}
+.prose > * + h3 {
+  margin-top: var(--sp-6);
+}
+.prose > * + h4 {
+  margin-top: var(--sp-5);
+}
 
 /* h1 — recipe title */
 .prose h1 {
-  font-family: var(--font-display);
-  font-size: var(--t-h1);
-  line-height: var(--lh-h1);
-  font-weight: 700;
-  color: var(--green-800);
+  font: var(--ts-h1);
+  color: var(--text-primary);
   letter-spacing: -0.02em;
   padding-bottom: var(--sp-5);
 }
@@ -59,9 +62,7 @@
 /* h2 — section divider: "Ingredients", "Instructions", "Notes"
    Treated as an overline label, not a big heading */
 .prose h2 {
-  font-family: var(--font-display);
-  font-size: var(--t-h2);
-  line-height: var(--lh-h2);
+  font: var(--ts-h2);
   font-weight: 600;
   color: var(--green-800);
   letter-spacing: 0.12em;
@@ -72,10 +73,7 @@
 
 /* h3 — sub-section or prep name: "For the sauce", "Day before" */
 .prose h3 {
-  font-family: var(--font-display);
-  font-size: var(--t-h3);
-  line-height: var(--lh-h3);
-  font-weight: 600;
+  font: var(--ts-h3);
   font-style: italic;
   color: var(--green-800);
   padding-bottom: var(--sp-5);
@@ -83,18 +81,24 @@
 
 /* h4 — inline sub-label */
 .prose h4 {
-  font-family: var(--font-body);
-  font-size: var(--t-caption);
-  line-height: var(--lh-caption);
+  font: var(--ts-caption);
   font-weight: 600;
   color: var(--green-300);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.prose p { margin: 0; color: var(--green-300); }
-.prose strong { font-weight: 600; color: var(--green-800); }
-.prose em { font-style: italic; }
+.prose p {
+  margin: 0;
+  color: var(--green-300);
+}
+.prose strong {
+  font-weight: 600;
+  color: var(--green-800);
+}
+.prose em {
+  font-style: italic;
+}
 
 /* Blockquote — chef's note: italic, inset, no loud border */
 .prose blockquote {
@@ -105,10 +109,7 @@
 }
 
 .prose blockquote p {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--t-lead);
-  line-height: var(--lh-lead);
+  font: var(--ts-quote);
   color: var(--green-300);
 }
 
@@ -149,7 +150,7 @@
 
 /* Small dot bullet, not a GitHub-sized blob */
 .prose ul li::before {
-  content: '';
+  content: "";
   flex-shrink: 0;
   width: 4px;
   height: 4px;
@@ -203,7 +204,9 @@
   border-bottom: 2px solid var(--neutral-200);
 }
 
-.prose td { color: var(--green-300); }
+.prose td {
+  color: var(--green-300);
+}
 
 /* hr — section break: short, centered, not full-width */
 .prose hr {

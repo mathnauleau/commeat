@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Shell } from '../components/layout/Shell'
-import { ParallaxBackground } from '../components/layout/ParallaxBackground'
+// import { ParallaxBackground } from '../components/layout/ParallaxBackground'
 import { Header } from '../components/layout/Header'
 import { RecipeCard } from '../components/recipes/RecipeCard'
 import { ImportDialog } from '../components/recipes/ImportDialog'
@@ -200,10 +200,9 @@ export function Shelf() {
 
   return (
     <Shell>
-      <ParallaxBackground />
       <Header
         left={
-          <Logo style={{ height: '28px', width: 'auto' }} />
+          <Logo style={{ height: '44px', width: 'auto' }} />
         }
         center={
           <input
@@ -280,7 +279,7 @@ export function Shelf() {
         ) : (
           <>
             {/* Filter + Sort bar */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)', marginBottom: 'var(--sp-5)' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--sp-3)', marginBottom: 'var(--sp-5)' }}>
               {/* Tag chips — horizontally scrollable */}
               <div style={{
                 flex: 1,
@@ -289,6 +288,9 @@ export function Shelf() {
                 alignItems: 'center',
                 gap: 'var(--sp-2)',
                 overflowX: 'auto',
+                background: 'white',
+                padding: '8px',
+                borderRadius: 'var(--r-xl)',
               }}>
                 <button
                   className="chip"
@@ -297,8 +299,8 @@ export function Shelf() {
                     cursor: 'pointer',
                     fontFamily: 'var(--font-body)',
                     whiteSpace: 'nowrap',
-                    background: selectedTags.length === 0 ? 'var(--green-800)' : 'var(--neutral-100)',
-                    color: selectedTags.length === 0 ? 'var(--white)' : 'var(--neutral-300)',
+                    background: selectedTags.length === 0 ? 'var(--accent-primary)' : 'var(--neutral-100)',
+                    color: selectedTags.length === 0 ? 'var(--white)' : 'var(--accent-primary)',
                     borderColor: selectedTags.length === 0 ? 'var(--green-800)' : 'transparent',
                   }}
                 >
@@ -315,9 +317,10 @@ export function Shelf() {
                         cursor: 'pointer',
                         fontFamily: 'var(--font-body)',
                         whiteSpace: 'nowrap',
-                        background: active ? 'var(--green-800)' : 'var(--neutral-100)',
+                        background: active ? 'var(--accent-primary)' : 'var(--neutral-100)',
                         color: active ? 'var(--white)' : 'var(--neutral-300)',
                         borderColor: active ? 'var(--green-800)' : 'transparent',
+
                       }}
                     >
                       {tag}
@@ -328,6 +331,7 @@ export function Shelf() {
 
               {/* Sort dropdown */}
               <select
+                className="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortOrder)}
                 style={{
@@ -337,10 +341,11 @@ export function Shelf() {
                   color: 'var(--text-primary)',
                   background: 'var(--white)',
                   border: '1px solid var(--border-default)',
-                  borderRadius: 'var(--r-md)',
+                  borderRadius: 'var(--r-xl)',
                   padding: '6px 10px',
                   cursor: 'pointer',
                   outline: 'none',
+                  height: '40px',
                 }}
               >
                 <option value="default">Default</option>

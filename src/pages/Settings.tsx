@@ -45,7 +45,7 @@ function ConnectedSection({ username, onDisconnect }: { username: string; onDisc
         <span className="hash" style={{ marginLeft: 'auto', flexShrink: 0 }}>Connected</span>
       </div>
       <div>
-        <Button variant="ghost" size="sm" onClick={onDisconnect}>Disconnect</Button>
+        <Button variant="destructive" size="sm" onClick={onDisconnect}>Disconnect</Button>
       </div>
     </div>
   )
