@@ -11,7 +11,7 @@ Token reference (selected)
 
 - Spacing tokens: `--sp-1:4px`, `--sp-2:8px`, `--sp-3:12px`, `--sp-4:16px`, `--sp-5:24px`, `--sp-6:32px`, `--sp-7:48px`, `--sp-8:64px`, `--sp-9:96px`.
 - Radius tokens: `--r-sm:6px`, `--r-md:10px`, `--r-lg:16px`, `--r-xl:24px`.
-- Type tokens: `--t-lead:20px`, `--t-h1:40px`, `--t-display:56px`, etc.
+- Type tokens: `--typescale-lead:20px`, `--typescale-h1:40px`, `--typescale-display:56px`, etc.
 
 Notes on suggestion rules
 
@@ -38,7 +38,7 @@ Findings & suggested replacements (compact)
   - backdropFilter: 'blur(8px)' => `8px` ~ `var(--sp-2)` (8px) if you want a tokenized blur value; otherwise keep but consider a token for repeated blur radii.
 
 - src/components/recipes/ImportDialog.tsx
-  - height: `i === 0 ? '20px' : '16px'` => `20px` matches `--t-lead` (typography) but for height prefer spacing tokens: `16px` -> `var(--sp-4)`; `20px` -> consider `var(--t-lead)` only if the value is typographic; else add `--sp-?` (e.g. `--sp-4-5`) or use `var(--sp-5)` (24px) if acceptable.
+  - height: `i === 0 ? '20px' : '16px'` => `20px` matches `--typescale-lead` (typography) but for height prefer spacing tokens: `16px` -> `var(--sp-4)`; `20px` -> consider `var(--typescale-lead)` only if the value is typographic; else add `--sp-?` (e.g. `--sp-4-5`) or use `var(--sp-5)` (24px) if acceptable.
   - border: '1px solid var(--feedback-error-border-subtle)' — contains `1px` border width; consider adding `--border-width` token if you want to standardize (e.g. `--border-width: 1px`).
 
 - src/components/recipes/RecipeCard.tsx

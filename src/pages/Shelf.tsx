@@ -76,10 +76,10 @@ interface CardInfo {
 function SkeletonCard() {
   return (
     <div className="card animate-pulse overflow-hidden">
-      <div style={{ height: '9rem', background: 'var(--bg-surface)' }} />
+      <div style={{ height: '9rem', background: 'var(--background-surface)' }} />
       <div className="p-4 flex flex-col gap-3">
-        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--bg-surface)' }} />
-        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--bg-surface)' }} />
+        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--background-surface)' }} />
+        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--background-surface)' }} />
       </div>
     </div>
   )
@@ -101,7 +101,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="t-h3">Your cookbook is empty.</h2>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+        <p style={{ color: 'var(--text-primary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--typescale-body)' }}>
           Every great collection starts with the first recipe. What will yours be?
         </p>
       </div>
@@ -218,12 +218,12 @@ export function Shelf() {
               padding: '0 12px',
               borderRadius: '9999px',
               border: `1px solid ${searchFocused ? 'var(--focus-color)' : 'var(--border-strong)'}`,
-              background: 'var(--bg-surface-raised)',
+              background: 'var(--background-surface-raised)',
               color: 'var(--text-primary)',
-              fontSize: 'var(--t-small)',
+              fontSize: 'var(--typescale-small)',
               outline: 'none',
               boxShadow: searchFocused ? 'var(--ring)' : 'none',
-              transition: 'border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)',
+              transition: 'border-color var(--motion-fast) var(--ease), box-shadow var(--motion-fast) var(--ease)',
             }}
           />
         }
@@ -267,7 +267,7 @@ export function Shelf() {
               <GitHubIcon />
             </div>
             <h3 className="t-h3">Rate limit reached</h3>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+            <p style={{ color: 'var(--text-primary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--typescale-body)' }}>
               Connect a GitHub account in Settings to keep browsing your cookbook.
             </p>
             <Link to="/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>
@@ -279,18 +279,18 @@ export function Shelf() {
         ) : (
           <>
             {/* Filter + Sort bar */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--sp-3)', marginBottom: 'var(--sp-5)' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--spacing-3)', marginBottom: 'var(--spacing-5)' }}>
               {/* Tag chips — horizontally scrollable */}
               <div style={{
                 flex: 1,
                 minWidth: 0,
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--sp-2)',
+                gap: 'var(--spacing-2)',
                 overflowX: 'auto',
                 background: 'white',
                 padding: '8px',
-                borderRadius: 'var(--r-xl)',
+                borderRadius: 'var(--radius-xl)',
               }}>
                 <button
                   className="chip"
@@ -337,11 +337,11 @@ export function Shelf() {
                 style={{
                   flexShrink: 0,
                   fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--t-caption)',
+                  fontSize: 'var(--typescale-caption)',
                   color: 'var(--text-primary)',
                   background: 'var(--white)',
                   border: '1px solid var(--border-default)',
-                  borderRadius: 'var(--r-xl)',
+                  borderRadius: 'var(--radius-xl)',
                   padding: '6px 10px',
                   cursor: 'pointer',
                   outline: 'none',

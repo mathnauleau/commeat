@@ -21,21 +21,21 @@ export function SyncToast() {
       aria-live="polite"
       style={{
         position: 'fixed',
-        bottom: 'var(--sp-6)',
-        right: 'var(--sp-6)',
+        bottom: 'var(--spacing-6)',
+        right: 'var(--spacing-6)',
         zIndex: 50,
         maxWidth: '360px',
-        background: 'var(--bg-base)',
+        background: 'var(--background-base)',
         border: '1px solid var(--feedback-error-border-subtle)',
-        borderRadius: 'var(--r-lg)',
-        boxShadow: 'var(--e-3)',
-        padding: 'var(--sp-4) var(--sp-3) var(--sp-4) var(--sp-5)',
+        borderRadius: 'var(--radius-lg)',
+        boxShadow: 'var(--elevation-3)',
+        padding: 'var(--spacing-4) var(--spacing-3) var(--spacing-4) var(--spacing-5)',
         display: 'flex',
         alignItems: 'flex-start',
-        gap: 'var(--sp-3)',
+        gap: 'var(--spacing-3)',
       }}
     >
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--sp-1)' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--spacing-1)' }}>
         <p className="t-small" style={{ color: 'var(--feedback-error-text)', margin: 0, fontWeight: 500 }}>
           Sync failed — check your GitHub connection in Settings.
         </p>
