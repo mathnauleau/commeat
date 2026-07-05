@@ -20,12 +20,12 @@ const backLinkStyle = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: 'var(--t-small)',
-  color: 'var(--text-secondary)',
+  fontSize: 'var(--typescale-small)',
+  color: 'var(--text-primary)',
   textDecoration: 'none',
   minHeight: '44px',
   padding: '0 4px',
-  transition: 'color var(--t-fast) var(--ease)',
+  transition: 'color var(--motion-fast) var(--ease)',
 }
 
 function recipeSlugFromMarkdown(markdown: string): string {
@@ -126,9 +126,9 @@ export function Recipe() {
   if (fetching) {
     return (
       <Shell>
-        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
+        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-primary)', fontSize: 'var(--typescale-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-primary)', fontSize: 'var(--typescale-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
         <main className="max-w-2xl mx-auto px-4 py-24 flex items-center justify-center">
-          <p className="t-body" style={{ color: 'var(--text-secondary)' }}>Loading…</p>
+          <p className="t-body" style={{ color: 'var(--text-primary)' }}>Loading…</p>
         </main>
       </Shell>
     )
@@ -137,10 +137,10 @@ export function Recipe() {
   if (loadError) {
     return (
       <Shell>
-        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
+        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-primary)', fontSize: 'var(--typescale-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-primary)', fontSize: 'var(--typescale-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
         <main className="max-w-2xl mx-auto px-4 py-24 flex flex-col items-center gap-5 text-center">
           <h1 className="t-h2">Recipe not found.</h1>
-          <p className="t-lead" style={{ fontSize: 'var(--t-body)' }}>
+          <p className="t-lead" style={{ fontSize: 'var(--typescale-body)' }}>
             {loadError}
           </p>
           <Button variant="secondary" onClick={() => window.history.back()}>Back to shelf</Button>
@@ -152,7 +152,7 @@ export function Recipe() {
   return (
     <Shell>
       <Header
-        left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>}
+        left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-primary)', fontSize: 'var(--typescale-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-primary)', fontSize: 'var(--typescale-small)', textDecoration: 'none' }}>{fileName}</a></span>}
         right={
           editing ? (
             <div className="flex items-center gap-2">
@@ -211,7 +211,7 @@ export function Recipe() {
 
       <main className="max-w-2xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         {saving && (
-          <p className="t-caption" style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>Saving…</p>
+          <p className="t-caption" style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Saving…</p>
         )}
         {editing ? (
           <Textarea

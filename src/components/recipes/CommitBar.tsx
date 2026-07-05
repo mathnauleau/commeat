@@ -20,7 +20,7 @@ export function CommitBar({ message, onChange, onConfirm, onCancel }: CommitBarP
       style={{
         top: '4rem',
         borderBottom: '1px solid var(--border-default)',
-        background: 'var(--bg-frosted)',
+        background: 'var(--background-frosted)',
         backdropFilter: 'blur(8px)',
       }}
     >

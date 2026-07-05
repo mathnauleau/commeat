@@ -10,8 +10,9 @@
    ---------------------------------------------------------------------------- */
 :root {
   /* — Primitives — */
-  --white: #ffffff; /* cool white — not warm, not clinical */
-  --neutral-50: #f2f2f1; /* blueprint paper — slight blue-grey cast */
+  --white: #ffffff;
+  --black: #000000;
+  --neutral-50: #f2f2f1;
   --neutral-100: #ebe8e1; /* light slate — grid paper feel */
   --neutral-200: #bec7d4; /* muted steel — dividers, borders */
   --neutral-300: #6b7a90; /* slate ink — captions, metadata prose */
@@ -29,68 +30,66 @@
   --font-body: "Instrument Sans", system-ui, sans-serif;
   --font-mono: "Martian Mono", "JetBrains Mono", "Courier New", monospace;
 
-  /* type scale (px) / line-height — raw dimensions, used for single-axis overrides */
-  --t-display: 56px;
-  --lh-display: 1.04;
-  --t-h1: 40px;
-  --lh-h1: 1.1;
-  --t-h2: 30px;
-  --lh-h2: 1.16;
-  --t-h3: 22px;
-  --lh-h3: 1.28;
-  --t-lead: 20px;
-  --lh-lead: 1.55;
-  --t-body: 17px;
-  --lh-body: 1.62;
-  --t-small: 15px;
-  --lh-small: 1.5;
-  --t-caption: 13px;
-  --lh-caption: 1.45;
-  --t-meta: 12px;
-  --lh-meta: 1.4;
+  /* type scale */
+  --typescale-display: 56px;
+  --typescale-h1: 40px;
+  --typescale-h2: 30px;
+  --typescale-h3: 22px;
+  --typescale-lead: 20px;
+  --typescale-body: 17px;
+  --typescale-small: 15px;
+  --typescale-caption: 13px;
+  --typescale-meta: 12px;
 
-  /* text styles — composite font shorthand: weight size/lh family */
-  --ts-display: 500 56px/1.04 var(--font-display);
-  --ts-h1: 700 40px/1.1 var(--font-display);
-  --ts-h2: 500 30px/1.16 var(--font-display);
-  --ts-h3: 600 22px/1.28 var(--font-display);
-  --ts-lead: 400 20px/1.55 var(--font-body);
-  --ts-body: 400 17px/1.62 var(--font-body);
-  --ts-small: 400 15px/1.5 var(--font-body);
-  --ts-caption: 400 13px/1.45 var(--font-body);
-  --ts-meta: 600 12px/1.4 var(--font-body);
-  --ts-mono: 400 13px/1.6 var(--font-mono);
-  --ts-quote: italic 400 20px/1.55 var(--font-display);
+  /* line-height */
+  --lineHeight-small: 1.3;
+  --lineHeight-medium: 1.5; /* Keep this one*/
+
+  /* text styles */
+  --textstyle-display: 500 56px/1.04 var(--font-display);
+  --textstyle-h1: 700 40px/1.1 var(--font-display);
+  --textstyle-h2: 500 30px/1.16 var(--font-display);
+  --textstyle-h3: 600 22px/1.28 var(--font-display);
+  --textstyle-lead: 400 20px/1.55 var(--font-body);
+  --textstyle-body: 400 17px/1.62 var(--font-body);
+  --textstyle-small: 400 15px/1.5 var(--font-body);
+  --textstyle-caption: 400 13px/1.45 var(--font-body);
+  --textstyle-meta: 600 12px/1.4 var(--font-body);
+  --textstyle-mono: 400 13px/1.6 var(--font-mono);
+  --textstyle-quote: italic 400 20px/1.55 var(--font-display);
 
   /* — Spacing (4-based) — */
-  --sp-1: 4px;
-  --sp-2: 8px;
-  --sp-3: 12px;
-  --sp-4: 16px;
-  --sp-5: 24px;
-  --sp-6: 32px;
-  --sp-7: 48px;
-  --sp-8: 64px;
-  --sp-9: 96px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
+  --spacing-9: 96px;
 
   /* — Radius (tactile, generous) — */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 16px;
-  --r-xl: 24px;
-  --r-pill: 999px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
 
   /* — Elevation (soft, warm-tinted, low) — */
-  --e-1: 0 1px 2px rgba(45, 52, 38, 0.06), 0 1px 1px rgba(45, 52, 38, 0.04);
-  --e-2: 0 2px 6px rgba(45, 52, 38, 0.07), 0 4px 12px rgba(45, 52, 38, 0.05);
-  --e-3: 0 6px 18px rgba(45, 52, 38, 0.1), 0 12px 30px rgba(45, 52, 38, 0.07);
+  --elevation-1:
+    0 1px 2px rgba(45, 52, 38, 0.06), 0 1px 1px rgba(45, 52, 38, 0.04);
+  --elevation-2:
+    0 2px 6px rgba(45, 52, 38, 0.07), 0 4px 12px rgba(45, 52, 38, 0.05);
+  --elevation-3:
+    0 6px 18px rgba(45, 52, 38, 0.1), 0 12px 30px rgba(45, 52, 38, 0.07);
 
-  /* — Motion (subtle, purposeful) — */
+  /* Motion */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --t-fast: 120ms;
-  --t-base: 200ms;
-  --t-slow: 320ms;
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
 
   /* — Focus — */
   --ring: 0 0 0 4px rgba(46, 54, 75, 0.28);
@@ -100,16 +99,15 @@
      ========================================================================== */
 
   /* Backgrounds */
-  --bg-base: var(--neutral-50);
-  --bg-surface: var(--neutral-50);
-  --bg-surface-raised: #ffffff;
-  --bg-frosted: rgba(247, 237, 218, 0.95);
+  --background-base: var(--neutral-50);
+  --background-surface: var(--neutral-50);
+  --background-surface-raised: #ffffff;
+  --background-frosted: rgba(247, 237, 218, 0.95);
   --overlay-bg: rgba(4, 4, 4, 0.8);
 
   /* Content */
   --text-primary: var(--neutral-900);
-  --text-secondary: var(--green-300);
-  --text-inverse: var(--neutral-100);
+  --text-inverse: var(--white);
 
   /* Borders */
   --border-default: var(--neutral-200);

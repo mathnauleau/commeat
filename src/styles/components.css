@@ -18,7 +18,7 @@ body {
   margin: 0;
   background: var(--neutral-100);
   color: var(--green-800);
-  font: var(--ts-body);
+  font: var(--textstyle-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -52,30 +52,30 @@ a:hover {
    3. TYPE HELPERS
    ---------------------------------------------------------------------------- */
 .t-display {
-  font: var(--ts-display);
+  font: var(--textstyle-display);
   letter-spacing: -0.02em;
 }
 .t-h1 {
-  font: var(--ts-h1);
+  font: var(--textstyle-h1);
 }
 .t-h2 {
-  font: var(--ts-h2);
+  font: var(--textstyle-h2);
 }
 .t-h3 {
-  font: var(--ts-h3);
+  font: var(--textstyle-h3);
 }
 .t-lead {
-  font: var(--ts-lead);
+  font: var(--textstyle-lead);
   color: var(--green-300);
 }
 .t-body {
-  font: var(--ts-body);
+  font: var(--textstyle-body);
 }
 .t-small {
-  font: var(--ts-small);
+  font: var(--textstyle-small);
 }
 .t-caption {
-  font: var(--ts-caption);
+  font: var(--textstyle-caption);
   color: var(--green-300);
 }
 .t-serif-italic {
@@ -84,7 +84,7 @@ a:hover {
 }
 
 .overline {
-  font: var(--ts-meta);
+  font: var(--textstyle-meta);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--green-300);
@@ -96,22 +96,22 @@ a:hover {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-2);
+  gap: var(--spacing-2);
   font-family: var(--font-body);
-  font-size: var(--t-small);
+  font-size: var(--typescale-small);
   font-weight: 600;
   line-height: 1;
   padding: 12px 18px;
-  border-radius: var(--r-pill);
+  border-radius: var(--radius-full);
   border: 1px solid transparent;
   cursor: pointer;
   white-space: nowrap;
   transition:
-    background var(--t-fast) var(--ease),
-    color var(--t-fast) var(--ease),
-    border-color var(--t-fast) var(--ease),
-    box-shadow var(--t-fast) var(--ease),
-    transform var(--t-fast) var(--ease);
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease),
+    border-color var(--motion-fast) var(--ease),
+    box-shadow var(--motion-fast) var(--ease),
+    transform var(--motion-fast) var(--ease);
 }
 .btn:active {
   transform: translateY(0.5px);
@@ -127,8 +127,8 @@ a:hover {
 
 .btn-primary {
   background: var(--action-primary-default);
-  color: var(--neutral-100);
-  box-shadow: var(--e-1);
+  color: var(--text-inverse);
+  box-shadow: var(--elevation-1);
 }
 .btn-primary:hover {
   background: var(--action-primary-hover);
@@ -155,26 +155,25 @@ a:hover {
 
 .btn-destructive {
   background: var(--action-destructive-default);
-  color: var(--neutral-100);
-  box-shadow: var(--e-1);
+  color: var(--text-inverse);
+  box-shadow: var(--elevation-1);
 }
 .btn-destructive:hover {
   background: var(--action-destructive-hover);
-  color: var(--neutral-100);
-  box-shadow: var(--e-1);
+  box-shadow: var(--elevation-1);
 }
 
 .btn-sm {
   padding: 7px 13px;
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
 }
 .btn-lg {
   padding: 14px 24px;
-  font-size: var(--t-body);
+  font-size: var(--typescale-body);
 }
 .btn-icon {
   padding: 9px;
-  border-radius: var(--r-pill);
+  border-radius: var(--radius-full);
   min-width: 44px;
   min-height: 44px;
   justify-content: center;
@@ -191,26 +190,26 @@ a:hover {
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--spacing-2);
 }
 .label {
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
   font-weight: 600;
   color: var(--green-300);
 }
 .input,
 .textarea,
 .select {
-  font: var(--ts-body);
+  font: var(--textstyle-body);
   color: var(--green-800);
   background: var(--white);
   border: 1px solid var(--neutral-200);
-  border-radius: var(--r-md);
+  border-radius: var(--radius-md);
   padding: 11px 14px;
   width: 100%;
   transition:
-    border-color var(--t-fast) var(--ease),
-    box-shadow var(--t-fast) var(--ease);
+    border-color var(--motion-fast) var(--ease),
+    box-shadow var(--motion-fast) var(--ease);
 }
 .input::placeholder,
 .textarea::placeholder {
@@ -228,7 +227,7 @@ a:hover {
   min-height: 96px;
 }
 .hint {
-  font: var(--ts-caption);
+  font: var(--textstyle-caption);
   color: var(--green-300);
 }
 
@@ -248,7 +247,12 @@ a:hover {
 }
 .search .input {
   padding-left: 42px;
-  border-radius: var(--r-pill);
+  border-radius: var(--radius-full);
+}
+
+/* filter bar*/
+.filterbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* toggle */
@@ -270,8 +274,8 @@ a:hover {
   position: absolute;
   inset: 0;
   background: var(--neutral-200);
-  border-radius: var(--r-pill);
-  transition: background var(--t-base) var(--ease);
+  border-radius: var(--radius-full);
+  transition: background var(--motion-base) var(--ease);
 }
 .toggle .thumb {
   position: absolute;
@@ -281,8 +285,8 @@ a:hover {
   height: 20px;
   background: var(--neutral-100);
   border-radius: 50%;
-  box-shadow: var(--e-1);
-  transition: transform var(--t-base) var(--ease-out);
+  box-shadow: var(--elevation-1);
+  transition: transform var(--motion-base) var(--ease-out);
 }
 .toggle input:checked ~ .track {
   background: var(--green-300);
@@ -298,7 +302,7 @@ a:hover {
 .check {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-3);
+  gap: var(--spacing-3);
   cursor: pointer;
 }
 .check input {
@@ -309,11 +313,11 @@ a:hover {
   width: 22px;
   height: 22px;
   border: 1.5px solid var(--neutral-200);
-  border-radius: var(--r-sm);
+  border-radius: var(--radius-sm);
   background: var(--neutral-100);
   display: grid;
   place-items: center;
-  transition: all var(--t-fast) var(--ease);
+  transition: all var(--motion-fast) var(--ease);
 }
 .check .box svg {
   width: 14px;
@@ -321,7 +325,7 @@ a:hover {
   color: var(--neutral-100);
   opacity: 0;
   transform: scale(0.6);
-  transition: all var(--t-fast) var(--ease-out);
+  transition: all var(--motion-fast) var(--ease-out);
 }
 .check input:checked ~ .box {
   background: var(--green-300);
@@ -340,17 +344,17 @@ a:hover {
    ---------------------------------------------------------------------------- */
 .card {
   background: var(--white);
-  border-radius: var(--r-xl);
+  border-radius: var(--radius-xl);
 }
 
 .card h3 {
-  font-size: var(--t-small);
+  font-size: var(--typescale-small);
   font-weight: 600;
-  line-height: var(--lh-small);
+  line-height: var(--lineHeight-small);
 }
 
 .card-hover {
-  transition: box-shadow var(--t-base) var(--ease);
+  transition: box-shadow var(--motion-base) var(--ease);
   &:hover {
     box-shadow:
       rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
@@ -373,12 +377,12 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
   font-weight: 500;
   line-height: 1;
   height: 24px;
   padding: 4px 12px;
-  border-radius: var(--r-pill);
+  border-radius: var(--radius-full);
   background: var(--action-primary-default);
   color: var(--text-inverse);
 }
@@ -394,12 +398,12 @@ a:hover {
 .hash {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
   letter-spacing: 0.06em;
   color: var(--green-300);
   background: var(--neutral-100);
   padding: 3px 8px;
-  border-radius: var(--r-sm);
+  border-radius: var(--radius-sm);
 }
 .badge-fork {
   background: var(--neutral-100);
@@ -419,10 +423,10 @@ a:hover {
 
   align-items: center;
   gap: 4px;
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
   font-weight: 500;
   line-height: 1;
-  border-radius: var(--r-pill);
+  border-radius: var(--radius-full);
 }
 
 /* ----------------------------------------------------------------------------
@@ -443,7 +447,7 @@ a:hover {
 }
 .commit {
   position: relative;
-  padding: var(--sp-3) 0;
+  padding: var(--spacing-3) 0;
 }
 .commit::before {
   content: "";
@@ -464,15 +468,15 @@ a:hover {
   background: var(--green-300);
 }
 .commit-msg {
-  font: var(--ts-body);
+  font: var(--textstyle-body);
   color: var(--green-800);
 }
 .commit-meta {
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
-  margin-top: var(--sp-1);
-  font: var(--ts-caption);
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-1);
+  font: var(--textstyle-caption);
   color: var(--green-300);
   flex-wrap: wrap;
 }
@@ -482,15 +486,15 @@ a:hover {
    ---------------------------------------------------------------------------- */
 .diff {
   border: 1px solid var(--neutral-200);
-  border-radius: var(--r-md);
+  border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--neutral-100);
 }
 .diff-row {
   display: flex;
-  gap: var(--sp-3);
+  gap: var(--spacing-3);
   padding: 7px 14px 7px 12px;
-  font: var(--ts-small);
+  font: var(--textstyle-small);
   border-left: 3px solid transparent;
 }
 .diff-row .mark {
@@ -528,13 +532,13 @@ a:hover {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--sp-3);
-  padding: var(--sp-8) var(--sp-5);
+  gap: var(--spacing-3);
+  padding: var(--spacing-8) var(--spacing-5);
 }
 .empty-mark {
   width: 76px;
   height: 76px;
-  border-radius: var(--r-xl);
+  border-radius: var(--radius-xl);
   background: var(--neutral-100);
   display: grid;
   place-items: center;
@@ -545,7 +549,7 @@ a:hover {
   height: 36px;
 }
 .empty h3 {
-  font-size: var(--t-h3);
+  font-size: var(--typescale-h3);
 }
 .empty p {
   color: var(--green-300);
@@ -563,7 +567,7 @@ a:hover {
   height: 1px;
   background: var(--neutral-200);
   border: 0;
-  margin: var(--sp-5) 0;
+  margin: var(--spacing-5) 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

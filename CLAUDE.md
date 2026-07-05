@@ -57,112 +57,116 @@ The color system is two-layered. **Always use semantic tokens in components — 
 
 ```css
 /* Sage */
---c-sage:        #D7DEC9;
---c-sage-deep:   #C5CEB2;
---c-paper:       #FBF8F1;
---c-cream:       #F3ECDD;
---c-cream-deep:  #EADFCB;
+--c-sage: #d7dec9;
+--c-sage-deep: #c5ceb2;
+--c-paper: #fbf8f1;
+--c-cream: #f3ecdd;
+--c-cream-deep: #eadfcb;
 
 /* Ink */
---c-ink:         #232C24;
---c-ink-soft:    #4C564B;
---c-ink-faint:   #828B79;
+--c-ink: #232c24;
+--c-ink-soft: #4c564b;
+--c-ink-faint: #828b79;
 
 /* Forest green — brand + primary actions */
---c-forest:      #3A6B4A;
---c-forest-deep: #2C5239;
---c-forest-tint: #E3EADB;
+--c-forest: #3a6b4a;
+--c-forest-deep: #2c5239;
+--c-forest-tint: #e3eadb;
 
 /* Clay — secondary accent, forks, highlights */
---c-clay:        #BC6B47;
---c-clay-deep:   #9F562F;
---c-clay-tint:   #F2E1D5;
+--c-clay: #bc6b47;
+--c-clay-deep: #9f562f;
+--c-clay-tint: #f2e1d5;
 
 /* Lines */
---c-line:        #DED6C4;
---c-line-strong: #CDC4AE;
---c-line-sage:   #B7C0A2;
+--c-line: #ded6c4;
+--c-line-strong: #cdc4ae;
+--c-line-sage: #b7c0a2;
 
 /* Error */
---c-error:       #A0522D;
+--c-error: #a0522d;
 
 /* Diff */
---c-add-bg: #E4ECDC; --c-add-ink: #355B3F; --c-add-bar: #6E9A6E;
---c-del-bg: #F3E2D6; --c-del-ink: #9F562F; --c-del-bar: #C99172;
+--c-add-bg: #e4ecdc;
+--c-add-ink: #355b3f;
+--c-add-bar: #6e9a6e;
+--c-del-bg: #f3e2d6;
+--c-del-ink: #9f562f;
+--c-del-bar: #c99172;
 
 /* Focus */
---c-focus: #3A6B4A;
---ring:     0 0 0 3px rgba(58,107,74,0.28);
+--c-focus: #3a6b4a;
+--ring: 0 0 0 3px rgba(58, 107, 74, 0.28);
 ```
 
 ### Layer 2 — Semantic tokens (use these in all components)
 
 ```css
 /* Backgrounds */
---bg-base:              var(--c-paper);
---bg-surface:           var(--c-cream);
---bg-surface-raised:    #FFFFFF;
---bg-sunken:            var(--c-cream-deep);
---bg-subtle:            var(--c-forest-tint);
+--background-base: var(--c-paper);
+--background-surface: var(--c-cream);
+--background-surface-raised: #ffffff;
+--background-sunken: var(--c-cream-deep);
+--background-subtle: var(--c-forest-tint);
 
 /* Content */
---text-primary:         var(--c-ink);
---text-secondary:       var(--c-ink-soft);
---text-muted:           var(--c-ink-faint);
---text-inverse:         var(--c-paper);
---text-link:            var(--c-forest);
+--text-primary: var(--c-ink);
+--text-secondary: var(--c-ink-soft);
+--text-muted: var(--c-ink-faint);
+--text-inverse: var(--c-paper);
+--text-link: var(--c-forest);
 
 /* Borders */
---border-default:       var(--c-line);
---border-strong:        var(--c-line-strong);
---border-emphasis:      var(--c-line-sage);
+--border-default: var(--c-line);
+--border-strong: var(--c-line-strong);
+--border-emphasis: var(--c-line-sage);
 
 /* Primary action — CTA, commit button */
---action-primary-bg:       var(--c-forest);
+--action-primary-bg: var(--c-forest);
 --action-primary-bg-hover: var(--c-forest-deep);
---action-primary-text:     var(--c-paper);
+--action-primary-text: var(--c-paper);
 
 /* Secondary action — ghost, cancel */
---action-secondary-bg:     transparent;
+--action-secondary-bg: transparent;
 --action-secondary-border: var(--c-line-strong);
---action-secondary-text:   var(--c-ink-soft);
+--action-secondary-text: var(--c-ink-soft);
 
 /* Accent primary — forest (nav, active, tags) */
---accent-primary:          var(--c-forest);
---accent-primary-bg:       var(--c-forest-tint);
---accent-primary-text:     var(--c-forest-deep);
+--accent-primary: var(--c-forest);
+--accent-primary-bg: var(--c-forest-tint);
+--accent-primary-text: var(--c-forest-deep);
 
 /* Accent secondary — clay (forks, new, highlights) */
---accent-secondary:        var(--c-clay);
---accent-secondary-bg:     var(--c-clay-tint);
---accent-secondary-text:   var(--c-clay-deep);
+--accent-secondary: var(--c-clay);
+--accent-secondary-bg: var(--c-clay-tint);
+--accent-secondary-text: var(--c-clay-deep);
 
 /* Feedback — error */
---feedback-error-bg:       var(--c-clay-tint);
---feedback-error-text:     var(--c-error);
---feedback-error-border:   var(--c-clay);
+--feedback-error-bg: var(--c-clay-tint);
+--feedback-error-text: var(--c-error);
+--feedback-error-border: var(--c-clay);
 
 /* Feedback — success */
---feedback-success-bg:     var(--c-forest-tint);
---feedback-success-text:   var(--c-forest-deep);
+--feedback-success-bg: var(--c-forest-tint);
+--feedback-success-text: var(--c-forest-deep);
 --feedback-success-border: var(--c-forest);
 
 /* Feedback — warning */
---feedback-warning-bg:     #F5EDD6;
---feedback-warning-text:   #8A5C1A;
---feedback-warning-border: #C9973A;
+--feedback-warning-bg: #f5edd6;
+--feedback-warning-text: #8a5c1a;
+--feedback-warning-border: #c9973a;
 
 /* Diff */
---diff-add-bg:   var(--c-add-bg);
+--diff-add-bg: var(--c-add-bg);
 --diff-add-text: var(--c-add-ink);
---diff-add-bar:  var(--c-add-bar);
---diff-del-bg:   var(--c-del-bg);
+--diff-add-bar: var(--c-add-bar);
+--diff-del-bg: var(--c-del-bg);
 --diff-del-text: var(--c-del-ink);
---diff-del-bar:  var(--c-del-bar);
+--diff-del-bar: var(--c-del-bar);
 
 /* Focus */
---focus-ring:    var(--ring);
---focus-color:   var(--c-focus);
+--focus-ring: var(--ring);
+--focus-color: var(--c-focus);
 ```
 
 ### Rule
@@ -189,33 +193,33 @@ Typography: `font-display` → Fraunces, `font-body` → DM Sans. Never use syst
 
 ```ts
 interface Recipe {
-  title: string
-  origin: string
-  importedFrom: string
-  committedAt: string        // ISO date
-  version: number
-  forkOf: string | null
-  tags: string[]
-  prepTime: string
-  cookTime: string
-  servings: number
-  quote?: string             // optional — "Grandma always said..."
-  ingredients: string[]
-  steps: string[]
-  notes?: string
-  commits: CommitEntry[]
+  title: string;
+  origin: string;
+  importedFrom: string;
+  committedAt: string; // ISO date
+  version: number;
+  forkOf: string | null;
+  tags: string[];
+  prepTime: string;
+  cookTime: string;
+  servings: number;
+  quote?: string; // optional — "Grandma always said..."
+  ingredients: string[];
+  steps: string[];
+  notes?: string;
+  commits: CommitEntry[];
 }
 
 interface CommitEntry {
-  version: number
-  date: string               // ISO date
-  message: string
+  version: number;
+  date: string; // ISO date
+  message: string;
 }
 
 interface ShelfConfig {
-  theme: string              // e.g. "botanical"
-  cardLayout: 'portrait'
-  printFormat: 'A5'
+  theme: string; // e.g. "botanical"
+  cardLayout: "portrait";
+  printFormat: "A5";
 }
 ```
 
@@ -232,8 +236,8 @@ export function recipeSlug(title: string): string {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 // "Grandma Marie's Tomato Sauce" → "recipes/grandmas-maries-tomato-sauce.md"
 ```
@@ -246,12 +250,12 @@ export function recipeSlug(title: string): string {
 
 ## Key interactions & copy
 
-| Action | UI label |
-|--------|----------|
-| Save a new recipe | "Commit recipe" |
-| Save an edit | "Commit changes" |
-| Version note | "Commit message" |
-| Duplicate a recipe | "Fork recipe" *(MLP — do not build)* |
+| Action             | UI label                             |
+| ------------------ | ------------------------------------ |
+| Save a new recipe  | "Commit recipe"                      |
+| Save an edit       | "Commit changes"                     |
+| Version note       | "Commit message"                     |
+| Duplicate a recipe | "Fork recipe" _(MLP — do not build)_ |
 
 Tone: warm, personal, quietly nerdy. Never clinical, never cutesy. Placeholder copy should feel like a real cookbook, not generic app copy.
 

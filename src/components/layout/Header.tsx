@@ -13,7 +13,7 @@ export function Header({ left, center, right }: HeaderProps) {
       style={{
         top: '24px',
         margin: '24px',
-        background: 'var(--bg-surface-raised)',
+        background: 'var(--background-surface-raised)',
         borderRadius: center ? 'clamp(24px, 5vw, 9999px)' : '9999px',
       }}
     >

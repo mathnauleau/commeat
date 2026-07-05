@@ -38,7 +38,7 @@ function ExtractionSkeleton() {
           style={{
             height: i === 0 ? '20px' : '16px',
             width: `${w * 100}%`,
-            background: 'var(--bg-surface)',
+            background: 'var(--background-surface)',
           }}
         />
       ))}
@@ -171,7 +171,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
                   style={{
                     background: 'var(--feedback-error-bg-subtle)',
                     border: '1px solid var(--feedback-error-border-subtle)',
-                    borderRadius: 'var(--r-md)',
+                    borderRadius: 'var(--radius-md)',
                   }}
                 >
                   <p className="t-small" style={{ color: 'var(--feedback-error-text)' }}>{error}</p>
@@ -179,7 +179,7 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
                     type="button"
                     onClick={enterManually}
                     className="t-caption"
-                    style={{ color: 'var(--text-secondary)', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
+                    style={{ color: 'var(--text-primary)', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
                   >
                     Enter the recipe manually instead →
                   </button>
@@ -224,9 +224,9 @@ export function ImportDialog({ open, onClose, saveFile }: ImportDialogProps) {
         <div className="flex flex-col gap-6">
           <div
             className="p-4 flex flex-col gap-1"
-            style={{ background: 'var(--bg-surface)', borderRadius: 'var(--r-md)' }}
+            style={{ background: 'var(--background-surface)', borderRadius: 'var(--radius-md)' }}
           >
-            <p className="t-h3" style={{ fontSize: 'var(--t-lead)', lineHeight: 'var(--lh-h3)' }}>
+            <p className="t-h3" style={{ fontSize: 'var(--typescale-lead)', lineHeight: 'var(--lineHeight-small)' }}>
               {extractTitle(markdown)}
             </p>
           </div>

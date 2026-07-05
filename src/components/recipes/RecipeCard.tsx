@@ -21,7 +21,7 @@ export function RecipeCard({ title, origin, tags = [], prepTime, image, to }: Re
     >
       <div
         className="flex items-center justify-center overflow-hidden"
-        style={{ height: '10rem', background: 'var(--bg-surface-raised)' }}
+        style={{ height: '10rem', background: 'var(--background-surface-raised)' }}
       >
         {image
           ? <img src={image} />

@@ -16,8 +16,6 @@ import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
 import GitHubIcon from '../assets/icons/github.svg?react'
 
-type SortOrder = 'default' | 'prep-asc' | 'prep-desc'
-
 function pathToSlug(path: string): string {
   return path.replace(/^recipes\//, '').replace(/\.md$/, '')
 }
@@ -53,17 +51,6 @@ function extractImage(markdown: string): string | null {
   return md ?? html ?? null
 }
 
-function parsePrepMinutes(prepTime: string): number {
-  if (!prepTime) return Infinity
-  const hours = prepTime.match(/(\d+)\s*h/i)?.[1]
-  const mins = prepTime.match(/(\d+)\s*m/i)?.[1]
-  if (!hours && !mins) {
-    const num = prepTime.match(/(\d+)/)?.[1]
-    return num ? parseInt(num, 10) : Infinity
-  }
-  return (hours ? parseInt(hours, 10) * 60 : 0) + (mins ? parseInt(mins, 10) : 0)
-}
-
 interface CardInfo {
   path: string
   title: string
@@ -76,10 +63,10 @@ interface CardInfo {
 function SkeletonCard() {
   return (
     <div className="card animate-pulse overflow-hidden">
-      <div style={{ height: '9rem', background: 'var(--bg-surface)' }} />
+      <div style={{ height: '9rem', background: 'var(--background-surface)' }} />
       <div className="p-4 flex flex-col gap-3">
-        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--bg-surface)' }} />
-        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--bg-surface)' }} />
+        <div className="rounded" style={{ height: '1rem', width: '75%', background: 'var(--background-surface)' }} />
+        <div className="rounded" style={{ height: '0.75rem', width: '50%', background: 'var(--background-surface)' }} />
       </div>
     </div>
   )
@@ -101,7 +88,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="t-h3">Your cookbook is empty.</h2>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+        <p style={{ color: 'var(--text-primary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--typescale-body)' }}>
           Every great collection starts with the first recipe. What will yours be?
         </p>
       </div>
@@ -122,7 +109,6 @@ export function Shelf() {
   const [query, setQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [sort, setSort] = useState<SortOrder>('default')
 
   const allTags = useMemo(() => {
     const set = new Set<string>()
@@ -147,14 +133,8 @@ export function Shelf() {
       result = result.filter((c) => selectedTags.some((tag) => c.tags.includes(tag)))
     }
 
-    if (sort === 'prep-asc') {
-      result = [...result].sort((a, b) => parsePrepMinutes(a.prepTime) - parsePrepMinutes(b.prepTime))
-    } else if (sort === 'prep-desc') {
-      result = [...result].sort((a, b) => parsePrepMinutes(b.prepTime) - parsePrepMinutes(a.prepTime))
-    }
-
     return result
-  }, [cards, query, selectedTags, sort])
+  }, [cards, query, selectedTags])
 
   function toggleTag(tag: string) {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
@@ -218,12 +198,12 @@ export function Shelf() {
               padding: '0 12px',
               borderRadius: '9999px',
               border: `1px solid ${searchFocused ? 'var(--focus-color)' : 'var(--border-strong)'}`,
-              background: 'var(--bg-surface-raised)',
+              background: 'var(--background-surface-raised)',
               color: 'var(--text-primary)',
-              fontSize: 'var(--t-small)',
+              fontSize: 'var(--typescale-small)',
               outline: 'none',
               boxShadow: searchFocused ? 'var(--ring)' : 'none',
-              transition: 'border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)',
+              transition: 'border-color var(--motion-fast) var(--ease), box-shadow var(--motion-fast) var(--ease)',
             }}
           />
         }
@@ -267,7 +247,7 @@ export function Shelf() {
               <GitHubIcon />
             </div>
             <h3 className="t-h3">Rate limit reached</h3>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--t-body)' }}>
+            <p style={{ color: 'var(--text-primary)', maxWidth: '36ch', textAlign: 'center', fontSize: 'var(--typescale-body)' }}>
               Connect a GitHub account in Settings to keep browsing your cookbook.
             </p>
             <Link to="/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>
@@ -279,18 +259,18 @@ export function Shelf() {
         ) : (
           <>
             {/* Filter + Sort bar */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--sp-3)', marginBottom: 'var(--sp-5)' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--spacing-3)', marginBottom: 'var(--spacing-5)' }}>
               {/* Tag chips — horizontally scrollable */}
-              <div style={{
+              <div className='filterbar' style={{
                 flex: 1,
                 minWidth: 0,
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--sp-2)',
+                gap: 'var(--spacing-2)',
                 overflowX: 'auto',
                 background: 'white',
                 padding: '8px',
-                borderRadius: 'var(--r-xl)',
+                borderRadius: 'var(--radius-xl)',
               }}>
                 <button
                   className="chip"
@@ -329,29 +309,6 @@ export function Shelf() {
                 })}
               </div>
 
-              {/* Sort dropdown */}
-              <select
-                className="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
-                value={sort}
-                onChange={(e) => setSort(e.target.value as SortOrder)}
-                style={{
-                  flexShrink: 0,
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--t-caption)',
-                  color: 'var(--text-primary)',
-                  background: 'var(--white)',
-                  border: '1px solid var(--border-default)',
-                  borderRadius: 'var(--r-xl)',
-                  padding: '6px 10px',
-                  cursor: 'pointer',
-                  outline: 'none',
-                  height: '40px',
-                }}
-              >
-                <option value="default">Default</option>
-                <option value="prep-asc">Prep time: low to high</option>
-                <option value="prep-desc">Prep time: high to low</option>
-              </select>
             </div>
 
             {/* Grid or filter empty state */}

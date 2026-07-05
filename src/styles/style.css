@@ -29,7 +29,7 @@
    Cookbook layout, not a README. Visual hierarchy for recipe structure.
    ---------------------------------------------------------------------------- */
 .prose {
-  font: var(--ts-body);
+  font: var(--textstyle-body);
   color: var(--green-300);
 }
 
@@ -39,49 +39,49 @@
   margin-bottom: 0;
 }
 .prose > * + * {
-  margin-top: var(--sp-4);
+  margin-top: var(--spacing-4);
 }
 .prose > * + h2 {
-  margin-top: var(--sp-8);
+  margin-top: var(--spacing-8);
 }
 .prose > * + h3 {
-  margin-top: var(--sp-6);
+  margin-top: var(--spacing-6);
 }
 .prose > * + h4 {
-  margin-top: var(--sp-5);
+  margin-top: var(--spacing-5);
 }
 
 /* h1 — recipe title */
 .prose h1 {
-  font: var(--ts-h1);
+  font: var(--textstyle-h1);
   color: var(--text-primary);
   letter-spacing: -0.02em;
-  padding-bottom: var(--sp-5);
+  padding-bottom: var(--spacing-5);
 }
 
 /* h2 — section divider: "Ingredients", "Instructions", "Notes"
    Treated as an overline label, not a big heading */
 .prose h2 {
-  font: var(--ts-h2);
+  font: var(--textstyle-h2);
   font-weight: 600;
   color: var(--green-800);
   letter-spacing: 0.12em;
   border-top: 1px solid var(--neutral-300);
-  padding-top: var(--sp-4);
-  padding-bottom: var(--sp-6);
+  padding-top: var(--spacing-4);
+  padding-bottom: var(--spacing-6);
 }
 
 /* h3 — sub-section or prep name: "For the sauce", "Day before" */
 .prose h3 {
-  font: var(--ts-h3);
+  font: var(--textstyle-h3);
   font-style: italic;
   color: var(--green-800);
-  padding-bottom: var(--sp-5);
+  padding-bottom: var(--spacing-5);
 }
 
 /* h4 — inline sub-label */
 .prose h4 {
-  font: var(--ts-caption);
+  font: var(--textstyle-caption);
   font-weight: 600;
   color: var(--green-300);
   letter-spacing: 0.1em;
@@ -102,14 +102,14 @@
 
 /* Blockquote — chef's note: italic, inset, no loud border */
 .prose blockquote {
-  padding: var(--sp-3) var(--sp-5);
+  padding: var(--spacing-3) var(--spacing-5);
   margin-left: 0;
   margin-right: 0;
   border-left: 1.5px solid var(--neutral-200);
 }
 
 .prose blockquote p {
-  font: var(--ts-quote);
+  font: var(--textstyle-quote);
   color: var(--green-300);
 }
 
@@ -117,8 +117,8 @@
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: var(--r-md);
-  margin: var(--sp-6) 0;
+  border-radius: var(--radius-md);
+  margin: var(--spacing-6) 0;
 }
 
 /* ul — ingredient list: tight, minimal indent */
@@ -132,19 +132,19 @@
 
 .prose ul {
   list-style: none;
-  gap: var(--sp-2);
+  gap: var(--spacing-2);
 }
 
 .prose ol {
   list-style: none;
   counter-reset: step;
-  gap: var(--sp-4);
+  gap: var(--spacing-4);
 }
 
 .prose ul li {
   display: flex;
   align-items: flex-start;
-  gap: var(--sp-3);
+  gap: var(--spacing-3);
   color: var(--green-300);
 }
 
@@ -164,7 +164,7 @@
 .prose ol li {
   display: flex;
   align-items: flex-start;
-  gap: var(--sp-4);
+  gap: var(--spacing-4);
   color: var(--green-300);
   counter-increment: step;
 }
@@ -186,12 +186,12 @@
 .prose table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--t-small);
+  font-size: var(--typescale-small);
 }
 
 .prose th,
 .prose td {
-  padding: var(--sp-2) var(--sp-3);
+  padding: var(--spacing-2) var(--spacing-3);
   text-align: left;
   vertical-align: top;
   border: none;
@@ -221,19 +221,19 @@
 /* code/pre — quiet aside, not a feature */
 .prose code {
   font-family: monospace;
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
   color: var(--green-300);
   background: var(--neutral-100);
   padding: 2px 6px;
-  border-radius: var(--r-sm);
+  border-radius: var(--radius-sm);
 }
 
 .prose pre {
   background: var(--neutral-100);
-  border-radius: var(--r-md);
-  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
   overflow-x: auto;
-  font-size: var(--t-caption);
+  font-size: var(--typescale-caption);
   line-height: 1.6;
   color: var(--green-300);
 }
