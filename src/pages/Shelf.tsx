@@ -16,8 +16,6 @@ import SettingsIcon from '../assets/icons/settings.svg?react'
 import BookIcon from '../assets/icons/book.svg?react'
 import GitHubIcon from '../assets/icons/github.svg?react'
 
-type SortOrder = 'default' | 'prep-asc' | 'prep-desc'
-
 function pathToSlug(path: string): string {
   return path.replace(/^recipes\//, '').replace(/\.md$/, '')
 }
@@ -51,17 +49,6 @@ function extractImage(markdown: string): string | null {
   const md = markdown.match(/!\[[^\]]*\]\((https?:\/\/[^)]+)\)/)?.[1]
   const html = markdown.match(/<img[^>]+src="(https?:\/\/[^"]+)"/)?.[1]
   return md ?? html ?? null
-}
-
-function parsePrepMinutes(prepTime: string): number {
-  if (!prepTime) return Infinity
-  const hours = prepTime.match(/(\d+)\s*h/i)?.[1]
-  const mins = prepTime.match(/(\d+)\s*m/i)?.[1]
-  if (!hours && !mins) {
-    const num = prepTime.match(/(\d+)/)?.[1]
-    return num ? parseInt(num, 10) : Infinity
-  }
-  return (hours ? parseInt(hours, 10) * 60 : 0) + (mins ? parseInt(mins, 10) : 0)
 }
 
 interface CardInfo {
@@ -122,7 +109,6 @@ export function Shelf() {
   const [query, setQuery] = useState('')
   const [searchFocused, setSearchFocused] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [sort, setSort] = useState<SortOrder>('default')
 
   const allTags = useMemo(() => {
     const set = new Set<string>()
@@ -147,14 +133,8 @@ export function Shelf() {
       result = result.filter((c) => selectedTags.some((tag) => c.tags.includes(tag)))
     }
 
-    if (sort === 'prep-asc') {
-      result = [...result].sort((a, b) => parsePrepMinutes(a.prepTime) - parsePrepMinutes(b.prepTime))
-    } else if (sort === 'prep-desc') {
-      result = [...result].sort((a, b) => parsePrepMinutes(b.prepTime) - parsePrepMinutes(a.prepTime))
-    }
-
     return result
-  }, [cards, query, selectedTags, sort])
+  }, [cards, query, selectedTags])
 
   function toggleTag(tag: string) {
     setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
@@ -281,7 +261,7 @@ export function Shelf() {
             {/* Filter + Sort bar */}
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--spacing-3)', marginBottom: 'var(--spacing-5)' }}>
               {/* Tag chips — horizontally scrollable */}
-              <div style={{
+              <div className='filterbar' style={{
                 flex: 1,
                 minWidth: 0,
                 display: 'flex',
@@ -329,29 +309,6 @@ export function Shelf() {
                 })}
               </div>
 
-              {/* Sort dropdown */}
-              <select
-                className="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2"
-                value={sort}
-                onChange={(e) => setSort(e.target.value as SortOrder)}
-                style={{
-                  flexShrink: 0,
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--typescale-caption)',
-                  color: 'var(--text-primary)',
-                  background: 'var(--white)',
-                  border: '1px solid var(--border-default)',
-                  borderRadius: 'var(--radius-xl)',
-                  padding: '6px 10px',
-                  cursor: 'pointer',
-                  outline: 'none',
-                  height: '40px',
-                }}
-              >
-                <option value="default">Default</option>
-                <option value="prep-asc">Prep time: low to high</option>
-                <option value="prep-desc">Prep time: high to low</option>
-              </select>
             </div>
 
             {/* Grid or filter empty state */}

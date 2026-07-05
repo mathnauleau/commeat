@@ -250,6 +250,11 @@ a:hover {
   border-radius: var(--radius-full);
 }
 
+/* filter bar*/
+.filterbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* toggle */
 .toggle {
   position: relative;
