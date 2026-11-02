@@ -387,6 +387,12 @@ a:hover {
 }
 
 /* toggle */
+/* Touch screens big enough in both directions: tablets in either orientation, not phones turned sideways */
+.tablet-only { display: none; }
+@media (pointer: coarse) and (min-width: 600px) and (min-height: 600px) {
+  .tablet-only { display: contents; }
+}
+
 .toggle-field {
   display: inline-flex;
   align-items: center;

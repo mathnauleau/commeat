@@ -5,6 +5,7 @@ import { Header } from '../components/layout/Header'
 import { CommitBar } from '../components/recipes/CommitBar'
 import { ReadProblemNotice } from '../components/recipes/ReadProblemNotice'
 import { AlwaysOnToggle } from '../components/recipes/AlwaysOnToggle'
+import { FullscreenButton } from '../components/recipes/FullscreenButton'
 import { RecipeView } from '../components/recipes/RecipeView'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
@@ -164,6 +165,7 @@ export function Recipe() {
           ) : (
             <div className="flex items-center gap-1">
               <AlwaysOnToggle />
+              <FullscreenButton />
               {!token && (
                 <a
                   href={`https://github.com/${shelfConfig.repoOwner}/${shelfConfig.repoName}/issues/new?title=Suggestion+for+${encodeURIComponent(slug.replace(/-/g, ' '))}&body=I%27d+like+to+suggest+a+change+to+this+recipe.`}
