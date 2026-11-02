@@ -74,7 +74,7 @@ function DisconnectedSection() {
   return (
     <div className="flex flex-col gap-5">
       <p style={{ fontSize: 'var(--t-body)', color: 'var(--text-secondary)', lineHeight: 'var(--lh-body)', margin: 0 }}>
-        Connect a GitHub account to sync your recipes as Markdown files in a private repo.
+        Connect a GitHub account to sync your recipes as Markdown files in a public repo.
         Your recipes live in your account — Commeat just commits them.
       </p>
 
@@ -111,11 +111,17 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   return <h2 className="t-h3">{children}</h2>
 }
 
-function ReadOnlyField({ label, value }: { label: string; value: string }) {
+function ReadOnlyField({ label, value, href }: { label: string; value: string; href?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="overline">{label}</span>
-      <span style={{ fontSize: 'var(--t-body)', color: 'var(--text-primary)' }}>{value}</span>
+      <span className="label">{label}</span>
+      {href ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" style={{ fontSize: 'var(--t-body)', color: 'var(--text-link)' }}>
+          {value}
+        </a>
+      ) : (
+        <span style={{ fontSize: 'var(--t-body)', color: 'var(--text-primary)' }}>{value}</span>
+      )}
     </div>
   )
 }
@@ -158,7 +164,11 @@ export function Settings() {
             )}
           </Card>
           <Card className="p-6">
-            <ReadOnlyField label="Cookbook repo" value={shelfConfig.repoName} />
+            <ReadOnlyField
+              label="Cookbook repo"
+              value={shelfConfig.repoName}
+              href={`https://github.com/${shelfConfig.repoOwner}/${shelfConfig.repoName}`}
+            />
           </Card>
         </section>
 

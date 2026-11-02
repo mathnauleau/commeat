@@ -9,20 +9,33 @@
    1. PRIMITIVES & SEMANTIC TOKENS
    ---------------------------------------------------------------------------- */
 :root {
+  /* — Palette: Forest & Clay — */
+  --forest: #0f3d3a; /* Deep Forest — text, nav, active states */
+  --gold: #f4b13b; /* Golden Hour — warm tints, highlights */
+  --clay: #e0745e; /* Terracotta Clay — primary actions */
+  --sand: #f2e6d6; /* Warm Sand — page ground */
+
   /* — Primitives — */
-  --white: #ffffff; /* cool white — not warm, not clinical */
-  --neutral-50: #f2f2f1; /* blueprint paper — slight blue-grey cast */
-  --neutral-100: #ebe8e1; /* light slate — grid paper feel */
-  --neutral-200: #bec7d4; /* muted steel — dividers, borders */
-  --neutral-300: #6b7a90; /* slate ink — captions, metadata prose */
-  --neutral-900: #0e1b22; /* for text */
-  --orange-300: #f4a84a; /* diff yellow — added line highlight */
-  --orange-600: #db824a; /* git conflict red-orange — strong accent */
-  --orange-700: #c96844; /* merge error — primary CTA only */
-  --green-500: #6f8b41; /* diff green — added lines, success states */
-  --green-700: #3d581a; /* deep repo green — nav, badges, commit UI */
-  --opal-600: #536879;
-  --opal-700: #2b3a4d;
+  --white: #ffffff;
+  --neutral-50: color-mix(in oklch, var(--sand) 55%, white); /* raised sand — chips, inputs */
+  --neutral-100: var(--sand); /* page ground */
+  --neutral-200: color-mix(in oklch, var(--forest) 16%, var(--sand)); /* dividers, borders */
+  --neutral-300: color-mix(in oklch, var(--forest) 72%, var(--sand)); /* captions, metadata */
+  --neutral-900: var(--forest); /* text */
+  --orange-300: var(--gold);
+  --orange-600: var(--clay);
+  --orange-700: color-mix(in oklch, var(--clay) 74%, black);
+  --green-100: color-mix(in oklch, var(--forest) 9%, var(--sand)); /* ingredient panel */
+  --green-200: color-mix(in oklch, var(--forest) 18%, var(--sand)); /* panel hover, card tint */
+  --green-300: color-mix(in oklch, var(--forest) 80%, var(--sand)); /* secondary text */
+  --green-500: var(--forest);
+  --green-700: color-mix(in oklch, var(--forest) 75%, black);
+  --green-800: var(--forest);
+  --gold-100: color-mix(in oklch, var(--gold) 18%, var(--sand));
+  --gold-200: color-mix(in oklch, var(--gold) 40%, var(--sand));
+  --clay-100: color-mix(in oklch, var(--clay) 16%, var(--sand));
+  --opal-600: var(--forest);
+  --opal-700: var(--forest);
 
   /* — Typography — */
   --font-display: "Fraunces", Georgia, serif;
@@ -78,12 +91,14 @@
   --r-md: 10px;
   --r-lg: 16px;
   --r-xl: 24px;
+  --r-2xl: 28px;
+  --r-3xl: 32px;
   --r-pill: 999px;
 
   /* — Elevation (soft, warm-tinted, low) — */
-  --e-1: 0 1px 2px rgba(45, 52, 38, 0.06), 0 1px 1px rgba(45, 52, 38, 0.04);
-  --e-2: 0 2px 6px rgba(45, 52, 38, 0.07), 0 4px 12px rgba(45, 52, 38, 0.05);
-  --e-3: 0 6px 18px rgba(45, 52, 38, 0.1), 0 12px 30px rgba(45, 52, 38, 0.07);
+  --e-1: 0 1px 2px rgba(15, 61, 58, 0.06), 0 1px 1px rgba(15, 61, 58, 0.04);
+  --e-2: 0 2px 6px rgba(15, 61, 58, 0.07), 0 4px 12px rgba(15, 61, 58, 0.05);
+  --e-3: 0 6px 18px rgba(15, 61, 58, 0.1), 0 12px 30px rgba(15, 61, 58, 0.07);
 
   /* — Motion (subtle, purposeful) — */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -93,31 +108,32 @@
   --t-slow: 320ms;
 
   /* — Focus — */
-  --ring: 0 0 0 4px rgba(46, 54, 75, 0.28);
+  --ring: 0 0 0 4px rgba(224, 116, 94, 0.32);
 
   /* ==========================================================================
      SEMANTIC TOKENS
      ========================================================================== */
 
   /* Backgrounds */
-  --bg-base: var(--neutral-50);
+  --bg-base: var(--neutral-100);
   --bg-surface: var(--neutral-50);
   --bg-surface-raised: #ffffff;
-  --bg-frosted: rgba(247, 237, 218, 0.95);
-  --overlay-bg: rgba(4, 4, 4, 0.8);
+  --bg-frosted: rgba(242, 230, 214, 0.95);
+  --overlay-bg: rgba(15, 61, 58, 0.72);
 
   /* Content */
   --text-primary: var(--neutral-900);
   --text-secondary: var(--green-300);
-  --text-inverse: var(--neutral-100);
+  --text-inverse: var(--white);
+  --text-link: var(--orange-700);
 
   /* Borders */
   --border-default: var(--neutral-200);
   --border-strong: var(--neutral-200);
 
   /* Primary action — CTA, commit button */
-  --action-primary-default: var(--green-500);
-  --action-primary-hover: var(--green-700);
+  --action-primary-default: var(--clay);
+  --action-primary-hover: var(--orange-700);
 
   /* Secondary action — ghost, cancel */
   --action-secondary-default: transparent;
@@ -162,7 +178,7 @@
 
   /* Focus */
   --focus-ring: var(--ring);
-  --focus-color: var(--green-300);
+  --focus-color: var(--clay);
 }
 
 /* ----------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Tag } from '../ui/Tag'
-import CookingPotIcon from '../../assets/icons/cooking-pot-l.svg?react'
+import { RecipePhoto } from './RecipePhoto'
 import ClockIcon from '../../assets/icons/clock.svg?react'
 
 export interface RecipeCardProps {
@@ -13,40 +12,22 @@ export interface RecipeCardProps {
 }
 
 export function RecipeCard({ title, origin, tags = [], prepTime, image, to }: RecipeCardProps) {
-  return (
-    <Link
-      to={to}
-      className="card card-hover block overflow-hidden focus:outline-none"
-      style={{ textDecoration: 'none' }}
-    >
-      <div
-        className="flex items-center justify-center overflow-hidden"
-        style={{ height: '10rem', background: 'var(--bg-surface-raised)' }}
-      >
-        {image
-          ? <img src={image} />
-          : <CookingPotIcon width={40} height={40} aria-hidden />
-        }
-      </div>
+  const meta = [origin, ...tags].filter(Boolean).join(' · ')
 
-      {/* Card body */}
-      <div className="px-4 pt-2 flex flex-col gap-1" style={{ paddingBottom: '16px' }}>
-        <h3>
-          {title}
-        </h3>
-        <div className="flex flex-wrap gap-1">
-          {origin && (
-            <Tag>{origin}</Tag>
-          )}
-          {tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+  return (
+    <Link to={to} className="card card-recipe card-hover">
+      <RecipePhoto className="card-media" src={image} slug={to} />
+
+      <div className="flex flex-col gap-1 px-2">
+        <h3>{title}</h3>
+        <div className="card-meta">
           {prepTime && (
-            <Tag>
-              <ClockIcon style={{ width: '12px', height: '12px', display: 'inline', verticalAlign: 'middle', marginRight: '2px' }} />
+            <span className="inline-flex items-center gap-1">
+              <ClockIcon width={14} height={14} aria-hidden />
               {prepTime}
-            </Tag>
+            </span>
           )}
+          {meta && <span>{meta}</span>}
         </div>
       </div>
     </Link>

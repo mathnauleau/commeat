@@ -45,7 +45,7 @@ a:hover {
   color: var(--green-800);
 }
 ::selection {
-  background: var(--neutral-100);
+  background: var(--gold-200);
 }
 
 /* ----------------------------------------------------------------------------
@@ -124,23 +124,27 @@ a:hover {
   width: 17px;
   height: 17px;
 }
+.btn svg {
+  stroke-width: 2.75;
+}
 
 .btn-primary {
   background: var(--action-primary-default);
-  color: var(--neutral-100);
+  color: var(--text-inverse);
   box-shadow: var(--e-1);
 }
 .btn-primary:hover {
   background: var(--action-primary-hover);
+  color: var(--text-inverse);
 }
 
 .btn-secondary {
-  background: var(--neutral-100);
+  background: transparent;
   color: var(--green-800);
   border-color: var(--neutral-200);
 }
 .btn-secondary:hover {
-  background: var(--neutral-100);
+  background: var(--neutral-50);
   border-color: var(--green-300);
 }
 
@@ -149,19 +153,17 @@ a:hover {
   color: var(--green-300);
 }
 .btn-ghost:hover {
-  background: var(--neutral-100);
+  background: var(--neutral-50);
   color: var(--green-800);
 }
 
 .btn-destructive {
-  background: var(--action-destructive-default);
-  color: var(--neutral-100);
-  box-shadow: var(--e-1);
+  background: var(--clay-100);
+  color: var(--orange-700);
 }
 .btn-destructive:hover {
-  background: var(--action-destructive-hover);
-  color: var(--neutral-100);
-  box-shadow: var(--e-1);
+  background: var(--action-destructive-default);
+  color: var(--text-inverse);
 }
 
 .btn-sm {
@@ -249,6 +251,139 @@ a:hover {
 .search .input {
   padding-left: 42px;
   border-radius: var(--r-pill);
+}
+
+/* search field (Shelf) */
+.search-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  background: var(--neutral-50);
+  color: var(--neutral-300);
+  transition:
+    border-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
+}
+.search-field:focus-within {
+  border-color: var(--focus-color);
+  box-shadow: var(--ring);
+}
+.search-field svg {
+  flex: none;
+  stroke-width: 2.75;
+}
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text-primary);
+}
+.search-field input::placeholder {
+  color: var(--neutral-300);
+}
+
+/* filter chips + sort (Shelf) */
+.filterbar {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filterbar::-webkit-scrollbar {
+  display: none;
+}
+.filter-chip {
+  flex: none;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-small);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  background: var(--neutral-50);
+  color: var(--neutral-300);
+  transition:
+    background var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+.filter-chip:hover {
+  background: var(--white);
+  color: var(--text-primary);
+}
+.filter-chip[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--sand);
+}
+.filter-chip:focus-visible,
+.sort-select:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+.sort-select {
+  flex: none;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-right: var(--sp-2) solid transparent; /* native arrow ignores padding — this insets it */
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-small);
+  font-weight: 600;
+  background: var(--neutral-50);
+  color: var(--neutral-300);
+  cursor: pointer;
+}
+
+/* mobile menu (Shelf) */
+.menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 20;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--sp-2);
+  border-radius: var(--r-xl);
+  background: var(--white);
+  box-shadow: var(--e-3);
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  font-size: var(--t-body);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.menu-item:hover {
+  background: var(--neutral-100);
+  color: var(--text-primary);
+}
+.menu-item svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
 }
 
 /* toggle */
@@ -340,30 +475,69 @@ a:hover {
    ---------------------------------------------------------------------------- */
 .card {
   background: var(--white);
-  border-radius: var(--r-xl);
+  border-radius: var(--r-2xl);
 }
 
 .card h3 {
-  font-size: var(--t-small);
-  font-weight: 600;
-  line-height: var(--lh-small);
+  font-size: var(--t-h3);
+  font-weight: 500;
+  line-height: 1.15;
+  text-wrap: pretty;
+}
+
+.card-recipe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-2) var(--sp-4);
+  color: var(--text-primary);
+  text-decoration: none;
 }
 
 .card-hover {
-  transition: box-shadow var(--t-base) var(--ease);
+  transition: transform var(--t-slow) var(--ease-out);
   &:hover {
-    box-shadow:
-      rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    transform: rotate(5deg);
+    color: var(--text-primary);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 3px;
   }
 }
 
-.card img {
-  padding: 8px 8px 0 8px;
+/* 4:3 media well inside the card */
+.card-media {
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 24px;
+}
+.card-media img.card-art,
+.recipe-photo img.card-art {
+  width: auto;
+  height: 86%;
+  object-fit: contain;
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 14px;
+  color: var(--neutral-300);
+}
+
+/* Photos sit quietly next to the felt illustrations */
+.washed {
+  filter: saturate(0.6) contrast(0.85) brightness(1.1) opacity(0.94);
 }
 
 /* ----------------------------------------------------------------------------
@@ -411,18 +585,22 @@ a:hover {
 }
 .tag {
   display: inline-flex;
-  background: transparent;
-  border: 1px solid var(--neutral-200);
-  color: var(--green-300);
-  font-size: 12px;
-  padding: 4px 8px;
-
   align-items: center;
-  gap: 4px;
-  font-size: var(--t-caption);
+  gap: 6px;
+  background: var(--green-100);
+  color: var(--green-800);
+  font-size: 14px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.2;
+  padding: 6px 14px;
   border-radius: var(--r-pill);
+}
+.tag-neutral {
+  background: var(--neutral-50);
+  color: var(--green-300);
+}
+.tag svg {
+  stroke-width: 2.75;
 }
 
 /* ----------------------------------------------------------------------------
@@ -535,7 +713,7 @@ a:hover {
   width: 76px;
   height: 76px;
   border-radius: var(--r-xl);
-  background: var(--neutral-100);
+  background: var(--neutral-50);
   display: grid;
   place-items: center;
   color: var(--green-300);

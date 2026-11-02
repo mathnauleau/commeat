@@ -1,32 +1,21 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { marked } from 'marked'
 import { Shell } from '../components/layout/Shell'
 import { Header } from '../components/layout/Header'
 import { CommitBar } from '../components/recipes/CommitBar'
+import { ReadProblemNotice } from '../components/recipes/ReadProblemNotice'
+import { RecipeView } from '../components/recipes/RecipeView'
 import { IconButton } from '../components/ui/IconButton'
 import { Button } from '../components/ui/Button'
 import { Textarea } from '../components/ui/Textarea'
 import { Dialog } from '../components/ui/Dialog'
 import { useGitHubFiles } from '../hooks/useGitHubFiles'
 import { useGitHubStore } from '../store/github'
+import { toReadProblem, type ReadProblem } from '../lib/github'
 import shelfConfig from '../shelf.json'
 import BackIcon from '../assets/icons/back.svg?react'
 import EditIcon from '../assets/icons/edit.svg?react'
 import TrashIcon from '../assets/icons/trash.svg?react'
-import GitHubIcon from '../assets/icons/github.svg?react'
-
-const backLinkStyle = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '6px',
-  fontSize: 'var(--t-small)',
-  color: 'var(--text-secondary)',
-  textDecoration: 'none',
-  minHeight: '44px',
-  padding: '0 4px',
-  transition: 'color var(--t-fast) var(--ease)',
-}
 
 function recipeSlugFromMarkdown(markdown: string): string {
   const title = markdown.match(/^#\s+(.+)/m)?.[1] ?? 'untitled'
@@ -45,7 +34,8 @@ export function Recipe() {
 
   const [markdown, setMarkdown] = useState('')
   const [renderedMarkdown, setRenderedMarkdown] = useState('')
-  const [loadError, setLoadError] = useState<string | null>(null)
+  const [loadError, setLoadError] = useState<ReadProblem | null>(null)
+  const [attempt, setAttempt] = useState(0)
   const [fetching, setFetching] = useState(true)
 
   const [editing, setEditing] = useState(false)
@@ -69,12 +59,12 @@ export function Recipe() {
       })
       .catch((err) => {
         if (!cancelled) {
-          setLoadError(err instanceof Error ? err.message : 'Failed to load recipe')
+          setLoadError(toReadProblem(err))
           setFetching(false)
         }
       })
     return () => { cancelled = true }
-  }, [originalPath]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [originalPath, attempt]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const enterEdit = useCallback(() => {
     setDraft(markdown)
@@ -123,11 +113,24 @@ export function Recipe() {
     }
   }, [originalPath, deleteFile, navigate])
 
+  const crumbs = (
+    <>
+      <Link to="/" className="btn btn-secondary min-h-11 shrink-0 no-underline">
+        <BackIcon width={18} height={18} />
+        Recipes
+      </Link>
+      {/* The file behind the page: quietly nerdy, and the first thing to go on a phone */}
+      <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="t-caption no-underline truncate hidden sm:inline">
+        {fileName}
+      </a>
+    </>
+  )
+
   if (fetching) {
     return (
       <Shell>
-        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
-        <main className="max-w-2xl mx-auto px-4 py-24 flex items-center justify-center">
+        <Header left={crumbs} />
+        <main className="max-w-2xl mx-auto px-5 py-24 flex items-center justify-center">
           <p className="t-body" style={{ color: 'var(--text-secondary)' }}>Loading…</p>
         </main>
       </Shell>
@@ -137,13 +140,9 @@ export function Recipe() {
   if (loadError) {
     return (
       <Shell>
-        <Header left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>} />
-        <main className="max-w-2xl mx-auto px-4 py-24 flex flex-col items-center gap-5 text-center">
-          <h1 className="t-h2">Recipe not found.</h1>
-          <p className="t-lead" style={{ fontSize: 'var(--t-body)' }}>
-            {loadError}
-          </p>
-          <Button variant="secondary" onClick={() => window.history.back()}>Back to shelf</Button>
+        <Header left={crumbs} />
+        <main className="max-w-2xl mx-auto px-5 py-12">
+          <ReadProblemNotice problem={loadError} signedIn={Boolean(token)} onRetry={() => setAttempt((n) => n + 1)} />
         </main>
       </Shell>
     )
@@ -152,7 +151,7 @@ export function Recipe() {
   return (
     <Shell>
       <Header
-        left={<span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}><Link to="/" style={backLinkStyle}><BackIcon />Recipes</Link><span style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)' }}>/</span><a href={repoUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', fontSize: 'var(--t-small)', textDecoration: 'none' }}>{fileName}</a></span>}
+        left={crumbs}
         right={
           editing ? (
             <div className="flex items-center gap-2">
@@ -168,11 +167,10 @@ export function Recipe() {
                   href={`https://github.com/${shelfConfig.repoOwner}/${shelfConfig.repoName}/issues/new?title=Suggestion+for+${encodeURIComponent(slug.replace(/-/g, ' '))}&body=I%27d+like+to+suggest+a+change+to+this+recipe.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-ghost btn-sm"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
+                  className="btn btn-secondary min-h-11 no-underline"
                 >
-                  <GitHubIcon style={{ width: '24px', height: '24px', flexShrink: 0 }} />
-                  Suggest a change
+                  <span className="hidden sm:inline">Suggest a change</span>
+                  <span className="sm:hidden">Suggest</span>
                 </a>
               )}
               {token && (
@@ -209,22 +207,21 @@ export function Recipe() {
         </div>
       </Dialog>
 
-      <main className="max-w-2xl mx-auto px-4 py-8" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+      <main className="max-w-6xl mx-auto px-5 sm:px-10 pb-14">
         {saving && (
           <p className="t-caption" style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>Saving…</p>
         )}
         {editing ? (
-          <Textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            rows={Math.max(20, draft.split('\n').length + 4)}
-            style={{ fontFamily: 'monospace', fontSize: '0.875rem', lineHeight: 1.6 }}
-          />
+          <div className="max-w-3xl mx-auto pt-5">
+            <Textarea
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              rows={Math.max(20, draft.split('\n').length + 4)}
+              style={{ fontFamily: 'monospace', fontSize: '0.875rem', lineHeight: 1.6 }}
+            />
+          </div>
         ) : (
-          <div
-            className="prose"
-            dangerouslySetInnerHTML={{ __html: marked.parse(renderedMarkdown) as string }}
-          />
+          <RecipeView markdown={renderedMarkdown} slug={slug} />
         )}
       </main>
     </Shell>

@@ -7,6 +7,26 @@ export class GitHubError extends Error {
   }
 }
 
+export class RateLimitError extends GitHubError {
+  readonly resetAt: Date | null
+  constructor(resetAt: Date | null) {
+    super('GitHub rate limit reached', 429)
+    this.name = 'RateLimitError'
+    this.resetAt = resetAt
+  }
+}
+
+export type ReadProblem =
+  | { kind: 'rate-limit'; resetAt: Date | null }
+  | { kind: 'not-found' }
+  | { kind: 'unreachable' }
+
+export function toReadProblem(err: unknown): ReadProblem {
+  if (err instanceof RateLimitError) return { kind: 'rate-limit', resetAt: err.resetAt }
+  if (err instanceof GitHubError && err.status === 404) return { kind: 'not-found' }
+  return { kind: 'unreachable' }
+}
+
 export interface GitHubAuth {
   token: string
   username: string
@@ -73,6 +93,36 @@ async function readFetch(config: GitHubReadConfig, path: string): Promise<Respon
     return fetch(url, { headers: baseHeaders })
   }
   return res
+}
+
+// GitHub answers a spent allowance with 403 or 429, and only the headers and body tell them
+// apart from a real permissions error
+async function assertNotRateLimited(res: Response): Promise<void> {
+  if (res.status !== 403 && res.status !== 429) return
+  const remaining = res.headers.get('x-ratelimit-remaining')
+  const { message } = await res.clone().json().catch(() => ({})) as { message?: string }
+  if (res.status === 403 && remaining !== '0' && !message?.toLowerCase().includes('rate limit')) return
+
+  const reset = Number(res.headers.get('x-ratelimit-reset'))
+  const retryAfter = Number(res.headers.get('retry-after'))
+  if (reset) throw new RateLimitError(new Date(reset * 1000))
+  throw new RateLimitError(retryAfter ? new Date(Date.now() + retryAfter * 1000) : null)
+}
+
+// Raw files sit outside the API's 60-an-hour allowance, so signed-out readers go there first.
+// HEAD follows the default branch; the CDN can lag a commit by about five minutes.
+function rawUrl(config: GitHubReadConfig, filePath: string): string {
+  const path = filePath.split('/').map(encodeURIComponent).join('/')
+  return `https://raw.githubusercontent.com/${config.username}/${config.repoName}/HEAD/${path}`
+}
+
+async function readRaw(config: GitHubReadConfig, filePath: string): Promise<string | null> {
+  try {
+    const res = await fetch(rawUrl(config, filePath))
+    return res.ok ? await res.text() : null
+  } catch {
+    return null
+  }
 }
 
 function repoPath(config: { username: string; repoName: string }, filePath: string): string {
@@ -168,7 +218,12 @@ export async function deleteFile(
 }
 
 export async function readFile(config: GitHubReadConfig, filePath: string): Promise<string> {
+  if (!config.token) {
+    const raw = await readRaw(config, filePath)
+    if (raw !== null) return raw
+  }
   const res = await readFetch(config, repoPath(config, filePath))
+  await assertNotRateLimited(res)
   if (!res.ok) throw new GitHubError(`Could not read file: ${res.status}`, res.status)
   const { content } = await res.json() as { content: string }
   return decodeFromBase64(content)
@@ -179,8 +234,10 @@ const IMAGE_MIME: Record<string, string> = {
   gif: 'image/gif', webp: 'image/webp', svg: 'image/svg+xml',
 }
 
-export async function readImageAsDataUrl(config: GitHubReadConfig, filePath: string): Promise<string> {
+export async function readImageUrl(config: GitHubReadConfig, filePath: string): Promise<string> {
+  if (!config.token) return rawUrl(config, filePath)
   const res = await readFetch(config, repoPath(config, filePath))
+  await assertNotRateLimited(res)
   if (!res.ok) throw new GitHubError(`Could not read image: ${res.status}`, res.status)
   const { content } = await res.json() as { content: string }
   const ext = filePath.split('.').pop()?.toLowerCase() ?? ''
@@ -193,12 +250,8 @@ export async function listRecipes(config: GitHubReadConfig): Promise<string[]> {
     config,
     `/repos/${config.username}/${config.repoName}/contents/recipes`,
   )
+  await assertNotRateLimited(res)
   if (res.status === 404) return []
-  if (res.status === 403) {
-    const body = await res.json().catch(() => ({})) as { message?: string }
-    const isRateLimit = typeof body.message === 'string' && body.message.toLowerCase().includes('rate limit')
-    throw new GitHubError(isRateLimit ? 'rate limit' : `Could not list recipes: 403`, isRateLimit ? 429 : 403)
-  }
   if (!res.ok) throw new GitHubError(`Could not list recipes: ${res.status}`, res.status)
 
   const items = await res.json() as Array<{ type: string; name: string; path: string }>
