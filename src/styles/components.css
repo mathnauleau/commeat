@@ -515,8 +515,13 @@ a:hover {
 .card-hover {
   transition: transform var(--t-slow) var(--ease-out);
   &:hover {
-    transform: rotate(5deg);
     color: var(--text-primary);
+  }
+  /* Touch screens keep :hover after a tap, which left the card tilted on the way to the recipe */
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: rotate(5deg);
+    }
   }
   &:focus-visible {
     outline: 2px solid var(--focus-color);
