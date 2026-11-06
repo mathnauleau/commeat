@@ -179,6 +179,81 @@
   /* Focus */
   --focus-ring: var(--ring);
   --focus-color: var(--clay);
+
+  /* Selected — active filter chip, ticked ingredient */
+  --selected-bg: var(--forest);
+  --selected-text: var(--sand);
+  --check-border: var(--forest);
+
+  /* Recipe details */
+  --step-number: color-mix(in oklch, var(--clay) 35%, transparent);
+  --card-border: transparent;
+  --photo-filter: saturate(0.8) contrast(0.95) brightness(1.1); /* washed, like a cookbook print */
+  --logo-wordmark: var(--forest);
+}
+
+/* ----------------------------------------------------------------------------
+   1b. DUSK — the same cookbook with the lights low
+   Set by <html data-theme="dusk">. Botanical needs no attribute.
+   ---------------------------------------------------------------------------- */
+:root[data-theme="dusk"] {
+  color-scheme: dark;
+
+  /* — Palette: Dusk — */
+  --night: #13201e; /* page ground */
+  --moss: #1b2a27; /* chips, inputs, ingredient panel */
+  --lamplit: #22332f; /* cards, raised panels */
+  --fern: #3a4d47; /* lines */
+  --toasted: #c8baa4; /* secondary text */
+  --ash: #8e9a8c; /* captions, metadata */
+  --ember: #e8826b; /* primary actions, links */
+
+  /* — Primitives, remapped — */
+  --white: var(--lamplit);
+  --neutral-50: var(--moss);
+  --neutral-100: var(--night);
+  --neutral-200: var(--fern);
+  --neutral-300: var(--ash);
+  --neutral-900: var(--sand);
+  --orange-700: var(--ember);
+  --green-100: var(--moss);
+  --green-200: color-mix(in oklch, var(--fern) 45%, var(--lamplit)); /* panel hover, art tile */
+  --green-300: var(--toasted);
+  --green-800: var(--sand);
+  --gold-100: color-mix(in oklch, var(--gold) 8%, var(--lamplit));
+  --gold-200: color-mix(in oklch, var(--gold) 16%, var(--lamplit));
+  --clay-100: color-mix(in oklch, var(--ember) 18%, var(--night));
+  --opal-600: var(--sand);
+  --opal-700: var(--sand);
+
+  /* Shadows barely read on dark: cards lift by colour and a fern line instead */
+  --e-1: none;
+  --e-2: none;
+  --e-3: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --ring: 0 0 0 4px rgba(244, 177, 59, 0.35);
+
+  /* — Semantic — */
+  --bg-base: var(--night);
+  --bg-surface: var(--moss);
+  --bg-surface-raised: var(--lamplit);
+  --bg-frosted: rgba(19, 32, 30, 0.95);
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --text-primary: var(--sand);
+  --text-secondary: var(--toasted);
+  --text-inverse: var(--night);
+  --text-link: var(--ember);
+  --action-primary-default: var(--ember);
+  --action-primary-hover: color-mix(in oklch, var(--ember) 85%, white);
+  --action-destructive-default: var(--ember);
+  --focus-color: var(--gold);
+
+  --selected-bg: var(--gold);
+  --selected-text: var(--night);
+  --check-border: var(--ash);
+  --step-number: color-mix(in oklch, var(--gold) 70%, transparent);
+  --card-border: var(--fern);
+  --photo-filter: brightness(0.92); /* no glare at night */
+  --logo-wordmark: var(--sand);
 }
 
 /* ----------------------------------------------------------------------------

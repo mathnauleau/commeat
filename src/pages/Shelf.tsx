@@ -104,7 +104,7 @@ export function Shelf() {
   const cachedRecipes = useRecipesStore((s) => s.markdown)
   const [importOpen, setImportOpen] = useState(false)
   const [query, setQuery] = useState('')
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [sort, setSort] = useState<SortOrder>('default')
 
   const cards = useMemo(
@@ -131,8 +131,8 @@ export function Shelf() {
       )
     }
 
-    if (selectedTags.length > 0) {
-      result = result.filter((c) => selectedTags.some((tag) => c.tags.includes(tag)))
+    if (selectedTag) {
+      result = result.filter((c) => c.tags.includes(selectedTag))
     }
 
     if (sort === 'prep-asc') {
@@ -142,11 +142,7 @@ export function Shelf() {
     }
 
     return result
-  }, [cards, query, selectedTags, sort])
-
-  function toggleTag(tag: string) {
-    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
-  }
+  }, [cards, query, selectedTag, sort])
 
   // Cards start from filenames; fetchFile fills the cache and the real titles follow
   useEffect(() => {
@@ -163,7 +159,7 @@ export function Shelf() {
   return (
     <Shell>
       <Header
-        left={<Logo className="h-8.5 sm:h-10 w-auto" />}
+        left={<Logo className="logo h-8.5 sm:h-10 w-auto" />}
         center={
           <label className="search-field">
             <SearchIcon width={18} height={18} aria-hidden />
@@ -190,23 +186,19 @@ export function Shelf() {
           <>
             {/* Filter + Sort bar */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
-              <div className="filterbar">
-                <button
-                  className="filter-chip"
-                  aria-pressed={selectedTags.length === 0}
-                  onClick={() => setSelectedTags([])}
-                >
-                  All
-                </button>
-                {allTags.map((tag) => (
-                  <button
-                    key={tag}
-                    className="filter-chip"
-                    aria-pressed={selectedTags.includes(tag)}
-                    onClick={() => toggleTag(tag)}
-                  >
-                    {tag}
-                  </button>
+              {/* One tag at a time: native radios give arrow-key movement for free */}
+              <div className="filterbar" role="radiogroup" aria-label="Filter by tag">
+                {[null, ...allTags].map((tag) => (
+                  <label key={tag ?? 'all'} className="filter-chip">
+                    <input
+                      type="radio"
+                      name="tag-filter"
+                      className="sr-only"
+                      checked={selectedTag === tag}
+                      onChange={() => setSelectedTag(tag)}
+                    />
+                    {tag ?? 'All'}
+                  </label>
                 ))}
               </div>
 
@@ -229,7 +221,7 @@ export function Shelf() {
                   <BookIcon />
                 </div>
                 <h3 className="t-h3">No recipes match your filters.</h3>
-                <Button variant="secondary" onClick={() => { setSelectedTags([]); setQuery('') }}>
+                <Button variant="secondary" onClick={() => { setSelectedTag(null); setQuery('') }}>
                   Clear filters
                 </Button>
               </div>

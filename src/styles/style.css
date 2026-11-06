@@ -177,8 +177,7 @@
   font-size: 32px;
   font-weight: 400;
   line-height: 1;
-  color: var(--clay);
-  opacity: 0.35;
+  color: var(--step-number);
   text-align: right;
 }
 
@@ -402,15 +401,16 @@
   height: 22px;
   margin-top: 1px;
   border-radius: 50%;
-  border: 2.5px solid var(--forest);
+  border: 2.5px solid var(--check-border);
   display: flex;
   align-items: center;
   justify-content: center;
   color: transparent;
 }
 .ingredient input:checked ~ .ingredient-box {
-  background: var(--forest);
-  color: var(--green-100);
+  background: var(--selected-bg);
+  border-color: var(--selected-bg);
+  color: var(--selected-text);
 }
 .ingredient input:focus-visible ~ .ingredient-box {
   box-shadow: var(--ring);

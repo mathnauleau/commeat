@@ -302,7 +302,7 @@ Complete each session fully before starting the next. Each session ends in a cle
 - Print / PDF export
 - Book aging or wear system
 - Public cookbook sharing
-- Multiple themes
+- Themes beyond Botanical and Dusk (Dusk lives in `tokens.css` under `:root[data-theme="dusk"]`)
 - Any print-on-demand integration
 
 If a feature isn't in the session plan, don't build it.

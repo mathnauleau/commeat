@@ -5,6 +5,7 @@ import { Header } from '../components/layout/Header'
 import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
+import { ThemePicker } from '../components/settings/ThemePicker'
 import { useGitHub } from '../hooks/useGitHub'
 import shelfConfig from '../shelf.json'
 import BackIcon from '../assets/icons/back.svg?react'
@@ -177,37 +178,7 @@ export function Settings() {
           <SectionHeading>Shelf</SectionHeading>
           <Card className="p-6 flex flex-col gap-6">
 
-            <div className="flex flex-col gap-3">
-              <span className="label">Theme</span>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  aria-pressed="true"
-                  className="btn btn-primary btn-sm"
-                  style={{ cursor: 'default', borderRadius: 'var(--r-md)' }}
-                >
-                  Botanical
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  className="btn btn-secondary btn-sm"
-                  style={{ borderRadius: 'var(--r-md)', gap: '6px' }}
-                >
-                  Linen
-                  <span className="t-caption" style={{ color: 'var(--text-muted)' }}>Coming soon</span>
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  className="btn btn-secondary btn-sm"
-                  style={{ borderRadius: 'var(--r-md)', gap: '6px' }}
-                >
-                  Dusk
-                  <span className="t-caption" style={{ color: 'var(--text-muted)' }}>Coming soon</span>
-                </button>
-              </div>
-            </div>
+            <ThemePicker />
 
             <div className="flex gap-8" style={{ borderTop: '1px solid var(--border-default)', paddingTop: 'var(--sp-5)' }}>
               <ReadOnlyField label="Card layout" value="Portrait" />

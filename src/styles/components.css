@@ -38,7 +38,7 @@ p {
 }
 a {
   color: var(--green-300);
-  text-decoration-color: rgba(46, 75, 60, 0.35);
+  text-decoration-color: color-mix(in oklch, var(--green-300) 35%, transparent);
   text-underline-offset: 3px;
 }
 a:hover {
@@ -305,7 +305,10 @@ a:hover {
   display: none;
 }
 .filter-chip {
+  position: relative; /* anchors the visually hidden radio inside the scrolling bar */
   flex: none;
+  display: inline-flex;
+  align-items: center;
   height: 40px;
   padding: 0 16px;
   border: 0;
@@ -325,11 +328,11 @@ a:hover {
   background: var(--white);
   color: var(--text-primary);
 }
-.filter-chip[aria-pressed="true"] {
-  background: var(--forest);
-  color: var(--sand);
+.filter-chip:has(input:checked) {
+  background: var(--selected-bg);
+  color: var(--selected-text);
 }
-.filter-chip:focus-visible,
+.filter-chip:has(input:focus-visible),
 .sort-select:focus-visible {
   outline: 2px solid var(--focus-color);
   outline-offset: 2px;
@@ -488,12 +491,18 @@ a:hover {
   box-shadow: var(--ring);
 }
 
+/* The wordmark in logo.svg is currentColor, so it follows the theme */
+.logo {
+  color: var(--logo-wordmark);
+}
+
 /* ----------------------------------------------------------------------------
    6. CARDS & SURFACES
    ---------------------------------------------------------------------------- */
 .card {
   background: var(--white);
   border-radius: var(--r-2xl);
+  box-shadow: inset 0 0 0 1px var(--card-border);
 }
 
 .card h3 {
@@ -560,7 +569,7 @@ a:hover {
 
 /* Photos sit quietly next to the felt illustrations */
 .washed {
-  filter: saturate(0.8) contrast(0.95) brightness(1.1);
+  filter: var(--photo-filter);
 }
 
 /* ----------------------------------------------------------------------------
@@ -718,7 +727,7 @@ a:hover {
 .diff-del .text {
   color: var(--orange-700);
   text-decoration: line-through;
-  text-decoration-color: rgba(240, 83, 28, 0.4);
+  text-decoration-color: color-mix(in oklch, var(--orange-700) 40%, transparent);
 }
 
 /* ----------------------------------------------------------------------------
